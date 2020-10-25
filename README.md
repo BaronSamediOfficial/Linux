@@ -90,3 +90,4 @@ UEFI and EFI (non-Unified) were introduced to replace BIOS which was introduced 
 
 The bootloader will have no drivers to load data from memory. The way in which the bootloader loads the kernel from disk, is provided via the firmware Liner Block access(LBA), which is a slow but uniform method o access disks.most bootloaders have minimal filesystem knowledge, allowing then t read the kernel file from disk.  
 
+PICK up from LEsson 4 Clip 2
