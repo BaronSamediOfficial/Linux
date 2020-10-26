@@ -76,7 +76,7 @@ Some signals (such as sigkill ) cannot be ignores , others can be. Many signals 
 # Linux boot procedure
 At a high level ,from the moment you switch the on the power to the computer, 
 - The firmware ```UEFI/BIOS``` starts looking for a bootable disk. 
-- Whatever this bootable disk is (thubmb drive etc) , it will need to contain a boot loader. The default bootloader on linux is ```GRUB2```. 
+- Whatever this bootable disk is (thumb drive etc) , it will need to contain a boot loader. The default bootloader on linux is ```GRUB2```. 
 - The task of this bootloader is to load the operating systems, which means it will start the ```kernel```. 
 - The kernel requires drivers to be present right from the bootprocess so a file system is loaded that has enough to get this done. This file system is called the ```initRAMfs```. This filesystem has been compiled to contain some root file system and some drivers. 
 - Once these are loaded, ```init``` can be loaded. 
@@ -84,10 +84,27 @@ At a high level ,from the moment you switch the on the power to the computer,
 
 ### The Unified Extensible Firmware Interface(UEFI) and the Basic Input Output System(BIOS)
 
-BIOS and EFI are interfaces offered on a PC platform to access disks and all the firmware thats needed to acces the hardware on the computer. 
+BIOS and EFI are interfaces offered on a PC platform to access disks and all the firmware thats needed to access the hardware on the computer. 
 
-UEFI and EFI (non-Unified) were introduced to replace BIOS which was introduced in 1981 and not seen major changes since. Both BIOS and UEFI were developed to provide a platform that sits between hardware/firmware and the operating system. UEFI is becoming more popular on modern PCs so as it offers several advantages. The main advantage being its ability to boot from large disks when a GUID(Global Unique ID) Partition Table aka a (GPT) is used. This GPT is mainly on a UEFI system. 
+UEFI and EFI (non-Unified) were introduced to replace BIOS which was introduced in 1981 and not seen major changes since. Both BIOS and UEFI were developed to provide a platform that sits between hardware/firmware and the operating system. UEFI is becoming more popular on modern PCs so as it offers several advantages. The main advantage being its ability to boot from large disks when a GUID (Global Unique ID) Partition Table aka a (GPT) is used. This GPT is mainly on a UEFI system default. 
 
-The bootloader will have no drivers to load data from memory. The way in which the bootloader loads the kernel from disk, is provided via the firmware Liner Block access(LBA), which is a slow but uniform method o access disks.most bootloaders have minimal filesystem knowledge, allowing then t read the kernel file from disk.  
+When the bootloader is initiated, it will have no drivers to load data from memory. The way in which the bootloader loads the kernel from disk, is provided via the firmware Liner Block access (LBA), which is a slow but uniform method o access disks. Most bootloaders have minimal filesystem knowledge, allowing then t read the kernel file from disk.  
 
-PICK up from LEsson 4 Clip 2
+### Booting from the UEFI or BIOS disks
+
+On a BIOS system, the Master Boot Record (MBR) is read from disk and the stage 1 boot loader is activated.
+The stage 1 boot loader is only 446 bytes and its task is to load the larger stage 2 boot loader that resides in the first MB of the disk.
+The GPT partition table contains an EFI System PArtition (ESP) which contains a directory with the name ```efi```. In this directory, each boot loader has its own identifier and corresponding sub directory eg; /efi/microsoft or /efi/grub. The boot loader itself has the .efi extension and resides in these subdirectories, along with its supporting file. SO the big difference between BIOS and UEFI is that BIOS will find its files within a areas that is not within a file system. For the BIOS they will be in the MBR and metaData area of the hard disk. On EFI you will find everything in the EFI system partition. On a UEFI system, a GPT partition table is always used; an MBR is maintained for backwards compatibility.
+
+ Running the command ```gdisk /dev/sda``` we can see the different partitions. Pressing option ```p``` will show us info about the different partitions.
+
+ If we run ```mount | grep sda``` we can see the directories where the efi dirs are kept for the boot disks. These will contain the boot and the OS files. 
+
+
+### The Bootloader
+
+The bootloader is responsible for loading the OS kernel, normally Linux but this could be windows or something else. It also provides options to select a kernel fro ma boot menu, or pass kernel parameters to influence the start. There are different bootloaders. GRUB2 ia the most common there is GRUB. SYSLINUX is a bootloader common in PXE boot. LILO was a default boot loader up to the year 2000.
+
+The way the bootloader 
+
+BIOS or UEFI needs to look up the boot device. Once it has been found, it needs to find the boot code. This depends on if you are using BIOS or UEFI, This will wither use MBR or ESP respectively. Once we have found it we can load GRUB stage 1. This is where GRUB can access the disk. Grub will look for a boot partition. Once this is done GRUB loads. We then get the GRUB modules. After this we load the grub prompt. The user can add there options. The Kernel and initRAMfs can be loaded and then we can continue. 
