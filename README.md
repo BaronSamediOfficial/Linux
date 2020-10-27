@@ -107,4 +107,28 @@ The bootloader is responsible for loading the OS kernel, normally Linux but this
 
 The way the bootloader 
 
-BIOS or UEFI needs to look up the boot device. Once it has been found, it needs to find the boot code. This depends on if you are using BIOS or UEFI, This will wither use MBR or ESP respectively. Once we have found it we can load GRUB stage 1. This is where GRUB can access the disk. Grub will look for a boot partition. Once this is done GRUB loads. We then get the GRUB modules. After this we load the grub prompt. The user can add there options. The Kernel and initRAMfs can be loaded and then we can continue. 
+BIOS or UEFI needs to look up the boot device. Once it has been found, it needs to find the boot code. This depends on if you are using BIOS or UEFI, This will either use MBR or ESP respectively. Once we have found it we can load GRUB stage 1. This is where GRUB can access the disk. Grub will look for a boot partition. Once this is done GRUB loads. We then get the GRUB modules. After this we load the grub prompt. The user can add there options. The Kernel and initRAMfs can be loaded and then we can continue. 
+
+
+### Understanding and modifying initframfs
+
+The Linux kernel is not compiled with all possible disk drivers inside therefore the initframfs is an aid to the kernel to load additional modules. Customer proprietary drivers aren't even included in the Linux kernel by default. The driver that is require for a specific configuration is loaded as a loadable module. That is why the initframfs is used, it contains all driver required to bot the OS and whole booting is mounted on//before the actual root file system is mounted there. This means that during the boot procedure you will have two different root file systems, Root 1 is the initframfs and root 2 is the real root file system. When the utilities in the initframfs have done their work, the init process is loaded and continue booting from disk. Using an initframfs os optional, in some cases t can be bypassed while booting and some systems start without it. This is only the case if the required hardware modules are in the kernel.
+
+
+### init, upstart and systemd
+
+Once a kernel has completely loaded, it searches the init process which (excluding embedded systems) is always ```/sbin/init```. The init process is responsible for starting the user space environment so this is te moment we switch over from kernel space to user space. Originally the system 5 init procedure was used ot start services and it has been like that for a long time; however system 5 had some short comings hence whey there is also upstart and systemd. As the kernel is still looking for ```/sbin/init``` it is a symbolic link to the ```upstart``` or ```systemd``` process. So both upstart and systemd were created to make the loading of the systemd configuration much more efficient. 
+
+System 5 is the the old init solution and is named after a 1908's UNIX implementation. Of the different run levels. Run level 1 would be the essential services, Run level 3 would have essential services plus some networking . Run level 5 would have the full scale server env including GUI env to get a user going. You can tell if a system is using Upstart as it will contain an ```/etc/inittab``` 
+
+The first attempt to make this all better was ```upstart```. Upstart was the first serious attempt created by UBUNTU to replace system 5. Upstart is reactionary meaning it is event driven by things that happen. This makes allot more flexible. IT is still using shell scripts. You can tell if a system is using Upstart as it will contain an ```/etc/init``` directory.
+
+Systemd is the standard on all major linux distributions, even UBUNTU uses systemd even thought they invented upstart. The systemd project's aim is "tp provide an operating system that runs on top of the Linux kernel". The meta communication of this statement is that they want it to take care of everything. system do can do things like scheduling jobs and spawn containers, making things such as cron and docker defunct.
+Systemd is goal oriented: the administrator defines a target that needs to be reached, and next defines all that needs to be loaded to reach that stat in Unit files. Unit file specify loading of services and more , as well as all dependencies that need to be met to load them. You can identify a systemd system by the ```/user/lib/systemd```.
+
+### Starting te user space environment
+
+When init loads the userspace environment, the following order is roughly applied.
+Firstly some low level services need to be loaded such as ```udevd```; a helper process for the kernel to initialise hardware. In order to make sure everything that happens on the system can be logged ```syslog``` is started. Also file system mounts are most probably loaded.
+
+After the low level services , next comes the network con figuration, then the high level services such as ```cron, printing and webserver```. Finally the logging prompt.
