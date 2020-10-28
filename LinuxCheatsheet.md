@@ -12,3 +12,8 @@ strace -c <BASH_COMMAND> # This shows the counter view of the strace so you can 
 man (7) signal # will show you the man page for all the different Linux signals
 
 ```
+
+
+### NOTES
+
+yum install bash-completion     // extras for tab completion 

@@ -117,18 +117,44 @@ The Linux kernel is not compiled with all possible disk drivers inside therefore
 
 ### init, upstart and systemd
 
-Once a kernel has completely loaded, it searches the init process which (excluding embedded systems) is always ```/sbin/init```. The init process is responsible for starting the user space environment so this is te moment we switch over from kernel space to user space. Originally the system 5 init procedure was used ot start services and it has been like that for a long time; however system 5 had some short comings hence whey there is also upstart and systemd. As the kernel is still looking for ```/sbin/init``` it is a symbolic link to the ```upstart``` or ```systemd``` process. So both upstart and systemd were created to make the loading of the systemd configuration much more efficient. 
+Once a kernel has completely loaded, it searches the init process which (excluding embedded systems) is always ```/sbin/init```. The init process is responsible for starting the user space environment so this is the moment we switch over from kernel space to user space. 
 
-System 5 is the the old init solution and is named after a 1908's UNIX implementation. Of the different run levels. Run level 1 would be the essential services, Run level 3 would have essential services plus some networking . Run level 5 would have the full scale server env including GUI env to get a user going. You can tell if a system is using Upstart as it will contain an ```/etc/inittab``` 
+Originally the system 5 init procedure was used to start services and it has been like that for a long time; however system 5 had some short comings hence whey there is also upstart and systemd. As the kernel is still looking for ```/sbin/init``` it is a symbolic link to the ```upstart``` or ```systemd``` process. So both upstart and systemd were created to make the loading of the systemd configuration much more efficient. 
 
-The first attempt to make this all better was ```upstart```. Upstart was the first serious attempt created by UBUNTU to replace system 5. Upstart is reactionary meaning it is event driven by things that happen. This makes allot more flexible. IT is still using shell scripts. You can tell if a system is using Upstart as it will contain an ```/etc/init``` directory.
+System 5 is the the old init solution and is named after a 1908's UNIX implementation. Of the different run levels, Run level 1 would be the essential services. Run level 3 would have essential services plus some networking . Run level 5 would have the full scale server env including GUI env to get a user going. You can tell if a system is using Upstart as it will contain an ```/etc/inittab``` 
 
-Systemd is the standard on all major linux distributions, even UBUNTU uses systemd even thought they invented upstart. The systemd project's aim is "tp provide an operating system that runs on top of the Linux kernel". The meta communication of this statement is that they want it to take care of everything. system do can do things like scheduling jobs and spawn containers, making things such as cron and docker defunct.
-Systemd is goal oriented: the administrator defines a target that needs to be reached, and next defines all that needs to be loaded to reach that stat in Unit files. Unit file specify loading of services and more , as well as all dependencies that need to be met to load them. You can identify a systemd system by the ```/user/lib/systemd```.
+The first attempt to make this all better was ```upstart```. Upstart was the first serious attempt created by UBUNTU to replace system 5. Upstart is reactionary meaning it is event driven by things that happen. This makes allot more flexible. It is still using shell scripts. You can tell if a system is using Upstart as it will contain an ```/etc/init``` directory.
 
-### Starting te user space environment
+HOwever, today Systemd is the standard on all major linux distributions, even UBUNTU uses systemd even thought they invented upstart. The systemd project's aim is "to provide an operating system that runs on top of the Linux kernel". The meta communication of this statement is that they want it to take care of everything. Systemd to can do things like scheduling jobs and spawn containers, making things such as cron and docker defunct.
+Systemd is goal oriented: the administrator defines a target that needs to be reached, and next defines all that needs to be loaded to reach that state in Unit files. Unit file specify loading of services and more , as well as all dependencies that need to be met to load them. You can identify a systemd system by the ```/user/lib/systemd```.
+
+### Starting the user space environment
 
 When init loads the userspace environment, the following order is roughly applied.
 Firstly some low level services need to be loaded such as ```udevd```; a helper process for the kernel to initialise hardware. In order to make sure everything that happens on the system can be logged ```syslog``` is started. Also file system mounts are most probably loaded.
 
-After the low level services , next comes the network con figuration, then the high level services such as ```cron, printing and webserver```. Finally the logging prompt.
+After the low level services , next comes the network configuration, then the high level services such as ```cron, printing and webserver```. Finally the logging prompt.
+
+# Logging on Linux
+
+The information that applications send about their activity have three options. 
+- stderr: But if this is not present it will end up nowhere
+- the application can take care of its own logs.eg ; Apache webserver
+- rsyslog: This is the latest version of syslog and the benefit of using this is that it can take care of centralised logging. Meaning every service can use it to log , even on large servers environments.
+
+there is also systemd-journald. However this normally feeds its information back t rsyslog. To find out if you are using systmd-journald use the journalctl command
+
+# rsyslog configuration
+
+rsyslog is modular. The relation between journald and and systemd is the ModLoad imjournal which provides access to the systemd journal. 
+
+# Systemd 
+
+systemd's unit files define what needs to be started.Ther eare different types
+- Service - The unit file to activate using ```systmectl start``` to activate a service; for example httpd.servicce can be a service type unit file.
+- Mount - to replace mounts that are comnign thorugh etc fstab and to make sure eveything is mounted as needed
+- Timers : that are a replace ment for starting jobs through cron
+- Automount: to automatically moount directorys when they are needed.
+- Target: basically a group of unit file ut can used a an endpoint.
+- path
+
