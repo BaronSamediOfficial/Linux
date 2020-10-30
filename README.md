@@ -152,9 +152,38 @@ rsyslog is modular. The relation between journald and and systemd is the ModLoad
 
 systemd's unit files define what needs to be started.Ther eare different types
 - Service - The unit file to activate using ```systmectl start``` to activate a service; for example httpd.servicce can be a service type unit file.
-- Mount - to replace mounts that are comnign thorugh etc fstab and to make sure eveything is mounted as needed
-- Timers : that are a replace ment for starting jobs through cron
-- Automount: to automatically moount directorys when they are needed.
+- Mount - to replace mounts that are coming through etc fstab and to make sure everything is mounted as needed
+- Timers : that are a replacement for starting jobs through cron
+- Automount: to automatically mount directories when they are needed.
 - Target: basically a group of unit file ut can used a an endpoint.
 - path
+
+Because systemd is an event driven service manager it needs to be careful in the way it handles its dependencies. there fore this means there are different statements that can be used in the unit files.
+
+- Requires: defines units that muse be loaded to load this unit, and if they are not loaded they will be loaded.
+- Wants: typically seen in targets, defines which units should be loaded but loading continues of this fails.
+- Requisite: the defined unit must already be active. If it is not, systemd fails loading this unit.
+- Conflicts: Units that mat never be active when this unit is loaded because they don't work together.
+- Before: the current unit will activate before the listed units.
+- After: the current unit will activate after the listed units.
+
+# Systemd Targets
+
+These are a group of units. SOme people consider them as a run level , but this is only when the ```AllowIsolate=yes```.
+
+```systemd-analyze plot > output.html``` will create a visual representation of the process of booting which you can open in a web browser.
+
+
+### Storage on Linux
+
+# MBR ( Master Boot Record) 
+
+As the MBR is only 512 bytes big we can only have space for 4 partitions. Because 4 partitions is pretty limited it uses Primary, Extended and Logical partitions. What we store in the MBR can be 1 extended in total which would be a pointer to information about partitions that are stored elsewhere; and these are the Logical partitions. Therefore Logical Partitions are always within an extended partition. the maximum addressable disk size of MBR goes up to 2TB so 2TB is the limit of size you can have from MBR.  This is where GPT comes in.
+
+# GPT (GUID based Partition Table)
+There is space for 128 partitions, but this is modifiable and OS dependent. GPT does not contain primary, extended and logical partitions. It is default on UEFI systems and can also be used on BIOS systems as well. To manage the GPT ```gdisk``` is the utility to use. 
+
+# LVM 
+LVM and gives you more partitions than disks. We start with the Volume Group which is the abstraction of all storage in your environment . It can be 1-n disks, or any block devices.
+From the Volume group you will create LVM Logical Volumes. On top of the Logical Volumes you will create a file system. LVM can create snapshot backups fo the Volume Group.
 
