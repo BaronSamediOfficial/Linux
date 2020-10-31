@@ -1,12 +1,13 @@
 # Linux Fundamentals
 
-RHEL - Red Hat Enterprise Linux - eg RHEL8
-CentOS - Community Enterprise Operating system
-Fedora - Development platform or Community Operating System, funded by Red Hat
-Ubuntu - based on the debian 
-Linux Mint - based on Ubuntu
-SUSE - is an enterprise Linux
-OEL - Oracle Enterprise Linux
+Some flavours of Linux ...
+- RHEL - Red Hat Enterprise Linux - eg RHEL8
+- CentOS - Community Enterprise Operating system
+- Fedora - Development platform or Community Operating System, funded by Red Hat
+- Ubuntu - based on the debian 
+- Linux Mint - based on Ubuntu
+- SUSE - is an enterprise Linux
+- OEL - Oracle Enterprise Linux
 
 # Essential Command line tools 
 ```sh
@@ -54,4 +55,38 @@ From the root ```/``` you may have certain directories.
 
 Mount means you can connect a storage device to a specific directory. For example; you may want to mount the home directory to a separate disk so there is dedicated space available. 
 
+# Links 
 
+IN linux file systems there are ```hard``` links and ```symbolic``` links. Every file has a single ```inode``` where you find all the administration of a file. When you type ls -l you are getting this administrative info. From the inode you go to the ```blocks``` where the data is stored. 
+
+A symbolic link will point to a name but if the hard link they point to are removed, the symbolic links become dead. They are useful to make sure files are available where you need them.
+
+# Rules of hard links 
+- no cross device links 
+- no directories allowed
+
+To link two files we could type something like 
+
+```sh
+ln /etc/hosts hosts
+```
+If we then run ```ls -li /etc/hosts hosts``` we will list the inode numbers as well and should see that they are the same.
+
+To make a symbolic link we run ```ln -s <ABSOLUTE_FILE_PATH_NAME> <LINK_NAME>```. When we list out the files in our dir the symbolic links size will reflect the size of the data for the name only, not the size of the data it points to.  
+
+
+# finding files with find
+
+
+```find / -user amy``` # will find all files tat are created by amy
+IF we wanted to copy all the files by a user we would need to know or create the directory for them to be copied into. We would probably need to chain a ```makdir``` command to the front first like so
+
+```mkdir /root/amy; find / -user amy -exec cp {} /root/amy \;```
+
+Lets pull this apart a little. \<FIRST COMMAND\>;\<SECOND COMMAND\>
+\<FIRST COMMAND\> is to make the directory for the copying first. 
+
+We then run do the 2nd command...
+```find <STARTING_LOCATION> <files_of_username> <username> -exec <SINGLE_CMD> <CRITERIA> <LOCATION_TO_COPY> \ ```
+
+```find /etc -exec <COMMANDS> \; -exec <COMMANDS> \; -exec <COMMANDS> \;``` - Notice that you can chain commands as long as the end in ```\;``` . 
