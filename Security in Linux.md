@@ -16,10 +16,27 @@ There are also some specials to meet specific needs
 
 - SGID (Set Group ID ): same as above but for the group ownership. 
 
-- StickyBit: only has effect on directories and if it is set on a file or directory only allows the deletion of that object if they are the owner of the item ( file , directory)
+- StickyBit: only has effect on directories and if it is set on a file or directory only allows the deletion of that object by the owner of the item ( file , directory).
 
 - ACL ( Access controls Lists) : Created for setting default permissions and to specify multiple owners.
 
 - Attributes: These are properties that an admin can set on a file. 
 
-Set up groups wit j
+# Capabilities
+
+Capabilities are settings which give a files and software different access controls for the task they need to do.  
+
+### MAC
+
+The big difference MAC is the operating system enforces, and there is nothing the user can do about it; and thats why MAC is stringer than DAC on Linux.
+
+This is implemented in the way the operating system constrains the ability of a subject or initiator to access or generally preform some sort of operation on an object or target. Subjects are typically users, processes or threads. Targets are typically files, directories, network ports , shared memory segments, IO devices. The subjects as well as the targets have a set of security attributes. Based on these authorization rules, the OS kernel can examine the attributes and decide if access is allowed by a subject to a target or not. 
+
+The leading standard of MAC solutions on Linux is SELinux. SELinux originates from Red HAt, currently available of most distributions and co-developed with the NSA (apparently) but still open source. 
+
+Smack is a MAC solutions set up for embedded systems. 
+
+In SELinux...
+setenforce permissive # Allows everything but still logs it all
+setenforce Enforcing # turns SELinux back on for 
+

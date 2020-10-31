@@ -25,12 +25,18 @@ systemctl show <service_name> # will list the details of a service such as Resta
 ```
 
 # Groups and Users
-
 ```sh
 
 groupadd sales # addes the group called sales
 useradd -G sales Lisa # adds a user called Lisa to the group called sales
-
+chgrp sales /data/account # sets the ownership of the /data/sales dir to the sales group
+setfacl -m  d:g:sales:rx /data/sales # set file acl -m (modify)  d:g:sales:rx is default setting on all files on the group called sales 
+setfacl -m  g:sales:rx /data/sales # without the d: will take care of the directory itself
+getfacl <FILE_NAME> # return the access controls for a file
+chown linda account # changes the ownership of the account folder to linda
+chmod g+s <FILE_NAME> # applies the sticky bit to the file meaning only the owner can delete the file
+chattr +i <FILE_NAME> # will make the file immutable and so unchangeable and undeletable
+chattr -i <FILE_NAME> # will undo the immutable setting of a file.
 
 
 ### NOTES
