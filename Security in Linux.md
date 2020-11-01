@@ -40,3 +40,13 @@ In SELinux...
 setenforce permissive # Allows everything but still logs it all
 setenforce Enforcing # turns SELinux back on for 
 
+
+```sh
+su           # The switch user command , without any arguments will ask for the root password and then switch you to the root user. 
+su -         # Same as above but wil open a new shell with the root environment variables
+sudo -i      # opens a rot shell
+ssh-copy-id 
+```
+
+To configure the sudoers for the system , use the command ```sudo visudo``` .
+

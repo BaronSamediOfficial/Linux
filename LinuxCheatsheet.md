@@ -2,7 +2,33 @@
 
 This is a cheat sheet of lots of useful linux commands. The way I use is to pull it up in my browser and run command F to search for what I am interested in. Enjoy!
 
-# Misc Commands first 
+## Shell Commands
+```sh
+# Standard input (0) : \<
+sort \< /etc/services  # gets the output of /etc/services and sorts it 
+
+# Standard output (1) : \>
+ls \> ~/myfile        # sends Standard output (1) new  file
+whoami \>\> ~/myfile  # appends Standard output (1) to the existing file
+
+# Standard Error (2)
+grep -R root /proc 2>/dev/null         # this sends the Standard Error (2) to the null device ( nowhere)
+grep -R root /etc &> ~/myfile         # this sends Standard Error (2) and all to myfile
+alias foo='echo hello'              # Set an alias command foo that will echo hello to the terminal , or whatever you want. Set by default in the /etc/profile
+ <COMMAND_1> ; <COMMAND_2> ; <COMMAND_3> ; # run sequential commands split with a semi-colon
+```
+
+## Shell short keys
+```sh
+Ctl-l               # soft clear of the screen
+Ctl-u               # wipe cirrent command line
+Ctl-a               # move to the beginning of a line 
+Ctl-e               # move to the end of a line 
+Ctl-c               # interup the current process (break)
+Ctl-d               # exit
+```
+
+# Useful misc Commands  
 ```sh
 bash -x <SCRIPT_NAME>                                                       # runs a script in debug mode
 <COMAND> 2>/dev/null                                                        # 2 relates to the stderr output and will redirect it to the null device 
@@ -11,6 +37,8 @@ ctl+a                                                                       # br
 ctl+l                                                                       # clears the terminal 
 uname -a                                                                    # will list all the key info about the system you are on
 dd if=/dev/zero of=<FILE_TO_CREATE> bs=<BLOCK_SIZE> count=<MEGABYTE_SIZE>   # This will create a file of zeros. Useful for testing data transfers and compressions
+su                                                                          # The switch user command , without any arguments will ask for the root password and then switch you to the root user. 
+su -                                                                        # Same as above but wil open a new shell with the root environment variables
 ```
 
 
@@ -95,6 +123,7 @@ find / -size +100M                                                      # look f
 find / type -f -size 100M                                               # find files only that are greater than 100 megabytes
 find /etc -exec grep -l Bob {} \; -exec cp {} root/Bob/ \; 2>/dev/null  # find files from the etc dir that contain Bob and return the file names and then copy them to a dir /root/Bob. Any errors are sent to the null device
 find /etc -name '*' -type f | xargs grep "foo"                          # look for files only, with any name and within those search for the string "foo". 
+find <LOCATION> -type f \( -iname "*.json" \) -exec grep -il <TERM> {} \; > filesOfInterest.txt 2>&1 # find in location files that have .json in them and execute grep on them to search for the term; and then send there name to a file , and errors elsewhere
 ```
 # tar (tape archiver) 
 
@@ -196,5 +225,33 @@ egrep 'ab+c' <FILE>                         # look for expressions that have b O
 egrep 'ab*c' <FILE>                         # look for expressions that have b ZERO or more times
 
 ```
+
+
+## Piping
+A pipe ```|``` is used to send the output of one command to be used as unput for the next command.
+- ps aux " grep http
+
+The tee command combines redirection and piping; It allows you to write output to somewhere, and at the same time, use it as input for another command.
+- ps aux | tee \<FILE_NAME\> | grep ssh 
+
+
+## ssh (secure shell) 
+```sh
+ssh-keygen                                      # running this will start the process of creating a pair of RSA keys. You can set a passphrase on these keys which is more secure and recommended
+ssh-copy-id <SERVER_IP_ADDRESS>                 # This is a simple way to copy ver your public key. You will be asked to authenticate to the Server just once.
+scp <FILE> <SERVER_IP_ADDRESS>:/<FOLDERNAME>    # copy a LOCAL file to the address and file name on the REMOTE server
+scp <SERVER_IP_ADDRESS>:/<FOLDERNAME> <FILE>    # copy a REMOTE file to the address and file name on the LOCAL server
+```
+
+## history ( Command history util) 
+```sh
+history         # prints a list of all the commands from your history to the terminal
+history -w      # appends the latest commands to the .bash_history file
+history -c      # clears your history but not the .bash_history file. That will need deleting separately
+!164            # repeats command 164 from your history
+```
+
+
+
 ### NOTES
 yum install bash-completion     // extras for tab completion 

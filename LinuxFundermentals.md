@@ -148,3 +148,61 @@ For use with specific tools only ( grep, vim, awk, sed). See the ```man 7 regex`
 - tr : translates uppercase to lowercase
 - awk : search for specific patterns 
 - sed : powerful stream editor to batch-modify text files.
+
+### Root why is it so powerful?
+
+If we draw a line between ```user land``` and ```kernel land```; to get from user land as user Alice, you would need to traverse the Syscalls and permissions that are set for Alice and the objects and subjects she would like ot access within user land. The root user lives in the kernel land so they don't need ot worry about traversing the syscalls and permissions; even files that don't have any permissions : root can access them all. 
+
+A convention in Linux is that the terminal for a normal user will look like 
+
+```Bob@myMachine:~$ ```
+
+instead of
+
+```root@myMachine:~# ```
+
+Can you see the difference? thats right. the dollar sign $ for regular users and hash sign # for the out, This convention also carries within documentation so look out for it. 
+
+## The Shell
+
+Redirection in the shell is used ot manipulate  inout and outut of commands
+- Standard input (0) : \<
+    + sort \< /etc/services 
+- Standard output (1) : \>
+    + ls \> ~/myfile        # creates a newe file
+    + whoami \>\> ~/myfile  # appends to the existing file
+- Standard Error (2): 2\> 
+    + grep -R root /proc 2>/dev/null         # this sends the erros to the null device ( nowhere)
+    + grep -R root /etc &> ~/myfile         # this sends erros and all
+
+## Piping
+A pipe ```|``` is used to send the output of one command to be used as unput for the next command.
+- ps aux " grep http
+
+The tee command combines redirection and piping; It allows you to write output to somewhere, and at the same time, use it as input for another command.
+- ps aux | tee \<FILE_NAME\> | grep ssh 
+
+## bash-completion
+installing the ```bash-completion``` packge is really useful. Pressing Tab-Tab mid way troough most commands with it installed with present you with all the possible options. Check it out
+
+## Variables in Linux
+
+A variable is a label to which a dynamic value can be assigned.  In Linux they are convenient for scriptin becasue you can define the variable once and then use it in a flexible way in different environments. 
+- System variables contain default settings used by linux
+- Environment variables can be set for application use
+    + Use ```varname=value``` to define.
+    + Use ```echo $value``` to read.
+
+- By Default, variables are only known to the current shell
+    + Use export to export it to all subshells 
+    + for added permanence eadd it to the ```.bash_rc``` file so it persists on every terminal you open.
+
+## Bash start up files 
+The important start up files for bash are 
+- ```/etc/enviroment``` contains a list of variables and is the first file that is processed while starting bash (empty by default on Red Hat.
+- ```/etc/profile``` is executed while users login
+    + ```/etc/profile.d``` is used as a snapin directory that contains additional configuration.
+    + ```/.bash_profile``` can be used as a user-specific version
+    + ```/.bash_logout``` is rocesed when a user logs out
+- ```/etc/bashrc``` is a processed every time a subshell is started 
+    + A user-specific ```~/.bashrc``` file may ne used.
