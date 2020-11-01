@@ -2,73 +2,73 @@
 
 # Misc Commands first 
 ```sh
-bash -x <SCRIPT_NAME> # runs a script in debug mode
-<COMAND> 2>/dev/null  # 2 relates to the stderr output and will redirect it to the null device 
-!<CMD_HISTORY_NUMBER> # this will run a specific command from your history eg: !234
-ctl+a # brings your cursor to the beginning of the command line
-ctl+l # clears the terminal 
-uname -a # will list all the key info about the system you are on
-dd if=/dev/zero of=<FILE_TO_CREATE> bs=<BLOCK_SIZE> count=<MEGABYTE_SIZE> # This will create a file of zeros. Useful for testing data transfers and compressions
+bash -x <SCRIPT_NAME>                                                       # runs a script in debug mode
+<COMAND> 2>/dev/null                                                        # 2 relates to the stderr output and will redirect it to the null device 
+!<CMD_HISTORY_NUMBER>                                                       # this will run a specific command from your history eg: !234
+ctl+a                                                                       # brings your cursor to the beginning of the command line
+ctl+l                                                                       # clears the terminal 
+uname -a                                                                    # will list all the key info about the system you are on
+dd if=/dev/zero of=<FILE_TO_CREATE> bs=<BLOCK_SIZE> count=<MEGABYTE_SIZE>   # This will create a file of zeros. Useful for testing data transfers and compressions
 ```
 
 
 ```sh
-lsmod # list all drivers that are currently loaded
-modinfo <NAME_OF_KERNEL_DRIVER>  # Get more info on a driver
-strace <BASH_COMMAND> # will run a system call trace on and command. This can come in handy when you want to see exactly what happened and exactly what might have gone wrong with a linux command. 
-strace -c <BASH_COMMAND> # This shows the counter view of the strace so you can enumerate the time, calls, errors, syscalls. Great for compareing commands.
-man (7) signal # will show you the man page for all the different Linux signals
-netstat -tulpen # list open ports
-sudo lsof -i tcp -nP # for mac list all open tcp ports
+lsmod                                   # list all drivers that are currently loaded
+modinfo <NAME_OF_KERNEL_DRIVER>         # Get more info on a driver
+strace <BASH_COMMAND>                   # will run a system call trace on and command. This can come in handy when you want to see exactly what happened and exactly what might have gone wrong with a linux command. 
+strace -c <BASH_COMMAND>                # This shows the counter view of the strace so you can enumerate the time, calls, errors, syscalls. Great for compareing commands.
+man (7) signal                          # will show you the man page for all the different Linux signals
+netstat -tulpen                         # list open ports
+sudo lsof -i tcp -nP                    # for mac list all open tcp ports
 ```
 #  systemctl - Control the systemd system and service manager
 
 ```sh
-systemctl <tab> <tab> # lists all the commands for systemctl
-systemctl list-dependencies # list the dependencies tree
-systemctl daemon-reload # will update all the service files 
-systemctl start <service_name>  # starts a service
-systemctl show <service_name> # will list the details of a service such as Restart
+systemctl <tab> <tab>                   # lists all the commands for systemctl
+systemctl list-dependencies             # list the dependencies tree
+systemctl daemon-reload                 # will update all the service files 
+systemctl start <service_name>          # starts a service
+systemctl show <service_name>           # will list the details of a service such as Restart
 ```
 
 # Groups and Users
 ```sh
-groupadd sales # addes the group called sales
-useradd -G sales Lisa # adds a user called Lisa to the group called sales
-chgrp sales /data/account # sets the ownership of the /data/sales dir to the sales group
-setfacl -m  d:g:sales:rx /data/sales # set file acl -m (modify)  d:g:sales:rx is default setting on all files on the group called sales 
-setfacl -m  g:sales:rx /data/sales # without the d: will take care of the directory itself
-getfacl <FILE_NAME> # return the access controls for a file
-chown linda account # changes the ownership of the account folder to linda
-chmod g+s <FILE_NAME> # applies the sticky bit to the file meaning only the owner can delete the file
-chattr +i <FILE_NAME> # will make the file immutable and so unchangeable and undeletable
-chattr -i <FILE_NAME> # will undo the immutable setting of a file.
+groupadd sales                          # addes the group called sales
+useradd -G sales Lisa                   # adds a user called Lisa to the group called sales
+chgrp sales /data/account               # sets the ownership of the /data/sales dir to the sales group
+setfacl -m  d:g:sales:rx /data/sales    # set file acl -m (modify)  d:g:sales:rx is default setting on all files on the group called sales 
+setfacl -m  g:sales:rx /data/sales      # without the d: will take care of the directory itself
+getfacl <FILE_NAME>                     # return the access controls for a file
+chown linda account                     # changes the ownership of the account folder to linda
+chmod g+s <FILE_NAME>                   # applies the sticky bit to the file meaning only the owner can delete the file
+chattr +i <FILE_NAME>                   # will make the file immutable and so unchangeable and undeletable
+chattr -i <FILE_NAME>                   # will undo the immutable setting of a file.
   
 ctl+l will clear the screen
-su -   # su stands for switch user and will switch your user. If you don't supply an a user name and just the dash, it will switch you to the root account and open a login shell.
-man -k <SEARCH_TERM> # will return search results for the term from all man pages 
-man -k <SEARCH_TERM> | grep 8 # this will look for root user commands (because of the 8)
+su -                            # su stands for switch user and will switch your user. If you don't supply an a user name and just the dash, it will switch you to the root account and open a login shell.
+man -k <SEARCH_TERM>            # will return search results for the term from all man pages 
+man -k <SEARCH_TERM> | grep 8   # this will look for root user commands (because of the 8)
 ```
 # ls (listing files)
 ```sh
-ls # simple listing 
-ls -d # just show the directory names , not their contents
-ls -l # long list 
-ls -a # shows all files including hidden files
-ls -lrt # sorts on last modification date
-ls -ld /home # lists the properties of the home directory
-ls -li <FILE_NAME> # we will list the inode numbers in the listing 
+ls                      # simple listing 
+ls -d                   # just show the directory names , not their contents
+ls -l                   # long list 
+ls -a                   # shows all files including hidden files
+ls -lrt                 # sorts on last modification date
+ls -ld /home            # lists the properties of the home directory
+ls -li <FILE_NAME>      # we will list the inode numbers in the listing 
 ```
 # Wildcards ( Globbing)
 ```sh
-* # everything
-? # one signal char
-[a-c] # range from a to c
-ls [a-c]* # list all files that start with an a, b or c
-ls ?[z-s]* # list files where the second char is anything from z up to s. 
-ls *?[a-z] # any files which end in a lower case letter  
-ls a?s* # return files that start with a; have any letter; then an s; and then any amount of any letter.
-ls a[lm] # return files that have an l or m on the second position
+*               # everything
+?               # one signal char
+[a-c]           # range from a to c
+ls [a-c]*       # list all files that start with an a, b or c
+ls ?[z-s]*      # list files where the second char is anything from z up to s. 
+ls *?[a-z]      # any files which end in a lower case letter  
+ls a?s*         # return files that start with a; have any letter; then an s; and then any amount of any letter.
+ls a[lm]        # return files that have an l or m on the second position
 ```
 # cp (Copy)
 ```sh
@@ -78,21 +78,21 @@ cp -R /tmp /my
 ``` 
 # Directory cmds
 ```sh
-cd - # goes back to the previous directory
-mkdir -p files/morefiles # -p for parents. This will make the files directory with the morefiles directory within if they don't exist already
-cp <FILE_NAME>  .. # .. means one level up , so this will copy the file to the above directory 
-cp ../../<FILE_NAME> # will copy it two directories up
-cp ../<FILE_NAME> . # this will go up one level, look for the file and copy it to the current directory
+cd -                        # goes back to the previous directory
+mkdir -p files/morefiles    # -p for parents. This will make the files directory with the morefiles directory within if they don't exist already
+cp <FILE_NAME>  ..          # .. means one level up , so this will copy the file to the above directory 
+cp ../../<FILE_NAME>        # will copy it two directories up
+cp ../<FILE_NAME> .         # this will go up one level, look for the file and copy it to the current directory
 ```
 # find -- find things ( Really good Man page)
 ```sh
-find / -name "hosts" # find <SEARCH_DIR> -name <SEARCH_NAME >
-mkdir /root/amy; find / -user amy -exec cp {} /root/amy \; # make a dir and copy all these files into it
-find / -size +100M # look for files greater than 100 megabytes
+find / -name "hosts"                                                    # find <SEARCH_DIR> -name <SEARCH_NAME >
+mkdir /root/amy; find / -user amy -exec cp {} /root/amy \;              # make a dir and copy all these files into it
+find / -size +100M                                                      # look for files greater than 100 megabytes
 
-find / type -f -size 100M # find files only that are greater than 100 megabytes
-find /etc -exec grep -l Bob {} \; -exec cp {} root/Bob/ \; 2>/dev/null # find files from the etc dir that contain Bob and return the file names and then copy them to a dir /root/Bob. Any errors are sent to the null device
-find /etc -name '*' -type f | xargs grep "foo" # look for files only, with any name and within those search for the string "foo". 
+find / type -f -size 100M                                               # find files only that are greater than 100 megabytes
+find /etc -exec grep -l Bob {} \; -exec cp {} root/Bob/ \; 2>/dev/null  # find files from the etc dir that contain Bob and return the file names and then copy them to a dir /root/Bob. Any errors are sent to the null device
+find /etc -name '*' -type f | xargs grep "foo"                          # look for files only, with any name and within those search for the string "foo". 
 ```
 # tar (tape archiver) 
 
@@ -100,11 +100,11 @@ find /etc -name '*' -type f | xargs grep "foo" # look for files only, with any n
 Basic usage to archive ..
 
 ```sh
-tar -cvf <NAME_OF_CONTENTS> <CONTENTS_TO_BACKUP> # (create , verbose , file to create , contents TO THE CURRENT DIRECTORY)
-tar -cvf <NAME_OF_CONTENTS> -C <NAME_TO_BACKUP_TO> # (create , verbose , file to create , Location to store) and then to extract
-tar -xvf <NAME_OF_CONTENTS> # (extract , verbose , file to extract TO THE CURRENT DIRECTORY)
-tar -tvf <NAME_OF_CONTENTS> <NAME_TO_BACKUP_TO> # (inspect contents only, verbose , file)
-tar -tzvf <NAME_OF_CONTENTS> <NAME_TO_BACKUP_TO> # This will compress the archive down with gzip. FYI - There is marginal saving between the two compression types.
+tar -cvf <NAME_OF_CONTENTS> <CONTENTS_TO_BACKUP>    # (create , verbose , file to create , contents TO THE CURRENT DIRECTORY)
+tar -cvf <NAME_OF_CONTENTS> -C <NAME_TO_BACKUP_TO>  # (create , verbose , file to create , Location to store) and then to extract
+tar -xvf <NAME_OF_CONTENTS>                         # (extract , verbose , file to extract TO THE CURRENT DIRECTORY)
+tar -tvf <NAME_OF_CONTENTS> <NAME_TO_BACKUP_TO>     # (inspect contents only, verbose , file)
+tar -tzvf <NAME_OF_CONTENTS> <NAME_TO_BACKUP_TO>    # This will compress the archive down with gzip. FYI - There is marginal saving between the two compression types.
 ```
 # Text editing on Linux
 
@@ -146,18 +146,18 @@ Less is based on VI so many keys work in there, such as search.
 
 ### head (look from the top) and tail (look from the bottom)
 ```sh
-head /etc/passwd # see the first 10 (default) lines 
-head -n 5 /etc/passwd # see the first 5 lines 
-head -n 5 /etc/passwd | tail -n 1 # get the first 5 lines and then show the last line of that
-tail -f /var/log/messages # tail with the fraction option which will keep the file open and show updates, eg failed logins
+head /etc/passwd                        # see the first 10 (default) lines 
+head -n 5 /etc/passwd                   # see the first 5 lines 
+head -n 5 /etc/passwd | tail -n 1       # get the first 5 lines and then show the last line of that
+tail -f /var/log/messages               # tail with the fraction option which will keep the file open and show updates, eg failed logins
 ```
 
 ### cat (concatenate) and tac (reads from bottom to top )
 ```sh
-cat -A # shows all non-printable chars ( eg $ equals 'Enter pressed')
-cat -b # numbers lines 
-cat -n # numbers lines, but not empty lines
-cat -s # suppressed repeated empty lines
+cat -A      # shows all non-printable chars ( eg $ equals 'Enter pressed')
+cat -b      # numbers lines 
+cat -n      # numbers lines, but not empty lines
+cat -s      # suppressed repeated empty lines
 ```
 ### Common text processing utils
 ```sh
@@ -174,24 +174,24 @@ awk -F : ' /foo/ {print \$4 }' <FILE>               # print the value at 4th col
 
 ## grep (get regular expression)
 ```sh
-grep -i <TERM> <FILE> # search for term on a file and be insensitive to case
-cat <FILE> | grep <TERM> | grep -v foo # search for term and exclude any reference to foo
-grep -R <TERM> <LOCATION> # do a recursive search for the tem in the directory
-grep -R <TERM> <LOCATION> -l  # do a recursive search for the tem in the directory
-grep -R foo / -l 2>/dev/null # recursive list from root of all the files that contain foo  
-grep -A3 <TERM> <LOCATION> # search for the term and also return 3 lines AFTER the result
-grep -B5 <TERM> <LOCATION> # search for the term and also return 5 lines BEFORE the result 
-grep '^...$'  * 2>/dev/null # get all lines from all files that contain exactly 3 chars
-grep '\<foo\>' <FILE> # return entire lines that contain a particular string eg; foo  
-grep '^abc' <FILE> # lines that START with 'abc' 
-grep 'abc$' <FILE> # lines that END with 'abc' 
-grep 'a.c' <FILE> # lines that contain "a" ANYTHING "C"  
-man -k user | egrep '1|8' # to use the logical OR in the expression we need to use extended grep
-egrep 'ab{2}c' <FILE> # look for expression that have an a , 2 bs and then a c at the end. 
-egrep '*[bB]*' <FILE> # look for expressions that have any kind of b in the middle 
-egrep '(123){2}' <FILE> # look for occurrences of 123 that happen twice in a row ( repetition operator {})
-egrep 'ab+c' <FILE> # look for expressions that have b ONE or more times
-egrep 'ab*c' <FILE> # look for expressions that have b ZERO or more times
+grep -i <TERM> <FILE>                       # search for term on a file and be insensitive to case
+cat <FILE> | grep <TERM> | grep -v foo      # search for term and exclude any reference to foo
+grep -R <TERM> <LOCATION>                   # do a recursive search for the tem in the directory
+grep -R <TERM> <LOCATION> -l                # do a recursive search for the tem in the directory
+grep -R foo / -l 2>/dev/null                # recursive list from root of all the files that contain foo  
+grep -A3 <TERM> <LOCATION>                  # search for the term and also return 3 lines AFTER the result
+grep -B5 <TERM> <LOCATION>                  # search for the term and also return 5 lines BEFORE the result 
+grep '^...$'  * 2>/dev/null                 # get all lines from all files that contain exactly 3 chars
+grep '\<foo\>' <FILE>                       # return entire lines that contain a particular string eg; foo  
+grep '^abc' <FILE>                          # lines that START with 'abc' 
+grep 'abc$' <FILE>                          # lines that END with 'abc' 
+grep 'a.c' <FILE>                           # lines that contain "a" ANYTHING "C"  
+man -k user | egrep '1|8'                   # to use the logical OR in the expression we need to use extended grep
+egrep 'ab{2}c' <FILE>                       # look for expression that have an a , 2 bs and then a c at the end. 
+egrep '*[bB]*' <FILE>                       # look for expressions that have any kind of b in the middle 
+egrep '(123){2}' <FILE>                     # look for occurrences of 123 that happen twice in a row ( repetition operator {})
+egrep 'ab+c' <FILE>                         # look for expressions that have b ONE or more times
+egrep 'ab*c' <FILE>                         # look for expressions that have b ZERO or more times
 
 ```
 ### NOTES
