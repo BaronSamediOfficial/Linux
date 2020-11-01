@@ -1,5 +1,7 @@
 # Cheat sheet
 
+This is a cheat sheet of lots of useful linux commands. The way I use is to pull it up in my browser and run command F to search for what I am interested in. Enjoy!
+
 # Misc Commands first 
 ```sh
 bash -x <SCRIPT_NAME>                                                       # runs a script in debug mode
