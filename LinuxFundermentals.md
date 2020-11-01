@@ -90,3 +90,61 @@ We then run do the 2nd command...
 ```find <STARTING_LOCATION> <files_of_username> <username> -exec <SINGLE_CMD> <CRITERIA> <LOCATION_TO_COPY> \ ```
 
 ```find /etc -exec <COMMANDS> \; -exec <COMMANDS> \; -exec <COMMANDS> \;``` - Notice that you can chain commands as long as the end in ```\;``` . 
+
+# tar (tape archiver) 
+```tar``` was created a long time ago to stream files to a back-up tape. The basic use is to put files together in one archive; with the option to compress the data.  
+
+Basic usage to archive is something like 
+```tar -cvf <NAME_OF_CONTENTS> <CONTENTS_TO_BACKUP>``` (create , verbose , file to create , contents TO THE CURRENT DIRECTORY)
+```tar -cvf <NAME_OF_CONTENTS> -C <NAME_TO_BACKUP_TO>``` (create , verbose , file to create , Location to store)
+and then to extract
+```tar -xvf <NAME_OF_CONTENTS>``` (extract , verbose , file to extract TO THE CURRENT DIRECTORY)
+```tar -tvf <NAME_OF_CONTENTS> <NAME_TO_BACKUP_TO>``` (inspect contents only, verbose , file)
+Compression can be added with either ```-z (gzip)``` to ```-j (bzip2)``` as the compression utility.
+```tar -tzvf <NAME_OF_CONTENTS> <NAME_TO_BACKUP_TO>``` this will compress the archive down with gzip. FYI - There is marginal saving between the two compression types.
+
+# file Cmpression 
+
+gzip is the most common cmpression utility that is also support by Windows and MAc utilities
+bzip2 had a better algorithm but maybe not much andymore
+zip this is windows compatible syntax which his nice
+
+## Understanding Regular Expressions
+
+Regular Expressions or RegEx (pronounced Regg-ex) are text patterns that are used by tools like grep and others, but don't confuse them with globbing. They look similar but are not the same.
+
+RegEx expression are built around _atoms_; an atom specifies what text is to be matched. Atoms can be single chars, a range of chars or a dot if you don't know what use. Atoms can also be a class such as 
+- [[:alpha:]]
+- [[:upper:]]
+- [[:alnum:]]
+
+The second element in a RegEx is the repetition operator, which specifies how many times a char should occur.
+The third element is indicating where to find the next char. 
+```
+ ^         beginning of the line
+ $         end of the line
+ \<        beginning of a word
+ \>        end of a word
+ A         start of a file
+ Z         end of a file
+ {n}       exact n times -- {} is the repetition operator
+ {n,}      minimal n times
+ {,n}      n times max
+ {n,o}     between n and o times
+ *         zero or more times
+ +         one or more times
+ ?         zero or one times       
+```
+
+Its always advised to put your regular expression between single quotes because it will really make a difference.
+
+The ```egrep``` command (eg; ```egrep 'ab{2}c' myfile``` ) is shortcut for grep binary, but with one exception, when ```grep``` is invoked as egrep the grep binary activates its internal logic as it would be called as ```grep -E``` . The difference is that ```-E``` option enables usage of extended regexp patterns. It will allow you using of such meta-symbols as + , ? or |
+
+For use with specific tools only ( grep, vim, awk, sed). See the ```man 7 regex``` for details. 
+
+### Common text processing utilities
+- cut : filter ooutput from a text file
+- sort : often used in pipes
+- tr : translates uppercase to lowercase
+- awk : search for specific patterns 
+- sed : powerful stream editor to batch-modify text files.

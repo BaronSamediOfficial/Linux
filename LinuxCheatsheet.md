@@ -2,13 +2,15 @@
 
 # Misc Commands first 
 ```sh
-<COMAND 2>/dev/null> # 2 relates to the stderr output and will redirect it to the null device 
+bash -x <SCRIPT_NAME> # runs a script in debug mode
+<COMAND> 2>/dev/null  # 2 relates to the stderr output and will redirect it to the null device 
 !<CMD_HISTORY_NUMBER> # this will run a specific command from your history eg: !234
-ctl+a # brings your cursor t othe begining of the command line
+ctl+a # brings your cursor to the beginning of the command line
 ctl+l # clears the terminal 
 uname -a # will list all the key info about the system you are on
-
+dd if=/dev/zero of=<FILE_TO_CREATE> bs=<BLOCK_SIZE> count=<MEGABYTE_SIZE> # This will create a file of zeros. Useful for testing data transfers and compressions
 ```
+
 
 ```sh
 lsmod # list all drivers that are currently loaded
@@ -72,7 +74,7 @@ ls a[lm] # return files that have an l or m on the second position
 ```sh
 cp <FILE> <DESTINATION>
 cp /etc/hosts .
-cp -R /tmp /my
+cp -R /tmp /my 
 ``` 
 # Directory cmds
 ```sh
@@ -92,8 +94,105 @@ find / type -f -size 100M # find files only that are greater than 100 megabytes
 find /etc -exec grep -l Bob {} \; -exec cp {} root/Bob/ \; 2>/dev/null # find files from the etc dir that contain Bob and return the file names and then copy them to a dir /root/Bob. Any errors are sent to the null device
 find /etc -name '*' -type f | xargs grep "foo" # look for files only, with any name and within those search for the string "foo". 
 ```
+# tar (tape archiver) 
+
+```tar``` was created a long time ago to stream files to a back-up tape. The basic use is to put files together in one archive; with the option to compress the data. Compression can be added with either ```-z``` (gzip) to ```-j``` (bzip2) as the compression utility.
+Basic usage to archive ..
+
+```sh
+tar -cvf <NAME_OF_CONTENTS> <CONTENTS_TO_BACKUP> # (create , verbose , file to create , contents TO THE CURRENT DIRECTORY)
+tar -cvf <NAME_OF_CONTENTS> -C <NAME_TO_BACKUP_TO> # (create , verbose , file to create , Location to store) and then to extract
+tar -xvf <NAME_OF_CONTENTS> # (extract , verbose , file to extract TO THE CURRENT DIRECTORY)
+tar -tvf <NAME_OF_CONTENTS> <NAME_TO_BACKUP_TO> # (inspect contents only, verbose , file)
+tar -tzvf <NAME_OF_CONTENTS> <NAME_TO_BACKUP_TO> # This will compress the archive down with gzip. FYI - There is marginal saving between the two compression types.
+```
+# Text editing on Linux
+
+## VI(m) - 
+
+There a few working modes in VI. VIM is VI(improved)
+- Command mode - Esc will always bring you back to command mode
+- Insert mode - esc , i
+- Visual mode - esc, v
+When you start, you will get command mode.
+
+### Simple VI commands(all you need) 
+- :q! - get out without saving 
+- u - undo
+- dd - delete a line 
+- o - open a new line
+- visual mode
+- esc, v - go into visual mode. Then use the arrow to select the blocks of text you want
+- d - cut the text in the block
+- p - paste the text in the block
+- y - (yank) is to copy the text in your block 
+
+### search and replace
+- / - will bring up the searcher in the bottom left
+- gg - bring you to the top
+- :%s/foo/bar/ - substitute the first foo and replace it with bar
+- :%s/foo/bar/g - globally substitute all foo and replace them with bar
+
+```vimtutor``` in the terminal will open the vimtutor, a very useful resource. 
 
 
+### More or Less
+```more``` was the original file pager so ```less``` was developed (a play on less is more).More was a developed a bit more but you can still do more with ```less```.
 
+Less is based on VI so many keys work in there, such as search. 
+- g - go to the top of the file
+- G - go to the bottom of the file
+- q - quit and go back to the terminal
+
+### head (look from the top) and tail (look from the bottom)
+```sh
+head /etc/passwd # see the first 10 (default) lines 
+head -n 5 /etc/passwd # see the first 5 lines 
+head -n 5 /etc/passwd | tail -n 1 # get the first 5 lines and then show the last line of that
+tail -f /var/log/messages # tail with the fraction option which will keep the file open and show updates, eg failed logins
+```
+
+### cat (concatenate) and tac (reads from bottom to top )
+```sh
+cat -A # shows all non-printable chars ( eg $ equals 'Enter pressed')
+cat -b # numbers lines 
+cat -n # numbers lines, but not empty lines
+cat -s # suppressed repeated empty lines
+```
+### Common text processing utils
+```sh
+cut -d : -f 1 /etc/passwd # cut -d <DELIMITER> -f <FIELD> <FILE_TO_INSPECT> -- will return the filtered output
+cut -d : -f 1 /etc/passwd | sort  # as above with the sort alphabetically 
+cut -d : -f 1 /etc/passwd | tr [:lower:] [:upper:] # as before but will translate to UPPER CASE !
+sed -n 5p /etc/passwd # prints line 5 of /etc/passwd
+sed -i s/foo/bar/g <FILE> # Immediately(-i) globally(g) substitute(s) bar for foo in the file 
+sed -i -e '2d' <FILE> # Immediately(-i) edit(-e) the file by deleting the 2nd line ('2d') 
+awk -F : '{print \$4 }' /etc/passwd # print the 4th column from a /etc/passwd
+awk -F : '{print \$4 }' /etc/passwd | sort -n # as above including a numerical sort
+awk -F : ' /foo/ {print \$4 }' <FILE> # print the value at 4th column from a the line that contains foo 
+```
+
+## grep (get regular expression)
+```sh
+grep -i <TERM> <FILE> # search for term on a file and be insensitive to case
+cat <FILE> | grep <TERM> | grep -v foo # search for term and exclude any reference to foo
+grep -R <TERM> <LOCATION> # do a recursive search for the tem in the directory
+grep -R <TERM> <LOCATION> -l  # do a recursive search for the tem in the directory
+grep -R foo / -l 2>/dev/null # recursive list from root of all the files that contain foo  
+grep -A3 <TERM> <LOCATION> # search for the term and also return 3 lines AFTER the result
+grep -B5 <TERM> <LOCATION> # search for the term and also return 5 lines BEFORE the result 
+grep '^...$'  * 2>/dev/null # get all lines from all files that contain exactly 3 chars
+grep '\<foo\>' <FILE> # return entire lines that contain a particular string eg; foo  
+grep '^abc' <FILE> # lines that START with 'abc' 
+grep 'abc$' <FILE> # lines that END with 'abc' 
+grep 'a.c' <FILE> # lines that contain "a" ANYTHING "C"  
+man -k user | egrep '1|8' # to use the logical OR in the expression we need to use extended grep
+egrep 'ab{2}c' <FILE> # look for expression that have an a , 2 bs and then a c at the end. 
+egrep '*[bB]*' <FILE> # look for expressions that have any kind of b in the middle 
+egrep '(123){2}' <FILE> # look for occurrences of 123 that happen twice in a row ( repetition operator {})
+egrep 'ab+c' <FILE> # look for expressions that have b ONE or more times
+egrep 'ab*c' <FILE> # look for expressions that have b ZERO or more times
+
+```
 ### NOTES
 yum install bash-completion     // extras for tab completion 
