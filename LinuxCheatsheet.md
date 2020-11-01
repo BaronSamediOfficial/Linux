@@ -161,15 +161,15 @@ cat -s # suppressed repeated empty lines
 ```
 ### Common text processing utils
 ```sh
-cut -d : -f 1 /etc/passwd #             cut -d <DELIMITER> -f <FIELD> <FILE_TO_INSPECT> -- will return the filtered output
-cut -d : -f 1 /etc/passwd | sort  # as above with the sort alphabetically 
-cut -d : -f 1 /etc/passwd | tr [:lower:] [:upper:] # as before but will translate to UPPER CASE !
-sed -n 5p /etc/passwd # prints line 5 of /etc/passwd
-sed -i s/foo/bar/g <FILE> # Immediately(-i) globally(g) substitute(s) bar for foo in the file 
-sed -i -e '2d' <FILE> # Immediately(-i) edit(-e) the file by deleting the 2nd line ('2d') 
-awk -F : '{print \$4 }' /etc/passwd # print the 4th column from a /etc/passwd
-awk -F : '{print \$4 }' /etc/passwd | sort -n # as above including a numerical sort
-awk -F : ' /foo/ {print \$4 }' <FILE> # print the value at 4th column from a the line that contains foo 
+cut -d : -f 1 /etc/passwd                           # cut -d <DELIMITER> -f <FIELD> <FILE_TO_INSPECT> -- will return the filtered output
+cut -d : -f 1 /etc/passwd | sort                    # as above with the sort alphabetically 
+cut -d : -f 1 /etc/passwd | tr [:lower:] [:upper:]  # as before but will translate to UPPER CASE !
+sed -n 5p /etc/passwd                               # prints line 5 of /etc/passwd
+sed -i s/foo/bar/g <FILE>                           # Immediately(-i) globally(g) substitute(s) bar for foo in the file 
+sed -i -e '2d' <FILE>                               # Immediately(-i) edit(-e) the file by deleting the 2nd line ('2d') 
+awk -F : '{print \$4 }' /etc/passwd                 # print the 4th column from a /etc/passwd
+awk -F : '{print \$4 }' /etc/passwd | sort -n       # as above including a numerical sort
+awk -F : ' /foo/ {print \$4 }' <FILE>               # print the value at 4th column from a the line that contains foo 
 ```
 
 ## grep (get regular expression)
