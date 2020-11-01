@@ -161,7 +161,7 @@ cat -s # suppressed repeated empty lines
 ```
 ### Common text processing utils
 ```sh
-cut -d : -f 1 /etc/passwd # cut -d <DELIMITER> -f <FIELD> <FILE_TO_INSPECT> -- will return the filtered output
+cut -d : -f 1 /etc/passwd #             cut -d <DELIMITER> -f <FIELD> <FILE_TO_INSPECT> -- will return the filtered output
 cut -d : -f 1 /etc/passwd | sort  # as above with the sort alphabetically 
 cut -d : -f 1 /etc/passwd | tr [:lower:] [:upper:] # as before but will translate to UPPER CASE !
 sed -n 5p /etc/passwd # prints line 5 of /etc/passwd
