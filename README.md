@@ -1,7 +1,7 @@
 # Linux
 
 ### Kernel space and the User space
-There are two spaces in Linux, the user space and the System space. In order for a user to to speak to the the main elements of the System space; the kernel and hardware, they use signals and system calls via the the shell or processes that are running on the machine. 
+There are two spaces in Linux, the User space and the System space. In order for a user to speak to the the main elements of the System space; the kernel and hardware, they use signals and system calls via the the shell or processes that are running on the machine. 
 
 ### The Kernel
 
