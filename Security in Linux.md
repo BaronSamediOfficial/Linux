@@ -46,6 +46,7 @@ su           # The switch user command , without any arguments will ask for the 
 su -         # Same as above but wil open a new shell with the root environment variables
 sudo -i      # opens a rot shell
 ssh-copy-id 
+w           # Not a typo, type w to see who is logged in on the system
 ```
 
 To configure the sudoers for the system , use the command ```sudo visudo``` .

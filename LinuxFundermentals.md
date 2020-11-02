@@ -206,3 +206,25 @@ The important start up files for bash are
     + ```/.bash_logout``` is rocesed when a user logs out
 - ```/etc/bashrc``` is a processed every time a subshell is started 
     + A user-specific ```~/.bashrc``` file may ne used.
+    
+## Working with Users and groups
+
+groupadd (create groups)
+
+adduser (Ubuntu) & useradd (Centos)
+
+```sh
+adduser  bob                # add bob as a user ( UNUNTU only)
+usermod --help              # Lots of options including locking and unlocking accounts
+groupadd <GROUP_NAME>
+userdel bob                 # delete bob as a user
+useradd - D                 # displays the default setting for new user adds
+/etc/skell                  # Contents is copied to use home directory upon user creation
+/etc/login.defs             # used as the default configuration so changing this file will change the defaults. Such as password length, GRoup id, home dir
+passwd -l <USER>            # Locks the password
+passwd -u <USER>            # UNLOCKS the password
+passwd -S <USER>            # Returns the status of the password
+chage <USER>                # will load up the process to set password lifetime settings - Useful for admins
+```
+
+
