@@ -51,3 +51,32 @@ w           # Not a typo, type w to see who is logged in on the system
 
 To configure the sudoers for the system , use the command ```sudo visudo``` .
 
+## Working with Users and groups
+
+groupadd (create groups)
+
+adduser (Ubuntu) & useradd (Centos)
+
+```sh
+adduser  bob                # add bob as a user ( UNUNTU only)
+usermod --help              # Lots of options including locking and unlocking accounts
+groupadd <GROUP_NAME>
+userdel bob                 # delete bob as a user
+useradd - D                 # displays the default setting for new user adds
+/etc/skell                  # Contents is copied to use home directory upon user creation
+/etc/login.defs             # used as the default configuration so changing this file will change the defaults. Such as password length, GRoup id, home dir
+passwd -l <USER>            # Locks the password
+passwd -u <USER>            # UNLOCKS the password
+passwd -S <USER>            # Returns the status of the password
+chage <USER>                # will load up the process to set password lifetime settings - Useful for admins
+```
+
+There are four files for configuring centralised group and user information
+/etc/shadow
+/etc/group
+/etc/gshadow
+/etc/passwd
+
+`/etc/passwd` - this is historically the file tha Unix has used to store user information. As this file is normally set to read for all users, the passwords are no longer stored in here. Instead they are encrypted and stored in hte `/etc/shadow`. Groups are stored in `/etc/group` . `/etc/gshadow` is not used anymore but it is a legacy file to set passwords for groups. You can modify the users and groups the safest way is to use `vipw` which will open a temporary file of `/etc/passwd` in VI. This will prevent cases where other users aer in `useradd`. OT do the same for `/etc/shadow`, use `vipw -s`. `vigr` will let you edit groups.
+
+/etc/login.defs

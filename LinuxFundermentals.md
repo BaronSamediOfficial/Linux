@@ -227,4 +227,20 @@ passwd -S <USER>            # Returns the status of the password
 chage <USER>                # will load up the process to set password lifetime settings - Useful for admins
 ```
 
+There are four files for configuring centralised group and user information
+/etc/shadow
+/etc/group
+/etc/gshadow
+/etc/passwd
 
+`/etc/passwd` - this is historically the file tha Unix has used to store user information. As this file is normally set to read for all users, the passwords are no longer stored in here. Instead they are encrypted and stored in hte `/etc/shadow`. Groups are stored in `/etc/group` . `/etc/gshadow` is not used anymore but it is a legacy file to set passwords for groups. You can modify the users and groups the safest way is to use `vipw` which will open a temporary file of `/etc/passwd` in VI. This will prevent cases where other users aer in `useradd`. OT do the same for `/etc/shadow`, use `vipw -s`. `vigr` will let you edit groups.
+
+### Session management 
+`Loginctl`allows for current session management.
+```sh
+loginctl <tab> <tab>                        # get all the options.
+loginctl list-sessions
+loginctl show-session <session-id>          # will show whats been going on with a user such as files open etc. 
+loginctl show-user <username>
+loginctl terminate-session <session-id>
+```

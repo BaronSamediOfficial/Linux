@@ -1,3 +1,8 @@
+
+Useful Installs on Linux
+
+- bash-completion     // extras for tab completion 
+
 Useful Aliases
 
 ```sh
