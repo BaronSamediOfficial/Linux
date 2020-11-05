@@ -216,6 +216,7 @@ adduser (Ubuntu) & useradd (Centos)
 ```sh
 adduser  bob                # add bob as a user ( UNUNTU only)
 usermod --help              # Lots of options including locking and unlocking accounts
+usermod -a anna -G foo      # add alice to the foo account
 groupadd <GROUP_NAME>
 userdel bob                 # delete bob as a user
 useradd - D                 # displays the default setting for new user adds
@@ -244,3 +245,83 @@ loginctl show-session <session-id>          # will show whats been going on with
 loginctl show-user <username>
 loginctl terminate-session <session-id>
 ```
+
+## Basic Permissions
+
+|  Number      |      Permission Type          |    Symbol |   |   |
+|:------------:|:-----------------------------:|:---------:|---|---|
+|   0          |     No Permission             |     —     |   |   |
+|   1          |     Execute                   |     –x    |   |   |
+|   2          |     Write                     |     -w-   |   |   |
+|   3          |     Execute + Write           |     -wx   |   |   |
+|   4          |     Read                      |      r–   |   |   |
+|   5          |     Read + Execute            |      r-x  |   |   |
+|   6          |     Read + Write              |     rw-   |   |   |
+|   7          |     Read + Write + Execute    |     rwx   |   |   |
+
+To work with permissions is about ownership. Permissions are assigned UGO (Users,Groups, others). `chown` is used for hte user owner. `chgrp` is used for changing the group owner. If you don't change ownership then the user who created the file will be the user owner and the primary user of that group will become group owner. 
+
+The permission mode is where you define which permission will me applied to yor files.
+`chmod` is used for change the mode of a file. `chmod` can used in an absolute way and a relative way such as `chmod 761`. Lets break that command down
+
+| example UGO permissions | user | group | others |   |
+|-------------------------|------|-------|--------|---|
+| chmod                   | 7    | 6     | 1      |   |
+|                         |      |       |        |   |
+|                         |      |       |        |   |
+ 
+ So above we would be assigning 
+ - user to `Read + Write + Execute `
+ - group to `Read + Write`
+ - others to `Execute`
+
+ ```sh
+ chown <user>:<Group_name> <Directory>
+ chown alice:foo bar/                   # add alice of the foo group to the bar directory
+
+ ```
+ ## Special Permissions 
+ These were inven
+
+ |            | files | directories |
+|------------|-------|-------------|
+| SUID       |  Run as owner     |   `<n/a>`          |
+| SGID       |    Run as group owner   |   Inherit the directory group owner          |
+| Sticky bit |    `<n/a>`  |      only delete if you are owner       | 
+
+In order to assign special permissions we can use chmod by adding a 4rth digit to the left hand side of the regular permission commands for example
+
+| example UGO permissions | special | user | group | others|
+|-------------------------|------|-------|--------|---|
+| chmod                   | 4/2/1   | 7    | 6     | 1      |
+|                         |      |       |        |   |
+
+You can set the Set User ID with `chmod u+s <file>`
+
+To find files that have the `SUID, SGID or sticky bit` set you can use the following command which will look for permissions that have 4 digits , 3 of which don't matter, just the one on the left which is set to X atm.
+      ```
+      find / -perm /X000
+      ```
+
+### Sticky bit
+
+**If sticky is applied , you can only delete a file if you are the user owner of the file or , user owner of the directory that contains the file.** 
+to set the sticky bit run `chmod +t <file>`.
+
+You will see the sticky bit enabled with a `T`
+```
+-rw-r--r-T 1 root root 102400 April  1 01:39 MyFile
+```
+
+# Using UMASK
+
+The umask is a shell setting that defines a mask tha will be **subtracted** from the default permissions.
+For example, if default permissions on directories are 777 and default permissions on files are 666
+- umask 027 will set default permissions on directories to 750 because `777 - 027 = 750` 
+- umask 022 will set default permissions on files to 644 because `666 - 022 = 644`
+
+Umasks of 022 is quite common because it gives the root full access while only giving read + execute permission to the group and others.
+Umask values of 027 will take away the permissions for others.
+To read the current umask type `umask` on the terminal. 
+
+To make a umask persist you must set the umask value in `/etc/profile` or `/etc/bashrc`

@@ -69,6 +69,9 @@ passwd -l <USER>            # Locks the password
 passwd -u <USER>            # UNLOCKS the password
 passwd -S <USER>            # Returns the status of the password
 chage <USER>                # will load up the process to set password lifetime settings - Useful for admins
+find / -perm /4000 # find files that have SUID
+find / -perm /2000 # find files that have SGID
+find / -perm /1000 # find files that have Sticky bit
 ```
 
 There are four files for configuring centralised group and user information

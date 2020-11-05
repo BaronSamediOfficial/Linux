@@ -40,7 +40,11 @@ dd if=/dev/zero of=<FILE_TO_CREATE> bs=<BLOCK_SIZE> count=<MEGABYTE_SIZE>   # Th
 su                                                                          # The switch user command , without any arguments will ask for the root password and then switch you to the root user. 
 su -                                                                        # Same as above but wil open a new shell with the root environment variables
 w                                                                           # Not a typo, type w to see who is logged in on the system AND what they are going 
-
+chmod u+s <file>                                                            #  set the Set User ID (SUID)
+chmod +t <file>                                                             # set the Stickybit on the file
+find / -perm /4000                                                          # find files that have SUID
+find / -perm /2000                                                          # find files that have SGID
+find / -perm /1000                                                          # find files that have Sticky bit
 ```
 
 
@@ -255,5 +259,15 @@ history -c      # clears your history but not the .bash_history file. That will 
 
 
 
-### NOTES
+### Session management 
+`Loginctl`allows for current session management.
+```sh
+loginctl <tab> <tab>                        # get all the options.
+loginctl list-sessions
+loginctl show-session <session-id>          # will show whats been going on with a user such as files open etc. 
+loginctl show-user <username>
+loginctl terminate-session <session-id>
+```
+
+
 yum install bash-completion     // extras for tab completion 
