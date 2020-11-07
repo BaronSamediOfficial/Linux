@@ -16,13 +16,13 @@ hostname # s
 date # set and get the date
 uname # give s you info about the system and the kernel
 passwd # allows management of passwords
-touch # writes empty files. Good to know if yuou have write attributes.
+touch # writes empty files. Good to know if you have write attributes.
 last # shows you who has been logged on in your system
 ```
 
-```--help``` is a common command on many linux commds to get help on usage. 
+```--help``` is a common command on many linux commands to get help on usage. 
 
-On Ubuntu instead of typeing ```su -``` to open a shell as root, you sype ```sudo -i```.
+On Ubuntu instead of typeing ```su -``` to open a shell as root, you type ```sudo -i```.
 
 # Man (manual) pages
 
@@ -79,7 +79,7 @@ To make a symbolic link we run ```ln -s <ABSOLUTE_FILE_PATH_NAME> <LINK_NAME>```
 
 
 ```find / -user amy``` # will find all files tat are created by amy
-IF we wanted to copy all the files by a user we would need to know or create the directory for them to be copied into. We would probably need to chain a ```makdir``` command to the front first like so
+IF we wanted to copy all the files by a user we would need to know or create the directory for them to be copied into. We would probably need to chain a ```mkdir``` command to the front first like so
 
 ```mkdir /root/amy; find / -user amy -exec cp {} /root/amy \;```
 
@@ -103,9 +103,9 @@ and then to extract
 Compression can be added with either ```-z (gzip)``` to ```-j (bzip2)``` as the compression utility.
 ```tar -tzvf <NAME_OF_CONTENTS> <NAME_TO_BACKUP_TO>``` this will compress the archive down with gzip. FYI - There is marginal saving between the two compression types.
 
-# file Cmpression 
+# file Compression 
 
-gzip is the most common cmpression utility that is also support by Windows and MAc utilities
+gzip is the most common compression utility that is also support by Windows and MAc utilities
 bzip2 had a better algorithm but maybe not much andymore
 zip this is windows compatible syntax which his nice
 
@@ -143,7 +143,7 @@ The ```egrep``` command (eg; ```egrep 'ab{2}c' myfile``` ) is shortcut for grep 
 For use with specific tools only ( grep, vim, awk, sed). See the ```man 7 regex``` for details. 
 
 ### Common text processing utilities
-- cut : filter ooutput from a text file
+- cut : filter output from a text file
 - sort : often used in pipes
 - tr : translates uppercase to lowercase
 - awk : search for specific patterns 
@@ -151,7 +151,7 @@ For use with specific tools only ( grep, vim, awk, sed). See the ```man 7 regex`
 
 ### Root why is it so powerful?
 
-If we draw a line between ```user land``` and ```kernel land```; to get from user land as user Alice, you would need to traverse the Syscalls and permissions that are set for Alice and the objects and subjects she would like ot access within user land. The root user lives in the kernel land so they don't need ot worry about traversing the syscalls and permissions; even files that don't have any permissions : root can access them all. 
+If we draw a line between ```user land``` and ```kernel land```; to get from user land as user Alice, you would need to traverse the Syscalls and permissions that are set for Alice and the objects and subjects she would like ot access within user land. The root user lives in the kernel land so they don't need to worry about traversing the syscalls and permissions; even files that don't have any permissions : root can access them all. 
 
 A convention in Linux is that the terminal for a normal user will look like 
 
@@ -165,29 +165,28 @@ Can you see the difference? thats right. the dollar sign $ for regular users and
 
 ## The Shell
 
-Redirection in the shell is used ot manipulate  inout and outut of commands
+Redirection in the shell is used ot manipulate  input and output of commands
 - Standard input (0) : \<
     + sort \< /etc/services 
 - Standard output (1) : \>
-    + ls \> ~/myfile        # creates a newe file
+    + ls \> ~/myfile        # creates a new file
     + whoami \>\> ~/myfile  # appends to the existing file
 - Standard Error (2): 2\> 
-    + grep -R root /proc 2>/dev/null         # this sends the erros to the null device ( nowhere)
-    + grep -R root /etc &> ~/myfile         # this sends erros and all
+    + grep -R root /proc 2>/dev/null         # this sends the errors to the null device ( nowhere)
+    + grep -R root /etc &> ~/myfile         # this sends errors and all
 
 ## Piping
-A pipe ```|``` is used to send the output of one command to be used as unput for the next command.
+A pipe ```|``` is used to send the output of one command to be used as input for the next command.
 - ps aux " grep http
 
 The tee command combines redirection and piping; It allows you to write output to somewhere, and at the same time, use it as input for another command.
 - ps aux | tee \<FILE_NAME\> | grep ssh 
 
 ## bash-completion
-installing the ```bash-completion``` packge is really useful. Pressing Tab-Tab mid way troough most commands with it installed with present you with all the possible options. Check it out
+installing the ```bash-completion``` package is really useful. Pressing Tab-Tab mid way through most commands with it installed with present you with all the possible options. Check it out
 
 ## Variables in Linux
-
-A variable is a label to which a dynamic value can be assigned.  In Linux they are convenient for scriptin becasue you can define the variable once and then use it in a flexible way in different environments. 
+A variable is a label to which a dynamic value can be assigned.  In Linux they are convenient for scriptin because you can define the variable once and then use it in a flexible way in different environments. 
 - System variables contain default settings used by linux
 - Environment variables can be set for application use
     + Use ```varname=value``` to define.
@@ -199,22 +198,21 @@ A variable is a label to which a dynamic value can be assigned.  In Linux they a
 
 ## Bash start up files 
 The important start up files for bash are 
-- ```/etc/enviroment``` contains a list of variables and is the first file that is processed while starting bash (empty by default on Red Hat.
+- ```/etc/environment``` contains a list of variables and is the first file that is processed while starting bash (empty by default on Red Hat.
 - ```/etc/profile``` is executed while users login
     + ```/etc/profile.d``` is used as a snapin directory that contains additional configuration.
     + ```/.bash_profile``` can be used as a user-specific version
-    + ```/.bash_logout``` is rocesed when a user logs out
+    + ```/.bash_logout``` is processed when a user logs out
 - ```/etc/bashrc``` is a processed every time a subshell is started 
     + A user-specific ```~/.bashrc``` file may ne used.
     
 ## Working with Users and groups
-
 groupadd (create groups)
 
 adduser (Ubuntu) & useradd (Centos)
 
 ```sh
-adduser  bob                # add bob as a user ( UNUNTU only)
+adduser  bob                # add bob as a user (UBUNTU only)
 usermod --help              # Lots of options including locking and unlocking accounts
 usermod -a anna -G foo      # add alice to the foo account
 groupadd <GROUP_NAME>
@@ -357,7 +355,7 @@ partprobe
 ### gdisk - gpt partition utility
 ### mkfs - Utility for creating and formatting filesystem
 
-Ther eare amny `mkfs.xxx` on Linux. `mkfs.vfat` is useful to know because it will make a partition that is useable on Mac, Linux and Windows. `ntfs` is a bit problem matic because ot cannot be fully supported as it was created out of reverse engineering. 
+There are many `mkfs.xxx` on Linux. `mkfs.vfat` is useful to know because it will make a partition that is useable on Mac, Linux and Windows. `ntfs` is a bit problem matic because ot cannot be fully supported as it was created out of reverse engineering. 
 
 ### mount - connect a filesystem storage to a directory
 After creating a file system amd storage, you need to connect them together. This is process is know nas mounting . it is a simple as. 
@@ -367,10 +365,10 @@ mount <What-you-want-to-mount> <where-you-want-to-mount-to>
 a temporary mount directory called `/mnt`is often made by default.  
 ### findmnt - shows you whats mounted and where it is mounted.
 ### umount - unmount
-###  lsof - list open files
+### lsof - list open files
 
 ## Manageing Networks 
-ipv4 is the old version of addressing schemes for different networks with 4 number addreses such `192.168.5.63`.
+ipv4 is the old version of addressing schemes for different networks with 4 number address such `192.168.5.63`.
 Subnetmask 
 
 There are two parts to this address;
@@ -378,53 +376,54 @@ The address network : `192.168.5`
 The address of the node: `63`
 
 
-`Router`: This is a device that conects networks together. There router is going to help your package out of your network and get to the internet. It will have a `default gatway` address that is very important for your node as it identifies the router. It is the routers address on the network. If for axample you were looking for ip address `7.7.7.7` you would have ot ask your router and he would check is iptabels.
+`Router`: This is a device that conects networks together. There router is going to help your package out of your network and get to the internet. It will have a `default gatway` address that is very important for your node as it identifies the router. It is the routers address on the network. If for example you were looking for ip address `7.7.7.7` you would have ot ask your router and he would check is iptabels.
 
-`DNS` -(Domanin Name System) is a name system to save humans remebering long numbers. When you search for `Linux.com` you will go to a DNS server which will retrun the ip address for hte name you have given.
+`DNS` -(Domanin Name System) is a name system to save humans remembering long numbers. When you search for `Linux.com` you will go to a DNS server which will retrun the ip address for hte name you have given.
 
 ### Network Device nameing 
-biosdevname (BIOS-dev-name) uses device names that reveal information about physical location, and **systemd-udevd** generates the network device names. This is more convinient.
+biosdevname (BIOS-dev-name) uses device names that reveal information about physical location, and **systemd-udevd** generates the network device names. This is more convenient.
 
 The four catagories depend on the info revealed by the driver of the network card
-- em123 ( Ethernet Motheboard Portnumber) eg; em0
+- em123 ( Ethernet Motherboard Portnumber) eg; em0
 - p < port > < slot > (PCI, PCI port) eg; p0p6 
 - eno123 (EtherNet Onboard) 
-- If the driver doesn't reveal sufficiant information, eht0 etc is used.
+- If the driver doesn't reveal sufficient information, eht0 etc is used.
 
 
 
 ### ip a - shows current network configuration 
 `ip a` is a short cut for `ip addr show`
 Your response may include 
-- `lo` - loop back. This is the internal IP stack. This exists fr ohistorical reasons becasue processes used t ocomunicate with each other this way so an internal ip address was needed. eg: `127.0.0.1`.
+- `lo` - loop back. This is the internal IP stack. This exists for historical reasons because processes used t communicate with each other this way so an internal ip address was needed. eg: `127.0.0.1`.
 
 - `eth0` - a possible default name for the network interface. We will see the MAC address of the network card. 
 
-```ip route show`` will show you the default route to get out to the internete, AKA the default gateway.  
+```ip route show`` will show you the default route to get out to the internet, AKA the default gateway.  
 ### ip a a dev etho 1.2.3.4/8 - add an Ip address in run time, useful for testing
 ### ip route show = shows the routing table to check if you have a default router
 ### cat /etc/resolv.conf - this is s config where you can verify dns server info
 
-Thi is an auto generated file that contains the ip address of the DNS name server. This is what allows us to use name as as appose ip addresse. 
+Thi is an auto generated file that contains the ip address of the DNS name server. This is what allows us to use name as as appose ip addresses. 
 
 ### dhclient - dhcp server 
 This will reach out to dhcp to reobtain the ipv4 address.
 
 ### hostname - shows the current hostname 
 ```hostname``` will return the fqdn (fully qualified domain name)
-```hostname -I``` show the currrent ip address for the hostname.
+```hostname -I``` show the current ip address for the hostname.
 ### hostnamectl - set the hostname
-```hostnamectl status``` retunrs useful info like ```uname -a```
+```hostnamectl status``` returns useful info like ```uname -a```
 ```hostnamectl set-hostname foo.com``` sets the hostname to foo.com
 
-```/etc/nsswithc.conf``` is a file that you can modify the and password DNS lookup order so rather than set your ```/etc/hosts``` file, yucan search dns first.
+```/etc/nsswithc.conf``` is a file that you can modify the and password DNS lookup order so rather than set your ```/etc/hosts``` file, you can search dns first.
 
 ### ping 
 Performance testing tools
 ```ping -f <domainname>``` this will do a flood on the domain 
 ```ping -f -s 4096 <domainname>``` this will do a flood with packets that are 4kb big on the domain 
+
 ### netstat - 
-```netstat -tulpen | less``` gives an overview of eveything that is listening on the computer.
+```netstat -tulpen | less``` gives an overview of everything that is listening on the computer.
 
 ```sh
 Active Internet connections (only servers)
@@ -443,21 +442,21 @@ udp        0      0 0.0.0.0:123             0.0.0.0:*                           
 udp6       0      0 :::123                  :::*                                0          25022      939/ntpd            
 ```
 
-addreses that are 0.0.0.0 are serving to the public.
-### ss - (Socket Stats) modern rplacement of netstat 
-```ss -tuna``` same as ```netstat -tulpin```
+addresses that are 0.0.0.0 are serving to the public.
+### ss - (Socket Stats) modern replacement of netstat 
+```ss -tuna``` same as ```netstat -tulpen```
 
 ### dig - DNS lookup utility
 dig 
 
 ## Time in Linux
 
-The way Time is organised in linux starts with `hardware time`. It starts with the BIOS on the computer . When you start the computer you will get `hardware time`. Durring the boot this will be used to set `system time`. To make sure that `system time` is correct, `Network Time Protocol (ntop)` is used to sync `system time` with the time on the internet. 
+The way Time is organised in linux starts with `hardware time`. It starts with the BIOS on the computer . When you start the computer you will get `hardware time`. Durring the boot this will be used to set `system time`. To make sure that `system time` is correct, `Network Time Protocol (ntp)` is used to sync `system time` with the time on the internet. 
 
 ### System Time tools
 date - classic util to manage dates and the current time settings
 ```date -s 14:53``` will set the system to be 14:53. 
-timedatectl - new tool to set time related prooperties. You can set the time and time zone etc.
+timedatectl - new tool to set time related properties. You can set the time and time zone etc.
 
 ### Hardware Time tools
 hwclock - allows you sync hHW and SF clock
@@ -466,7 +465,93 @@ hwclock - allows you sync hHW and SF clock
  hwclock -w             # set the hardware time (RTC) from the system time
 ```
 
-With ntp the keyword is `stratum`. This indicates the reliability of the server you are ineracting with. This ranges from 1 - 16. 1 being linked to an atomic clock. The hihgest level of reliability. 
+With ntp the keyword is `stratum`. This indicates the reliability of the server you are interacting with and the distance of eliability you are away from the time source. This ranges from 1 - 16. 1 being linked to an atomic clock. The highest level of reliability. If you synced with a `stratum 1` and you wanted to play a server role, you would get `stratum 2` because you are 1 step removed from the first server. 
+`Stratum 10` is a spacial stratum server. this is what aa local ntp stack would get. 
+`Stratum 16` is a server advertising an error .
+
+`The insane clock` is an old setting of clock that is too far away. 
+
 ntpdate - fetch time from an ntp server
+Can be used ot set the date from a ntp server. In case you have  serious time problem and ou want ot fix it immediately. 
+
+```sh
+nptdate `ntp source location`
+```
+
 ntpq - Allows you to query ntp
 chronyc - Allows you to get detailed info about hte service you are currently syncing with
+```chronyc sources``` will show information about te ntp server you ae currently synchronizing with.
+
+
+# systemd - service manager
+
+**systemd is the manager of everything.** It is the first thing that is started after starting the linux kernel.
+
+```Bootloader >> kernel >> systemd``` .
+
+systmed is responsible for starting all the services and things like the log in prompt. It can start process in parallel and also manages mounts, timers, paths and much more. Because systemd is event driven , it can react to specific events, and so wont start things that are NOT needed. the things that systmed manages are called `units`. there are two types of units in systemd
+- Default units in `/usr/lb/systemd/system` # these will be covered in a system update.
+- Custom units in `/etc/systemd`            # these are up to you to manage. Eg in an update they wont be touched. In a conflict of two same units, the custom will always win.
+
+A `Target` in the systemd context is a group of services. Some Targets are isolateable, which means you can use them as a state your system should me in
+```sh
+emergency.target # the minimal trouble shooting target where a minimum of services are going to be loaded
+rescue.target # IS an extension on emergency and still for troubleshooting
+multi-user.target # Non=graphical starting target
+graphical.target # as the name above, full graphical env
+```
+
+```sh
+systemctl -t help # gives help on available unit types:
+
+service
+socket
+target
+device
+mount
+automount
+swap
+timer
+path
+slice
+scope
+```
+Lots of useful Commands 
+```sh
+systemctl list-unit-files #list of name, state etc of unit files.  
+systemctl list-unit- #list all the units in order or starting 
+systemctl start # used to start a unit file 
+systemctl status # give you current information about a unit
+systemctl restart <servicename>.service # effectively a stop and then a start
+systemctl stop # 
+systemctl enable # starts up after a unit start
+systemctl disable # wont start automatically anymore. 
+systemctl list-units # list all units available in the current environment
+systemctl set default # manageing the default target
+systemctl get default # get info about the default target
+systemctl cat <servicename>.service # shows the configuration as it has been defined for a specific unit.
+systemctl show # see all the params that can be used in the system configuration for a particular unit.
+systemctl edit # command to allow you to edit current configuration.
+systemctl daemon-reload # after you have done an edit you need ot run this to get a radload.
+systemctl isolate # use to switch between targets 
+systemctl list-dependencies # show you everything that will be loaded when you start a specific Target. 
+systemctl list-units | grep target # get all the targets
+```
+
+# Scheduling Task
+First and formost there is `cron` which allows you to schedule re-occuring tasks. It uses the `crond` daemon. `crontab -e` to edit and enable tasks.
+
+`at` is for scheduleing tasks that need to run **AT** a specific moment ( and only once). Uses the atd daemon.
+`systemd timers` which are the new alternative to cron jobs. You create a `.timer` unit and run it useing `systemctl`
+
+```crontab -e``` This will automatically open the cron editor where you can write the times and tasks of your cron jobs. 
+
+
+
+```sh
+at # schedule a job to run once
+atq # query
+atrm # remove a job
+crontab -e # cron editor
+systemctl # relatesing to the times 
+```
