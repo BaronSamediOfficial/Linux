@@ -281,7 +281,7 @@ The permission mode is where you define which permission will me applied to yor 
 
  ```
  ## Special Permissions 
- These were inven
+ These were invented to solve a few problems that occurred with the first distributions of Linux. 
 
  |            | files | directories |
 |------------|-------|-------------|
@@ -314,14 +314,159 @@ You will see the sticky bit enabled with a `T`
 ```
 
 # Using UMASK
-
 The umask is a shell setting that defines a mask tha will be **subtracted** from the default permissions.
 For example, if default permissions on directories are 777 and default permissions on files are 666
 - umask 027 will set default permissions on directories to 750 because `777 - 027 = 750` 
 - umask 022 will set default permissions on files to 644 because `666 - 022 = 644`
 
-Umasks of 022 is quite common because it gives the root full access while only giving read + execute permission to the group and others.
+Umasks of 022 is quite common because it gives the root full access while only giving read + execute permission to the group and others. IT may be represented as 0022 because the first zero will represent the special permissions.
 Umask values of 027 will take away the permissions for others.
 To read the current umask type `umask` on the terminal. 
 
 To make a umask persist you must set the umask value in `/etc/profile` or `/etc/bashrc`
+
+# Linux Storage landscape
+
+Hardware level: Devices  - Storage must be presented to Linux and this storage can come from different environments. There is could be a traditional disk on a machine. Storage can be on SAN (Storage Area Network) with protocols like `iSCSI` or `fibre channel`. These devices drives will be stored in the `/dev/sda/` dir. SDA standing for `SCSI disk A`. The reason it is SCSI disc is that most storage is addressed wot ha SCSI driver , eve nif it is not a SCSI disk. ON that disk you will something to allocate different areas because you don't want ot give it all away. This is where you create partition. These partition allow you to put different. Within the the partition there is an LVM (Logical Volume Manager), at a high level it is like a partition within a partition to give you more flexibility to your storage level.
+
+Depending on your computer hardware, there are two solutions for partitioning schemes. MBR (older; eg CentOS7) and GPT (Ubuntu) . If you use MBR there will be limitations that are only in the new GPT, such as only being able to hold 4 primary partitions and no more. 
+
+
+# MBR Partitions on CentOS7 with fdsk 
+Commands 
+### lsblk - List block devices. This will show you the devices you have.`
+```sh
+root@me:~# lsblk
+NAME                  MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+vda                   252:0    0   250G  0 disk                     
+└─vda1                252:1    0   250G  0 part 
+  ├─ubuntu--vg-swap_1 253:0    0  14.9G  0 lvm  [SWAP]
+  └─ubuntu--vg-root   253:1    0 235.1G  0 lvm  /
+```
+### fdisk
+```sh
+root@bme:~# fdisk /dev/vda
+
+Welcome to fdisk (util-linux 2.31.1).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+Command (m for help): m
+```
+partprobe
+### gdisk - gpt partition utility
+### mkfs - Utility for creating and formatting filesystem
+
+Ther eare amny `mkfs.xxx` on Linux. `mkfs.vfat` is useful to know because it will make a partition that is useable on Mac, Linux and Windows. `ntfs` is a bit problem matic because ot cannot be fully supported as it was created out of reverse engineering. 
+
+### mount - connect a filesystem storage to a directory
+After creating a file system amd storage, you need to connect them together. This is process is know nas mounting . it is a simple as. 
+```
+mount <What-you-want-to-mount> <where-you-want-to-mount-to>
+```
+a temporary mount directory called `/mnt`is often made by default.  
+### findmnt - shows you whats mounted and where it is mounted.
+### umount - unmount
+###  lsof - list open files
+
+## Manageing Networks 
+ipv4 is the old version of addressing schemes for different networks with 4 number addreses such `192.168.5.63`.
+Subnetmask 
+
+There are two parts to this address;
+The address network : `192.168.5`
+The address of the node: `63`
+
+
+`Router`: This is a device that conects networks together. There router is going to help your package out of your network and get to the internet. It will have a `default gatway` address that is very important for your node as it identifies the router. It is the routers address on the network. If for axample you were looking for ip address `7.7.7.7` you would have ot ask your router and he would check is iptabels.
+
+`DNS` -(Domanin Name System) is a name system to save humans remebering long numbers. When you search for `Linux.com` you will go to a DNS server which will retrun the ip address for hte name you have given.
+
+### Network Device nameing 
+biosdevname (BIOS-dev-name) uses device names that reveal information about physical location, and **systemd-udevd** generates the network device names. This is more convinient.
+
+The four catagories depend on the info revealed by the driver of the network card
+- em123 ( Ethernet Motheboard Portnumber) eg; em0
+- p < port > < slot > (PCI, PCI port) eg; p0p6 
+- eno123 (EtherNet Onboard) 
+- If the driver doesn't reveal sufficiant information, eht0 etc is used.
+
+
+
+### ip a - shows current network configuration 
+`ip a` is a short cut for `ip addr show`
+Your response may include 
+- `lo` - loop back. This is the internal IP stack. This exists fr ohistorical reasons becasue processes used t ocomunicate with each other this way so an internal ip address was needed. eg: `127.0.0.1`.
+
+- `eth0` - a possible default name for the network interface. We will see the MAC address of the network card. 
+
+```ip route show`` will show you the default route to get out to the internete, AKA the default gateway.  
+### ip a a dev etho 1.2.3.4/8 - add an Ip address in run time, useful for testing
+### ip route show = shows the routing table to check if you have a default router
+### cat /etc/resolv.conf - this is s config where you can verify dns server info
+
+Thi is an auto generated file that contains the ip address of the DNS name server. This is what allows us to use name as as appose ip addresse. 
+
+### dhclient - dhcp server 
+This will reach out to dhcp to reobtain the ipv4 address.
+
+### hostname - shows the current hostname 
+```hostname``` will return the fqdn (fully qualified domain name)
+```hostname -I``` show the currrent ip address for the hostname.
+### hostnamectl - set the hostname
+```hostnamectl status``` retunrs useful info like ```uname -a```
+```hostnamectl set-hostname foo.com``` sets the hostname to foo.com
+
+```/etc/nsswithc.conf``` is a file that you can modify the and password DNS lookup order so rather than set your ```/etc/hosts``` file, yucan search dns first.
+
+### ping 
+Performance testing tools
+```ping -f <domainname>``` this will do a flood on the domain 
+```ping -f -s 4096 <domainname>``` this will do a flood with packets that are 4kb big on the domain 
+### netstat - 
+```netstat -tulpen | less``` gives an overview of eveything that is listening on the computer.
+
+```sh
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       User       Inode      PID/Program name    
+tcp        0      0 127.0.0.53:53           0.0.0.0:*               LISTEN      101        24698      761/systemd-resolve 
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      0          16146      994/sshd            
+tcp6       0      0 :::22                   :::*                    LISTEN      0          16148      994/sshd            
+udp        0      0 127.0.0.53:53           0.0.0.0:*                           101        24697      761/systemd-resolve 
+udp        0      0 0.0.0.0:68              0.0.0.0:*                           0          493265     8372/dhclient       
+udp        0      0 0.0.0.0:68              0.0.0.0:*                           0          15745      737/dhclient        
+udp        0      0 0.0.0.0:68              0.0.0.0:*                           0          18715      808/dhclient        
+udp        0      0 9.20.193.106:123        0.0.0.0:*                           0          16023      939/ntpd            
+udp        0      0 10.51.1.36:123          0.0.0.0:*                           0          16021      939/ntpd            
+udp        0      0 127.0.0.1:123           0.0.0.0:*                           0          16019      939/ntpd            
+udp        0      0 0.0.0.0:123             0.0.0.0:*                           0          16015      939/ntpd            
+udp6       0      0 :::123                  :::*                                0          25022      939/ntpd            
+```
+
+addreses that are 0.0.0.0 are serving to the public.
+### ss - (Socket Stats) modern rplacement of netstat 
+```ss -tuna``` same as ```netstat -tulpin```
+
+### dig - DNS lookup utility
+dig 
+
+## Time in Linux
+
+The way Time is organised in linux starts with `hardware time`. It starts with the BIOS on the computer . When you start the computer you will get `hardware time`. Durring the boot this will be used to set `system time`. To make sure that `system time` is correct, `Network Time Protocol (ntop)` is used to sync `system time` with the time on the internet. 
+
+### System Time tools
+date - classic util to manage dates and the current time settings
+```date -s 14:53``` will set the system to be 14:53. 
+timedatectl - new tool to set time related prooperties. You can set the time and time zone etc.
+
+### Hardware Time tools
+hwclock - allows you sync hHW and SF clock
+```sh
+ hwclock -s             # set the system time from the hardware time (RTC)
+ hwclock -w             # set the hardware time (RTC) from the system time
+```
+
+With ntp the keyword is `stratum`. This indicates the reliability of the server you are ineracting with. This ranges from 1 - 16. 1 being linked to an atomic clock. The hihgest level of reliability. 
+ntpdate - fetch time from an ntp server
+ntpq - Allows you to query ntp
+chronyc - Allows you to get detailed info about hte service you are currently syncing with

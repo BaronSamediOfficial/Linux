@@ -33,6 +33,7 @@ Ctl-d               # exit
 bash -x <SCRIPT_NAME>                                                       # runs a script in debug mode
 <COMAND> 2>/dev/null                                                        # 2 relates to the stderr output and will redirect it to the null device 
 !<CMD_HISTORY_NUMBER>                                                       # this will run a specific command from your history eg: !234
+!foo                                                                        # Will run the last command that started with foo
 ctl+a                                                                       # brings your cursor to the beginning of the command line
 ctl+l                                                                       # clears the terminal 
 uname -a                                                                    # will list all the key info about the system you are on
