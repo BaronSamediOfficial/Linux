@@ -546,8 +546,6 @@ First and formost there is `cron` which allows you to schedule re-occuring tasks
 
 ```crontab -e``` This will automatically open the cron editor where you can write the times and tasks of your cron jobs. 
 
-
-
 ```sh
 at # schedule a job to run once
 atq # query
@@ -555,3 +553,129 @@ atrm # remove a job
 crontab -e # cron editor
 systemctl # relatesing to the times 
 ```
+# Logging in Linux
+
+Syslog is the legacy service that takes care of logging and is running on most distributions of Linux. it has different implimentations suc has old `syslog` ,`syslogng` and `rsyslogd`. Most Linux distributions these days are useing rsyslogd. 
+`systemd-journald` is a systemd-integrated log service. It is very convenient as it allows you to show current service status information everytime you type `systemctl status`. 
+
+```sh
+journalctl              # allows you to interface the systemd journal. This command will show you the complete journal
+journalctl -u <unit>    # shows info about a specific unit (use tab completion)
+journalctl --dmesg # shows kernel messages
+journalctl -u crond --since yesterday --until 9:00 -p info # see specific information about a service within a specific time . -p is the priority , in this case info
+journalctl --dmessage # this is a legacy kernel message log that will only give you kernel messages
+tail # on /var/log/messages it will show you the last line , which is of most interest
+less # to open the /var/log/messages file
+logger # command that allows  you to write directly to syslog which is convenient for shellscripts
+```
+# Understanding rsyslog
+
+The rsyslog service works with facility, priority and destination.
+The facility is what rsyslogd should be logging for. these are like keywords that were defined a long time ago. the priority indicates the severity of a log event. the destination defines where the message should be written to.This could be a file, or a specific module.
+
+# Process Management
+
+The hierachy between process. 
+At the start of all process, there is the `init process` which currently system d with PID 1, the top level. Process can have children , which can have further children. For example the `init process` can have a child `ssh process` which can have a `bash process`. This is important because if the parent has a problem , the children will too.
+
+# jobs 
+
+`Jobs` in linux are processes that are running from your current shell environment. they will still get a PID too.
+
+Commands
+- **jobs** : Command to manage jobs. Jobs are processes that are associated to a specific shell. If hte process is not associated to a specific shell you cannot manage the process with jobs anymore. 
+- **fg**: allows you to run process in the forground. its only if you have started it with an '&' behind it to run it in the background.
+- **bg**: moves a job ot hte background but before that you need ctl+z, otherwise it will be 
+
+
+If you run a dummy process that takes a lot of time such as `dd if=/dev/zero of=/dev/null` that copies nothing to nowhere, you can set it t the background by typeing `bg` in the terminal or by writing the command with an & at the end such as `dd if=/dev/zero of=/dev/null &`.
+The terminal will return something like 
+```
+[3] 11449
+``` 
+which is the job number followed by the process number. To bring the last job to the foreground type `fg`. `fg <job_number>` is also valid.
+
+# TOP
+- **top**:  performance dash board for your server, allows you to manage task and gives you a good impression of your machine also see **htop**.
+
+- `top -u <user> ` will show you all the process that are running for a particular user. 
+- fields in top: If you press `f` in top you can see a list of all the possible fields. Move the cursor to the one you would like to include and press `space bar`. 
+- Sorting is set to default to the CPU usage but you can use the **shift + < / >** keys to move left and right by header on the top row and sort by that field.
+- Once you are happy with the setting you can type `W` which will write the settings to the `toprc` file.
+
+# PS 
+
+- **ps** : command line utility to get process information. It has a lot of options and ith grep, it will give you what you need.
+
+When we run `ps aux | less` we see 
+TTY = terminal 
+```sh
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root         1  0.0  0.0 225572  9168 ?        Ss   Nov01   0:07 /sbin/init
+root         2  0.0  0.0      0     0 ?        S    Nov01   0:00 [kthreadd]     # [] means these are kernel process that cannot be killed with kill 
+root         4  0.0  0.0      0     0 ?        I<   Nov01   0:00 [kworker/0:0H]
+```
+
+If we run `ps -ef | less` this will give us similar information includeing parent process info with the PPID. 
+```sh
+UID        PID  PPID  C STIME TTY          TIME CMD
+root         1     0  0 Nov01 ?        00:00:07 /sbin/init
+root         2     0  0 Nov01 ?        00:00:00 [kthreadd]
+root         4     2  0 Nov01 ?        00:00:00 [kworker/0:0H]
+```
+
+`ps -fax | less` will give the forrest display of processes. Shows the relations between processes.
+`ps aux --sort pmem | less` sort proccess by different variables. 
+
+- **nice** : adjust the process priority while starting a process. In top we press r to do this. 
+- **renice** : similar to nice but for running process and will require a PID instead.
+
+
+- **kill** to send a signal to a process
+The most brutal way to use kill is to use `kill -9 <PID>` but the most elegant way is with `kill <PID>` 
+
+- **killall** : kill many process with the same name.
+
+# Manageing Software
+### Libraries and packages
+A library is a set of modules which makes sense to be together and that can be used in a program or another library. A package is a unit of distribution that can contain a library or an executable or both. It's a way to share your code with the community.
+
+In the old day software was installed on Linux from source packages. Software was delivered in a compressed tar ball. It could vary what would be in a tar ball; a setup script, or just source files that needed to be compiled. This gave everyone flexability. This would require compileing with things like `make` and `gcc`. The disadvantages of this methodology is that there is no central registration  of software that was installed in this way. This is why there needed to be some sort of management: **Enter the package manager. **
+
+### Software packages
+A package is a tar ball with the addition of 
+- a script to copy files to the right location 
+- a database to keep track of what is installed.  This db is installed in the system and installed by the package.
+Packages typically focus on the software they want to install, and use dependencies for related software packages. This means the dependency needs to be installed before you can install the package. This can get tricky!
+
+ON redhat the package manager is `rpm` .
+
+### libraries - special dependencies
+They are developed  to make woking with software easier and provide common functionality that may be used by multiple packages. Some libraries are very specific and only provide one special type of functionality. Some are more generic.
+
+the key library that provides all of the common function in the Linux operatinf system is **libc**, a `C-library`.
+To figure out which libraries are used by a specific programme file use `ldd`. eg; `ldd /usr/bin/passwd`.
+
+Difference between libraries, dependency and packages.?
+
+### Software mangers
+These were developed primarily to fix the dependency problems. They do this by working with repositories which are online resources of packages. Before installing a package , the software manager analyses the dependencies and will try to fetch the dependencies from the repositories. Repositories are provided by the Linux distributions, or software vendores, or you may create your own.
+Commmon software managers are 
+- yum : RedHAt
+- dnf : yum replaccement for fedora
+- microdnf : (miniture yum) on containers
+- apt : ubuntu
+
+
+### yum
+yum uses repositories that in /etc/yum.repos.d as separate files and the command was written to be intuitive eg; `yum install , yum search, yum remove`. yum also allows you to work with package groups eg; `yum groups list , yum groups install` which can be very convenient. `yum provides` will help you find the right package and `yum history` allows you to undo changes. 
+
+### apt
+
+`apt` is the UBUNTU equivalent to yum and is a newer replacement of older utilities like `apt-cache` and `apt-get` so you may still read in docs anout apt-get. apt repositories are defined in `/etc/apt/source.list`. 
+
+`apt search <package>` 
+`apt install <package>`
+`apt remove <package>` This will analyze and tell you what it will require to remove this. 
+
+### rpm (RedHat package manager) 

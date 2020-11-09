@@ -38,7 +38,7 @@ ctl+a                                                                       # br
 ctl+l                                                                       # clears the terminal 
 uname -a                                                                    # will list all the key info about the system you are on
 dd if=/dev/zero of=<FILE_TO_CREATE> bs=<BLOCK_SIZE> count=<MEGABYTE_SIZE>   # This will create a file of zeros. Useful for testing data transfers and compressions
-su                                                                          # The switch user command , without any arguments will ask for the root password and then switch you to the root user. 
+su                                                                          # The switch user command , without any arguments will ask for the root and then switch you to the root user. 
 su -                                                                        # Same as above but wil open a new shell with the root environment variables
 w                                                                           # Not a typo, type w to see who is logged in on the system AND what they are going 
 chmod u+s <file>                                                            #  set the Set User ID (SUID)
@@ -270,5 +270,10 @@ loginctl show-user <username>
 loginctl terminate-session <session-id>
 ```
 
+### manageing process
 
-yum install bash-completion     // extras for tab completion 
+```sh
+ps -ef | less  # this will give us similar information includeing parent process info with the PPID. 
+ps -fax | less # will give the forrest display of processes. Shows the relations between processes.
+ps aux --sort pmem | less # sort the view by the pmemory amount. 
+```
