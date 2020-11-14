@@ -259,5 +259,12 @@ nmap -v -A <Network_IP+SubnetMask>      # agressive verbose network scan
 nmap -PN <Ip_Address>                   # pierces through the fire wall apparently ???
 nmap -O <Ip_Address>                    # scans for the operating system
 nmap -PA                                # tcp AK scan ( 2nd half handshake )
-
 ```
+
+### Tripwire
+
+Tripwire has two versions open source and commercial
+- open source version: HIDS ( Host Intrusion Detection System)
+- Commercial version: NIDS ( Network Intrusion Detection System)
+
+NIDS is more complicated that works with profiles that are part of the paid updates. An alternative is Snort but this also has a cost. An alternative to the opensource versions Aide is a good alternative. 
