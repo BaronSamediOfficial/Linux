@@ -38,6 +38,8 @@ ctl+a                                                                       # br
 ctl+l                                                                       # clears the terminal 
 uname -a                                                                    # will list all the key info about the system you are on
 dd if=/dev/zero of=<FILE_TO_CREATE> bs=<BLOCK_SIZE> count=<MEGABYTE_SIZE>   # This will create a file of zeros. Useful for testing data transfers and compressions
+ 
+dd if=/dev/urandom of=/root/<RNADOM_DUMMY_KEY_NAME> bs=4096 count=1                          # This will create a random key of stuff with this
 su                                                                          # The switch user command , without any arguments will ask for the root and then switch you to the root user. 
 su -                                                                        # Same as above but wil open a new shell with the root environment variables
 w                                                                           # Not a typo, type w to see who is logged in on the system AND what they are going 
@@ -276,4 +278,26 @@ loginctl terminate-session <session-id>
 ps -ef | less  # this will give us similar information includeing parent process info with the PPID. 
 ps -fax | less # will give the forrest display of processes. Shows the relations between processes.
 ps aux --sort pmem | less # sort the view by the pmemory amount. 
+```
+
+## tcpdump 
+
+```sh
+ip link show # this will show all your network cards so you know which hones to scan
+tcpdump -i eth0 -w $(date +%d-%m-%Y).pcap # This will write the output of the tcpdump to a pcap file with the date in the title of the file.
+tcpdump -n -i eth0 # will not show the host names but instead ip addresses
+tcpdump -tttt -i eth0 # 4 x t will give you the time stamp in your captures 
+tcpdump -n -i eth0 port 22 # this will filter to just see things leaveing on port 22
+tcpdump -w ssh.pcap -i eth0 dst 192.168.4.10 and port 22 # filter on particular ips and ports , and write t oa certain file
+
+```
+
+## NMAP 
+```sh
+nmap -sn <Network_IP+SubnetMask>        # scans the entire network
+nmap -v -A <Network_IP+SubnetMask>      # agressive verbose network scan
+nmap -PN <Ip_Address>                   # pierces through the fire wall apparently ???
+nmap -O <Ip_Address>                    # scans for the operating system
+nmap -PA                                # tcp AK scan ( 2nd half handshake )
+
 ```

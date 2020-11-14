@@ -55,10 +55,10 @@ To configure the sudoers for the system , use the command ```sudo visudo``` .
 
 groupadd (create groups)
 
-adduser (Ubuntu) & useradd (Centos)
+adduser (Ubuntu) & useradd (CentOS)
 
 ```sh
-adduser  bob                # add bob as a user ( UNUNTU only)
+adduser  bob                # add bob as a user ( UBUNTU only)
 usermod --help              # Lots of options including locking and unlocking accounts
 groupadd <GROUP_NAME>
 userdel bob                 # delete bob as a user
@@ -69,9 +69,9 @@ passwd -l <USER>            # Locks the password
 passwd -u <USER>            # UNLOCKS the password
 passwd -S <USER>            # Returns the status of the password
 chage <USER>                # will load up the process to set password lifetime settings - Useful for admins
-find / -perm /4000 # find files that have SUID
 find / -perm /2000 # find files that have SGID
 find / -perm /1000 # find files that have Sticky bit
+find / -perm /4000 # find files that have SUID
 ```
 
 There are four files for configuring centralised group and user information
@@ -83,3 +83,181 @@ There are four files for configuring centralised group and user information
 `/etc/passwd` - this is historically the file tha Unix has used to store user information. As this file is normally set to read for all users, the passwords are no longer stored in here. Instead they are encrypted and stored in hte `/etc/shadow`. Groups are stored in `/etc/group` . `/etc/gshadow` is not used anymore but it is a legacy file to set passwords for groups. You can modify the users and groups the safest way is to use `vipw` which will open a temporary file of `/etc/passwd` in VI. This will prevent cases where other users aer in `useradd`. OT do the same for `/etc/shadow`, use `vipw -s`. `vigr` will let you edit groups.
 
 /etc/login.defs
+
+
+# Linux Operating System Security
+## Keeping up-to-date
+CentOS `yum updateinfo` - this will run an update on the packages
+RHEL `yum updateinfo` - the same command on RHEL will just give the info with an advisor code "RHSA-2016:0176"
+
+### UBUNTU 
+Ubuntu `apt-get -s dist-upgrade` - shows a list of all the updates that are available for a system
+
+ `apt-get -s dist-upgrade | grep "^inst" | awk -F " " '{print $2}' | xargs apt-get install` this will list all the packages that are installers, get the names of them and then ppe them to the installer.
+
+ `unattended-upgrades` will command will run a hands off use to upgrade good for "domestic" use but this is not good in cooporate environments as the updates need to be tested etc. 
+
+ ### Validateing packages
+
+On RHEL type distros the simplest way to validate all packages is with the rpm package managere. Use the command `rpm -Va` will verify.
+
+On Ubuntu `apt install debsums` will insall the right package to check the hashsums of the packages.
+firstly generae a list of packages checksums with the command `debsums -l` and then run a check on those with the comand `debsums -c` to check.
+
+### <ins>AIDE (Advanced Intrusion Detection Environment)</ins>
+
+Aide is for scanning the static parts of your server/file system as it will look for changes. Don't use it on places where things change a lot as it will raise lots of false positives. 
+
+To install on RHEL run `yum install -y aide`. 
+
+Configuration file `vim /etc/aide.conf`. In this file the `database` ( which the contens of scan targets set in the configuration) can be changed on the place on where to look.
+
+In the configuration, after the options you will see profiles such as 
+```
+# NORMAL = R+sha512
+NORMAL = p+i+n+u+g+s+m+c+acl+selinux+xattrs+sha512
+```
+This line has many options separated by the '+' sign.
+
+further on there a lots of listed locations for different targets to go into the database. 
+
+To run **AIDE**
+```
+aide --init
+```
+After a few minutes yor scan will produce this report file `/var/lib/aide/aide.db.new.gz`.
+The next time the scan runs it wil create another file with exactly the same name so the best thing to do is to **move this report to external storage and rename it with a unique date time.**
+
+Once we have made our first scan and perhaps made some trivial change to the system like add a new user, you can run a comparison check with `aide --check` which is also the default command if you just type `aide`.
+
+## Manageing file system security properties
+
+### Createing encrypted block devices
+
+`Luks` si the Linux encryption layer.
+
+You need an empty device, for example `/dev/sdb1`. 
+Format the device
+Luks open will create a new luks device that you are going ot work with. Within this new luks device is where you make the new file system. Once it has been created this now luks device can be mounted. 
+
+`cryptsetup` is the tool to set up a luks encryption. if you run `cryptesetup --help` you can see many different actions to take with the tool.
+
+To run a luks encryptions run `cryptsetup luksFormat <Device>`. The prompt will ask for confirmation. Next choose the passphrase. 
+
+TO use the device `cryptsetup luksOpen <Device> <Name-to-use>`. You should be able to see the device mapper directory `/dev/mapper`.
+
+Mounting the device run `mount /dev/mapper/<Name-to-use> /<Location-to-mount>`.
+TO close the device , first umount the device `umount /dev/mapper/<Name-to-use>` and then run `cryptsetup luksClose /dev/mapper/<Name-to-use>`. 
+TO verify that the device has gone, go to the directory that the device lives in and run and `ls`. 
+
+### Mounting devices persistently
+
+A key will need to be created so you canuse your device persistently when loging on ot your machine. HAving the mounted device on your machine you an make life simpler by having hte key loaded on a removeable USB or similar. this way the mount can persist but the access will not. 
+
+For an automatic mount luks open will need to be automated. The mount will also need to be automated. 
+
+
+For an example You can create a random key of stuff with the command 
+`dd if=/dev/urandom of=/root/luksey bs=4096 count=1`
+Give the key root provledges `chmod 600` and then add the key to the encrypted device with `cryptsetup luksAddKey <Device-location> <Key-Location>`. You will be asked to set up a passphrase for the key. 
+Next create the file `vim /etc/crypttab`. In this new file provide he name of the device, the underlaying device and then the name of the key. Then modify the `/etc/fstab` to include the <Device-name-and-location> and the location of where yu want to mount it.For example a line like
+```
+/dev/mapper/MyNewsecureFileSystem          /Desktop    ext4 defaults 1 2 
+```
+To check if this has worked you will need to reboot the system. 
+
+### Security Related Mount options 
+
+ `nodev`  Do not interpret character or block special devices on the file system.
+ `nosuid` Do not allow set-user-ID or set-group-ID bits to take effect.
+ `noexec` Do not permit direct execution of any binaries on the mounted filesystem.
+
+ ```
+ mount -o remount,noexec <address-of-the-file-system>
+ ```
+
+ ## <ins>Securing Server Access</ins>
+
+ ### Secureing the GRUB boot loader
+
+ When you turn the powere on the machine will run a POST (Power On Self Test). IT will then look for a bootable device. Once this is found , it will look for the `Bootloader`, normally `GRUB2`. GRUB2 will load the `Kernel` and the `initramfs`. After the service start we will be able to get a `shell`. 
+
+Although we cannot prevent an attacker putting a physical thumbdrive in o the device, the first place we can protect before the Linux Kernel is loaded is the GRUB2 boot loader. This allows users to put in boot arguments. Controlling these will protect the system.
+
+GRUB2 has two password types
+- the global password : Makes it impossible to enter no matter what is on the prompt.
+- OS specific password: Secures juts one specific OS started from GRUB.
+
+
+To protect the password on GRUB2 you will need to make 2 input files with the following input:
+- `/etc/grub.d/01_users`
+```
+set superusers="bob"
+password bob somesecretepassword
+password alice adifferentsecretpassword
+```
+- `/etc/grub.d/40_custom` defines verbatim menu entries for the GRUB2 menu, way before the shell.
+```
+#!/bin/sh
+exec tail -n +3 $0
+# This file provides an easy way to add custom menu entries.  Simply type the
+# menu entries you want to add after this comment.  Be careful not to change
+# the 'exec tail' line above.
+menuentry 'CentOS Linux (3.10.0-327.13.1.el7.x86_64) 7 (Core)' --users bob {
+set root=(hd0, msdos1)
+linux16 /vmlinuz-3.10.0-327.13.el7/x86_64
+}
+```
+**These files will need to be written to** `/boot/grub2/grub.cfg`.
+
+In GRUB1 things were much easier. You would just need to specify `password` `<secret>`.
+
+### Modifying text Console Settings
+
+The login process uses 
+
+- `/etc/issue `- this a file that will displays before login. It might have some config in the first few lines.
+- `/etc/motd` - after login there is  the `message of the day`.
+- `/.hushlogin` in the home of a user, contents of the motd will ot be shown
+
+### <ins>Modifying Graphical Console Settings<ins/>
+
+`cd /etc/gconf` is where the configuration will be kept
+`gconftool-2 --help` has lots of sub help catagories 
+
+
+# <ins> Securing Linux Infrastructure </ins>
+
+### Sniffing and port scanning 
+
+In modern networks we prefer `Switches` over `hubs`. Thisis because they have a MAC address table so the packets will only be advertised to the target port and none other.
+
+ TO use tcpdump you need to understand your network cards. To do this run the command `ip link show`.
+
+ **tcpdump** needs to be running as root because only rot can capture packets from the network.
+ the manadory argument is hte network card you want to be listening on ther efore you would run something like the following `tcpdump -i eth0`. The out put will contain things that are structure as 
+
+ `<TIMESTAMP>  <PROTOCOL> <INVOLVED MACHINE INFORAMTION>`
+
+ ```
+ 07:29:26.769165 STP 802.1w, Rapid STP, Flags [Learn, Forward], bridge-id 89c5.70:70:8b:20:77:0f.80d9, length 42
+07:29:26.777079 ARP, Request who-has 10.51.9.64 tell 10.51.0.1, length 42
+07:29:26.798437 ARP, Request who-has 10.51.11.85 tell 10.51.11.84, length 42
+```
+
+**tcpdump** and wire shark bot handle `packet capture` files aka `.pcap` files. 
+
+`tcpdump -i eth0 -w $(date +%d-%m-%Y).pcap` This will write the output of the tcpdump to a pcap file with the date in the title of the file.
+
+
+`tcpdump -n -i eth0` will not show the host names and instead p addresses
+`tcpdump -w ssh.pcap -i eth0 dst 192.168.4.10 and port 22` # filter on particular ips and ports , and write t oa certain file
+
+```sh
+nmap -sn <Network_IP+SubnetMask>        # scans the entire network
+nmap -v -A <Network_IP+SubnetMask>      # agressive verbose network scan
+nmap -PN <Ip_Address>                   # pierces through the fire wall apparently ???
+nmap -O <Ip_Address>                    # scans for the operating system
+nmap -PA                                # tcp AK scan ( 2nd half handshake )
+
+```
