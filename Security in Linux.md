@@ -301,8 +301,72 @@ It is recommended to install the `rsyslog-doc` for all the documentation.
 As part of the RHEL exam, it will involve getting the `native tls encryptions for syslog`. 
 
 1. `systemctl status chronyd` - Check this time service on RHEL7+ ( else NPTD)
-2. if `certtool` is not intalled run `yum install gnutls-utils` to get it. 
+2. if `certtool` is not installed run `yum install gnutls-utils` to get it. 
 3. Run `certtool --generate-privkey --outfile ca-key.pem `
 4. give the ca-key.pem readable permission with `chmod 400 ca-key.pem`
-5. Create a publoc key fro mthe private key you have juts made with `certtool --generate-self-signed --load-privkey ca-key.pem --outfile ca.pem`
-`
+5. Create a public key from the private key you have just made with `certtool --generate-self-signed --load-privkey ca-key.pem --outfile ca.pem`
+6. Choose the settings you would like for your cert includeing.
+    - Does the certificate belong to an authority? y
+    - set no constraint on the path length.
+    - the dnsName of the subject will be the will be the server name.
+    - the URI,Ip and email of the subject do not apply.
+    - No to: sign code, OCSP requests, time stamping.
+
+7. next to genreate a private key.  
+`certtool --genrate-privkey --outfile server1-key.pem --bits 2048`
+8. Generate a signer request to get the CA.
+`certtool --generate-request --load-privkey server-key.pem --outfile server1-request.pem`.
+9. After chooseing all the options from the above command it will generate the pem files for the server. To make the key materiel for the rsyslog client `certtool --generate-certificate --load-request server1-request.pem --outfile server-cert.pem --load-ca-certificate ca.pem --load-ca-privkey ca-key.pem` . This will make sure that server1 is trusted by all involved. 
+
+### Setting up the log server
+once the certs are created for hte CA and the server.
+1. On server1 make a dir `/etc/rsyslog-keys`
+2. Using `scp` (or similar) , copy the keys over to the server1 dir `scp server*.pem <IP_Addr_OF_MAchine>:/etc/rsyslog-keys` 
+3. Add the ip addresses and dns names of workstation and server to your `/etc/hosts` file.
+4. Configure the syslog on server1 for reception on port 6514 by going to `/etc/rsyslog.d` and adding 
+```sh
+$DefaultNetstreamDriver gtls
+$DefaultNetstreamDriverCAFile /etc/rsyslog-keys/ca.pem
+$DefaultNetstreamDriverCAFile /etc/rsyslog-keys/server1-cert.pem
+$DefaultNetstreamDriverCAFile /etc/rsyslog-keys/server1-key.pem
+
+$Modload imtcp
+
+$InputTCPServerStreamDriverMode 1
+$InputTCPServerStreamDriverAuthMode anon
+$InputTCPServerRun 6514
+```
+5. restart the syslog service. You may need to install some packages if this complains and run again.
+6. Configureing the client requires a directory `mkdir /etc/rsyslog-keys`.
+7. Copy the `ca.pem` into there. 
+8. Create a configuration file. The name is not as important as the content. IT should inlcude 
+```sh
+$DefaultNetStreamDriverCAFile /etc/rsyslog-keys/ca.pem
+
+$DefaultNetStreamDriver gtls            # this package may need to be installed. Maybe "gnutls: 
+$ActionSendStreamDriverMode 1           # this requires rsyslog to use tls
+$ActionSendStreamDriverAuthMode anon    
+*.*     @@(o)server1.example.com:6514   
+```
+9. install any packages that are needed for this and then restart the rsyslog server with systmectl.
+
+### Manageing Log rotation
+
+The solution to have a long range rotation so you can have a larger log window going back months or years is to compress logs after some time and store then off your device.
+
+Look in the file `/etc/cron.daily/logrotate`. This will probably be referenceing the `/etc/logrotate.conf`. these will contain the configuration options for the log rotation. There is also `logrotate.d` for other files. In addition logrotate will incorporate the default parameters from the different logging engines, for example the settings in syslog.
+
+### journald persistence
+
+`journald` is part of systmed and may eventually replace syslog. For example Linux SUZE has not syslog as default.  journald send its logs to the `/run/log/journal` file. There is a parameter for configuring the rotation file size. Some Linux distros currently have only summary logs from journald go to syslog; just enough for an admin but no more. 
+To get persistence with more comprehensive journald logs just make a certain directory and then restart the service with
+```sh
+ mkdir -p /var/log/journal
+ systemctl restart systemd-journald
+ ```
+Just be carful for the rotation size. 
+The takeaway here is that rsyslog offerers remote logging where as journald doesn't so, try and hold on to rsyslog as long as you can. 
+
+### Useing logwatch for log analysis
+
+One of the solutions for log analysis is logwatch. logwatch runs from a cronjob. OS you can see it in the cron.daily. Configurations setting are set in a `logwatch.conf` file. You can run an up to date log with `logwatch --range all` which will include todays messages. 
