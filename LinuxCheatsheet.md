@@ -60,6 +60,11 @@ man (7) signal                          # will show you the man page for all the
 netstat -tulpen                         # list open ports
 sudo lsof -i tcp -nP                    # for mac list all open tcp ports
 ```
+# automation commands 
+```sh
+while true; do echo -n "This is a test of while loop";date ; sleep 5; done
+```
+
 #  systemctl - Control the systemd system and service manager
 
 ```sh

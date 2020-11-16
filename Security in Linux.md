@@ -268,3 +268,41 @@ Tripwire has two versions open source and commercial
 - Commercial version: NIDS ( Network Intrusion Detection System)
 
 NIDS is more complicated that works with profiles that are part of the paid updates. An alternative is Snort but this also has a cost. An alternative to the opensource versions Aide is a good alternative. 
+
+
+# Configureing Linux Logs
+
+There is no standardizations in Linux Logging solutions. 
+Logging is done by `Services`, `Syslog`, `Systmed-journald` and if everything is going ok these will all be sent to the `/var/log`.
+
+syslog is loggin by using `facilities` such as `news` , `cron` , `kern` etc. This was based around a previous time when there were not so many services as there are now and so now services have started to make there own logging method. 
+
+Syslog has become the defacto standard logging. The syslog service used facilities, priorities and sending it on to a destination. As more service s have been added syslog need a more advanced log service was needes, enter `syslog-ng`(next generation). 
+
+`rsyslog` has replace syslog-ng as this can work with modules to make the logging more flexible. IT provides complete backward compatability and privides modules for extra features, for example for handling IO/OP directions.
+
+The main place to configure rsyslog is the `/etc/rsyslog.conf`. `im` is for input modules and `om` is for output modules. 
+
+`*.* @@remote-host:514` means every facility and every priority is sent via tcp to remote host on poirt 514.
+
+journald is a volatile logging message platform that you can browse through the messages using the command `journalctl`. 
+
+## Configureing remote logging
+
+Today, secure remote logging will use `tls`. 
+Requirements will include
+- time sync . without this it will be pointless
+- tls certs need setting up. (for now cirttool will sort this)
+- tcp port 6514 neeeds to be accessible for the log server. 
+- GTLS driver needs to be configured.
+
+It is recommended to install the `rsyslog-doc` for all the documentation.
+
+As part of the RHEL exam, it will involve getting the `native tls encryptions for syslog`. 
+
+1. `systemctl status chronyd` - Check this time service on RHEL7+ ( else NPTD)
+2. if `certtool` is not intalled run `yum install gnutls-utils` to get it. 
+3. Run `certtool --generate-privkey --outfile ca-key.pem `
+4. give the ca-key.pem readable permission with `chmod 400 ca-key.pem`
+5. Create a publoc key fro mthe private key you have juts made with `certtool --generate-self-signed --load-privkey ca-key.pem --outfile ca.pem`
+`
