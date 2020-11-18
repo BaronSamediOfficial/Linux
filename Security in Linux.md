@@ -22,7 +22,7 @@ There are also some specials to meet specific needs
 
 - Attributes: These are properties that an admin can set on a file. 
 
-# Capabilities
+### Capabilities
 
 Capabilities are settings which give a files and software different access controls for the task they need to do.  
 
@@ -212,6 +212,135 @@ linux16 /vmlinuz-3.10.0-327.13.el7/x86_64
 
 In GRUB1 things were much easier. You would just need to specify `password` `<secret>`.
 
+## Manageing Kernel Security
+
+Because the Linux Kernel is based on Unix, which was not concerned with security, neither has Linux been concerned. Security has been built into the Linux Kernel progressively over time. 
+
+Firstly is the ring architecture that Linux is useing. Eg; 
+- Ring 0: Kernel
+- Ring 3 : User space
+
+Programs are given defined allocations of memory. If they wanted to get more they would have to get the kernel to permit this which would involved a `syscall` process being executed. This syscall would act in the kernel space and return with having made the changes in kernel space. The point her eis that processes are isolated. 
+
+if you do need to make a cross process call you would require an Inter Process Comunication; configured at the kernel level. The alternative is the `mmap` system call which is a specific system call to let one program communicate directly with another program.
+
+Processes have to be isolated from each other as best they can to prevent breaches. Solutions ot this include 
+- `chroot`: which will run a process in a fake root environment
+- `cgroup`: allows specific hardware to be available for different processes.
+- `containers`: Docker, Linux Container Project(LXC)
+
+### Linux Kernel Security Issues
+
+**Buffer overflow** : BReaching the memory allocatedd to a process with a specific command that can be executed. Patching and input validation are the remedy.
+
+**Privledge Escalation:** among other reasons, if the SUID is set on a program it will run as the owner of the program. If the root owns the program, it is pretty bad. Even a bash script. Also Shells from `su` or `sudo`.
+
+**Root kit** : This will contain fake programs such as a fake `ls` or `cat`. As soon as the root user executes on of these fakes, control is handed to the attacker. Root kit prevention is however quite simple.
+- Run a file system integrity checker like AIDE.
+- no kernel modules
+
+### Kernel modules
+
+You can list the status of kernel modules with the `lsmod` command. 
+`modprobe` is a tool to add and remove modules from the Linux Kernel.
+
+Within the file `/proc/sys/kernel/modules_disabled` is kept a single value of 0 for disabled and 1 for enabled. This file sets the permission for allowing Kernel modules t obe installed, IF our system has everything it need this could then be set to 1 by echoing 1 to the file. **WARNING!!!** This may make you system inflexible, especially if you update hardware and the only way to reset it is to reboot your system. It should only be added to a live system and not permenant through sysctl.
+
+The `/proc/sys/kernel/randomize_va_space` contains a setting for memory addres randomization for processes. The value of `2` being the most random. This will make it hard to know how memory is being allocated and there for prevent certain attacks. This is however, "Security thorugh obscurity" and not ideal. 
+
+### no execute value 
+
+Within the `/proc/cpuinfo` file is listed many flags regarding the configuration of the cpu. One of which `nx` which stand for `No execute`. If set will prevent important areas such as the heal and stack on the cpu are protected from executing any code. 
+
+# Manageing Linux permissions and attributes
+
+## Basic Permissions
+
+|  Number      |      Permission Type          |    Symbol |   |   |
+|:------------:|:-----------------------------:|:---------:|---|---|
+|   0          |     No Permission             |     —     |   |   |
+|   1          |     Execute                   |     –x    |   |   |
+|   2          |     Write                     |     -w-   |   |   |
+|   3          |     Execute + Write           |     -wx   |   |   |
+|   4          |     Read                      |      r–   |   |   |
+|   5          |     Read + Execute            |      r-x  |   |   |
+|   6          |     Read + Write              |     rw-   |   |   |
+|   7          |     Read + Write + Execute    |     rwx   |   |   |
+
+To work with permissions is about ownership. Permissions are assigned UGO (Users,Groups, others). `chown` is used for the changeing the owner. `chgrp` is used for changing the group owner. If you don't change ownership then the user who created the file will be the user owner and the primary user of that group will become group owner. 
+
+The permission mode is where you define which permission will me applied to yor files.
+`chmod` is used for change the mode of a file. `chmod` can used in an absolute way and a relative way such as `chmod 761`. Lets break that command down
+
+| example UGO permissions | user | group | others |   |
+|-------------------------|------|-------|--------|---|
+| chmod                   | 7    | 6     | 1      |   |
+|                         |      |       |        |   |
+|                         |      |       |        |   |
+ 
+ So above we would be assigning 
+ - user to `Read + Write + Execute `
+ - group to `Read + Write`
+ - others to `Execute`
+
+ ```sh
+ chown <user>:<Group_name> <Directory>
+ chown alice:foo bar/                   # add alice of the foo group to the bar directory
+ ```
+
+
+ ## Special Permissions 
+ These were invented to solve a few problems that occurred with the first distributions of Unix, and have been addopted into Linux.  
+
+ |            | files | directories |
+|------------|-------|-------------|
+| SUID       |  Run file as owner     |   `<n/a>`          |
+| SGID       |    Run file as group owner   |   Inherit the directory group owner          |
+| Sticky bit |    `<n/a>`  |      only delete if you are owner       | 
+
+
+Note: SUID is not effective on shell scripts. 
+
+
+In order to assign special permissions we can use chmod by adding a 4th digit to the left hand side of the regular permission commands for example
+
+| example UGO permissions | special | user | group | others|
+|-------------------------|------|-------|--------|---|
+| chmod                   | 4/2/1   | 7    | 6     | 1      |
+|                         |      |       |        |   |
+
+You can set the Set User ID with `chmod u+s <file>`
+
+To find files that have the `SUID, SGID or sticky bit` set you can use the following command which will look for permissions that have 4 digits , 3 of which don't matter, just the one on the left which is set to X atm.
+      ```
+      find / -perm 4000    # files with SUID set, exactly
+      find / -perm -4000   # files with SUID and any other permissions
+      find / -perm /X000   # fiels with SUID and anything else
+      find / -perm 2000    # files with SGID set, exactly
+      find / -perm /6000    # files with SGID, SUID and any other permissions. The best search to do
+      ```
+
+### Sticky bit
+
+Sticky bit on a file was set on very old Unix versions and meant that the file needed to be kept in cahce as long as possible, before 64gb rams and more, it was not applied as an option for files on Linux.**If sticky is applied , you can only delete a file if you are the user owner of the file or , user owner of the directory that contains the file.** 
+To set the sticky bit run `chmod +t <file>`.
+To remove the sticky bit run `chmod -t <file>`.
+
+You will see the sticky bit enabled with a `T` and perhaps blue around the listing of the file name.
+```
+-rw-r--r-T 1 root root 102400 April  1 01:39 MyFile.txt
+```
+
+
+
+
+
+
+
+
+
+
+
 ### Modifying text Console Settings
 
 The login process uses 
@@ -230,12 +359,12 @@ The login process uses
 
 ### Sniffing and port scanning 
 
-In modern networks we prefer `Switches` over `hubs`. Thisis because they have a MAC address table so the packets will only be advertised to the target port and none other.
+In modern networks we prefer `Switches` over `hubs`. This is because they have a MAC address table so the packets will only be advertised to the target port and none other.
 
  TO use tcpdump you need to understand your network cards. To do this run the command `ip link show`.
 
  **tcpdump** needs to be running as root because only rot can capture packets from the network.
- the manadory argument is hte network card you want to be listening on ther efore you would run something like the following `tcpdump -i eth0`. The out put will contain things that are structure as 
+ the manadory argument is hte network card you want to be listening on there fore you would run something like the following `tcpdump -i eth0`. The out put will contain things that are structure as 
 
  `<TIMESTAMP>  <PROTOCOL> <INVOLVED MACHINE INFORAMTION>`
 
