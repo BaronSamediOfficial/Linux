@@ -306,7 +306,10 @@ In order to assign special permissions we can use chmod by adding a 4th digit to
 
 | example UGO permissions | special | user | group | others|
 |-------------------------|------|-------|--------|---|
-| chmod                   | 4/2/1   | 7    | 6     | 1      |
+| chmod                   | 4 or 2 or 1   | 7    | 6     | 1      |
+|                         | 4 (SUID)  | 7    | 6     | 1      |
+|                         | 2 (SGID)  | 7    | 6     | 1      |
+|                         | 1 (Sticky bit)   | 7    | 6     | 1      |
 |                         |      |       |        |   |
 
 You can set the Set User ID with `chmod u+s <file>`
@@ -322,14 +325,19 @@ To find files that have the `SUID, SGID or sticky bit` set you can use the follo
 
 ### Sticky bit
 
-Sticky bit on a file was set on very old Unix versions and meant that the file needed to be kept in cahce as long as possible, before 64gb rams and more, it was not applied as an option for files on Linux.**If sticky is applied , you can only delete a file if you are the user owner of the file or , user owner of the directory that contains the file.** 
-To set the sticky bit run `chmod +t <file>`.
-To remove the sticky bit run `chmod -t <file>`.
+Sticky bit on a file was set on very old Unix versions and meant that the file needed to be kept in cache as long as possible, before 64gb rams and more. It was not applied as an option for files on Linux.**If sticky is applied , you can only delete a file if you are the user owner of the file or , user owner of the directory that contains the file.** 
+To set the sticky bit run `chmod +t <file>` or with `chmod 1xxx`
+To remove the sticky bit run `chmod -t <file>` or with `chmod 0xxx`
 
-You will see the sticky bit enabled with a `T` and perhaps blue around the listing of the file name.
+
+If the sticky-bit is set on a file or directory without the execution bit set for the others category (non-user-owner and non-group-owner), it is indicated with a capital T (replacing what would otherwise be -) and perhaps blue around the listing of the file name.
 ```
--rw-r--r-T 1 root root 102400 April  1 01:39 MyFile.txt
+-rw-r--r--   1 root root 102400 Nov 10 12:57 MyFile.txt
+or 
+-rw-r--r-T   1 root root 102400 April 1 01:39 MyFile.txt
 ```
+
+
 
 # Iptables Basics
 
