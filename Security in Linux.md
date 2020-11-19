@@ -331,13 +331,34 @@ You will see the sticky bit enabled with a `T` and perhaps blue around the listi
 -rw-r--r-T 1 root root 102400 April  1 01:39 MyFile.txt
 ```
 
+# Iptables Basics
 
+In the Linux Kernel, firewall functionality is implimented with  `netfilter`. Traffic is passed through this to filter it. The main interface to `netfilter` is `iptables`. iptables has a lot of advanced features that gives a lot of precision but this comes at the cost of the complexity of useing it. To simplify things `ufw` (uncomplicated firewall) and `firewalld` are front end to the iptables utilities. ufw is the default on Ubuntu. Firewalld is the default on RedHat and others.
 
+`iptables` works with tables and the default table is the `filter` table. Within a table there are `chains`. Chains decide what kind of packet flows should be fileted. Amongother chains you will have an `INPUT` chain, an `OUTPUT` chain; and if the system is a router you may have a `FORWARD`.
 
+If you are going to do advanced things like ip masquerading, you may use `prerouting` and `postrouting` chains. These two are essential if you want to do NAT (`network address translation`) as is used in the `mangle` table where the ip address is changed. 
 
+Within he chain the next element that is going to be changed are the `rules`. These define what should happen to a packet. Rules use a principle of `exit on match` where by if all items of the rule a met the rule will be applied and nothing will be done in that chain any more. This therfore makes ordering very important. 
 
+in eey rule there is also a `target` these are specified useing the `-j` option. Typical targets include:
+- ACCEPT - to allow
+- DROP - Silently dropped
+- REJECT - dropped with a ICMP warning message
 
+In any chain there is a `Policy` which defines the default behavior. Its good practice to have a default policy that drops anything that doesn't match a specific packet in a chain. 
 
+### Default Components of an iptables command
+
+`iptables -A <CHAIN_NAME> <INTERFACE> <ADDRESS> -p <PORT> -j <TARGET>`
+
+- -A : append to the end
+- `<CHAIN_NAME>`: input output, forward etc
+- `<INTERFACE>` -i or -o for input or output interface and then the name of the interface
+- `<ADDRESS>` -s `<ip_address>` -d `<ip_address>` for source or destingation addresses. either can be filtered
+- -p : set the protocol eg tcp,udp,ssh
+- `<PORT>` : --sport 80 or --dport 80 for sourceport 80 or destination port 80
+- -j `<TARGET>` define what will happen to the packet that will match the rule.
 
 
 
@@ -345,7 +366,7 @@ You will see the sticky bit enabled with a `T` and perhaps blue around the listi
 
 The login process uses 
 
-- `/etc/issue `- this a file that will displays before login. It might have some config in the first few lines.
+- `/etc/issue `- this is a file that will display before login. It might have some config in the first few lines.
 - `/etc/motd` - after login there is  the `message of the day`.
 - `/.hushlogin` in the home of a user, contents of the motd will ot be shown
 
