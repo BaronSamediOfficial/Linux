@@ -329,6 +329,7 @@ Sticky bit on a file was set on very old Unix versions and meant that the file n
 To set the sticky bit run `chmod +t <file>` or with `chmod 1xxx`
 To remove the sticky bit run `chmod -t <file>` or with `chmod 0xxx`
 
+To clarify, if the sticky bit is set on a directory by a user and that directory lives in a directory owned by you, then you can still delete the directory that the other users directory lives in because you own that parent directory.
 
 If the sticky-bit is set on a file or directory without the execution bit set for the others category (non-user-owner and non-group-owner), it is indicated with a capital T (replacing what would otherwise be -) and perhaps blue around the listing of the file name.
 ```
