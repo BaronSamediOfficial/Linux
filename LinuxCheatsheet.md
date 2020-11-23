@@ -45,9 +45,9 @@ su -                                                                        # Sa
 w                                                                           # Not a typo, type w to see who is logged in on the system AND what they are going 
 chmod u+s <file>                                                            #  set the Set User ID (SUID)
 chmod +t <file>                                                             # set the Stickybit on the file
-find / -perm /4000                                                          # find files that have SUID
-find / -perm /2000                                                          # find files that have SGID
-find / -perm /1000                                                          # find files that have Sticky bit
+find / -perm /4000                                                          # locate files that have SUID
+find / -perm /2000                                                          # locate files that have SGID
+find / -perm /1000                                                          # locate files that have Sticky bit
 ```
 
 
