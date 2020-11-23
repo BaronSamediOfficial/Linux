@@ -311,3 +311,9 @@ nmap -PA                                # tcp AK scan ( 2nd half handshake )
 ```sh
 kubectl exec --stdin --tty <POD_NAME> -- /bin/bash   # get a shell on a machine
 ```
+
+
+## File system cmds
+```sh
+df -aTh   #  display free (df) disk space on all(-a) mount points (-T) and make it human readable (-h)
+```
