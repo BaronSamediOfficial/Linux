@@ -306,3 +306,8 @@ nmap -O <Ip_Address>                    # scans for the operating system
 nmap -PA                                # tcp AK scan ( 2nd half handshake )
 
 ```
+
+## Kubernetes
+```sh
+kubectl exec --stdin --tty <POD_NAME> -- /bin/bash   # get a shell on a machine
+```
