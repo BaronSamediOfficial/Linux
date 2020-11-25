@@ -288,12 +288,12 @@ ps aux --sort pmem | less # sort the view by the pmemory amount.
 ## tcpdump 
 
 ```sh
-ip link show # this will show all your network cards so you know which hones to scan
-tcpdump -i eth0 -w $(date +%d-%m-%Y).pcap # This will write the output of the tcpdump to a pcap file with the date in the title of the file.
-tcpdump -n -i eth0 # will not show the host names but instead ip addresses
-tcpdump -tttt -i eth0 # 4 x t will give you the time stamp in your captures 
-tcpdump -n -i eth0 port 22 # this will filter to just see things leaveing on port 22
-tcpdump -w ssh.pcap -i eth0 dst 192.168.4.10 and port 22 # filter on particular ips and ports , and write t oa certain file
+ip link show                                               # this will show all your network cards so you know which hones to scan
+tcpdump -i eth0 -w $(date +%d-%m-%Y).pcap                  # This will write the output of the tcpdump to a pcap file with the date in the title of the file.
+tcpdump -n -i eth0                                         # will not show the host names but instead ip addresses
+tcpdump -tttt -i eth0                                      # 4 x t will give you the time stamp in your captures 
+tcpdump -n -i eth0 port 22                                 # this will filter to just see things leaveing on port 22
+tcpdump -w ssh.pcap -i eth0 dst 192.168.4.10 and port 22   # filter on particular ips and ports , and write t oa certain file
 
 ```
 
@@ -312,6 +312,10 @@ nmap -PA                                # tcp AK scan ( 2nd half handshake )
 kubectl exec --stdin --tty <POD_NAME> -- /bin/bash   # get a shell on a machine
 ```
 
+## Docker 
+```sh
+docker exec -it <CONTAINER_NAME> /bin/bash
+```
 
 ## File system cmds
 ```sh
