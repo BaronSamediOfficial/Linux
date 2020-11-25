@@ -314,7 +314,7 @@ kubectl exec --stdin --tty <POD_NAME> -- /bin/bash   # get a shell on a machine
 
 ## Docker 
 ```sh
-docker exec -it <CONTAINER_NAME> /bin/bash
+docker exec -it <CONTAINER_NAME> /bin/bash           # get a shell on a machine
 ```
 
 ## File system cmds
