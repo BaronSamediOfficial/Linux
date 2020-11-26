@@ -138,6 +138,8 @@ find / type -f -size 100M                                               # find f
 find /etc -exec grep -l Bob {} \; -exec cp {} root/Bob/ \; 2>/dev/null  # find files from the etc dir that contain Bob and return the file names and then copy them to a dir /root/Bob. Any errors are sent to the null device
 find /etc -name '*' -type f | xargs grep "foo"                          # look for files only, with any name and within those search for the string "foo". 
 find <LOCATION> -type f \( -iname "*.json" \) -exec grep -il <TERM> {} \; > filesOfInterest.txt 2>&1 # find in location files that have .json in them and execute grep on them to search for the term; and then send there name to a file , and errors elsewhere
+
+find / -type d -name "foo"                                              # find a directory with the name foo
 ```
 # tar (tape archiver) 
 
