@@ -164,6 +164,7 @@ There a few working modes in VI. VIM is VI(improved)
 - Insert mode - esc , i
 - Visual mode - esc, v
 When you start, you will get command mode.
+To set line numbers in vi, type
 
 ### Simple VI commands(all you need) 
 - :q! - get out without saving 
@@ -182,8 +183,7 @@ When you start, you will get command mode.
 - :%s/foo/bar/ - substitute the first foo and replace it with bar
 - :%s/foo/bar/g - globally substitute all foo and replace them with bar
 
-```vimtutor``` in the terminal will open the vimtutor, a very useful resource. 
-
+```vimtutor``` in the terminal will open the vimtutor, a very fast and useful resource to learn how to use vi. 
 
 ### More or Less
 ```more``` was the original file pager so ```less``` was developed (a play on less is more).More was a developed a bit more but you can still do more with ```less```.
@@ -192,6 +192,8 @@ Less is based on VI so many keys work in there, such as search.
 - g - go to the top of the file
 - G - go to the bottom of the file
 - q - quit and go back to the terminal
+- / - search the file
+    - n - go to the next search result
 
 ### head (look from the top) and tail (look from the bottom)
 ```sh
@@ -324,4 +326,111 @@ docker exec -it <CONTAINER_NAME> /bin/bash           # get a shell on a machine
 ## File system cmds
 ```sh
 df -aTh   #  display free (df) disk space on all(-a) mount points (-T) and make it human readable (-h)
+```
+# Bash Test Operators
+## Integer Comparison
+```sh
+if [ "$a" -eq "$b" ]    # -eq             -> is equal to
+
+if [ "$a" -ne "$b" ]    # -ne             -> is not equal to
+
+if [ "$a" -gt "$b" ]    # -gt             -> is greater than 
+
+if [ "$a" -ge "$b" ]    # -ge             -> is greater than or equal to
+
+if [ "$a" -lt "$b" ]    # -lt             -> is less than
+
+if [ "$a" -le "$b" ]    # -le             -> is less than or equal to
+
+if (("$a" < "$b"))      # <               -> is less than (within double parentheses)
+
+if (("$a" <= "$b"))     # <=              -> is less than or equal to (within double parentheses)
+
+if (("$a" > "$b"))      # >               -> is greater than (within double parentheses)
+
+if (("$a" >= "$b"))     # >=              ->  is greater than or equal to (within double parentheses)
+```
+
+## String Comparison
+```sh
+if [ "foo" = "foo"] # with single brackets use single '='. Returns Boolean 
+
+if [[ $a == z* ]]   # True if $a starts with an "z" (pattern matching).
+
+if [[ $a == "z*" ]] # True if $a is equal to z* (literal matching).
+
+if [ $a == z* ]     # File globbing and word splitting take place.
+
+if [ "$a" == "z*" ] # True if $a is equal to z* (literal matching).
+
+if [ "$a" != "$b" ] #  != -> is not equal to. This operator uses pattern matching within a [[ ... ]] construct.
+
+if [[ "$a" < "$b" ]]        # <  ->  is less than, in ASCII alphabetical order
+if [ "$a" \< "$b" ]        # < -> Note that the < needs to be escaped within a [ ] construct.
+
+if [[ "$a" > "$b" ]]    # > -> is greater than, in ASCII alphabetical order. 
+if [ "$a" \> "$b" ]     # > Note that the > needs to be escaped within a [ ] construct.
+	
+if [ -z "$s" ] # -z -> string is null that is, has zero length
+
+if [ -n "$s" ] # -n -> string is not null.
+```
+
+## File Test Operators 
+```sh
+-e      # file exists
+
+-a      # is deprecated and its use is discouraged.
+	
+-f      # file is a regular file (not a directory or device file)
+	
+-d      # file is a directory
+	
+-h      # file is a symbolic link
+
+-L      # file is a symbolic link
+	
+-b      # file is a block device
+	
+-c      # file is a character device
+	
+-p      # file is a pipe
+	
+-S      # file is a socket
+	
+-s      # file is not zero size
+	
+-t      # file (descriptor) is associated with a terminal device
+        # This test option may be used to check whether the stdin [ -t 0 ] 
+        # or stdout [ -t 1 ] in a given script is a terminal.
+
+-r      # file has read permission (for the user running the test)
+	
+-w      # file has write permission (for the user running the test)
+	
+-x      # file has execute permission (for the user running the test)
+
+-g      # set-group-id (sgid) flag set on file or directory
+
+-u      # set-user-id (suid) flag set on file
+
+-k      # sticky bit set
+
+-O      # you are owner of file
+
+-G      # group-id of file same as yours
+
+-N      # file modified since it was last read
+
+-nt     # file f1 is newer than f2
+        if [ "$f1" -nt "$f2" ]
+
+-ot     # file f1 is older than f2
+        if [ "$f1" -ot "$f2" ]
+
+-ef     # files f1 and f2 are hard links to the same file
+        if [ "$f1" -ef "$f2" ]
+
+!       # "not" -- reverses the sense of the tests above (returns true if condition absent).
+
 ```
