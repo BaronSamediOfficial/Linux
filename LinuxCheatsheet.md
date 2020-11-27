@@ -48,6 +48,8 @@ chmod +t <file>                                                             # se
 find / -perm /4000                                                          # locate files that have SUID
 find / -perm /2000                                                          # locate files that have SGID
 find / -perm /1000                                                          # locate files that have Sticky bit
+
+stat <FILENAME>                                                             # returns stats on a file eg: size, device, access and mod times
 ```
 
 
