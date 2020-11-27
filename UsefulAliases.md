@@ -3,8 +3,10 @@ Useful Installs on Linux
 
 - bash-completion     // extras for tab completion 
 
-Useful Aliases
+Useful BASH scripting script and course
+https://linuxcommand.org/lc3_adv_new_script.php
 
+Useful Aliases
 ```sh
 
 # ------ function to find the current git branch - used in the PS1 ------
