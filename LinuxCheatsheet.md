@@ -50,6 +50,8 @@ find / -perm /2000                                                          # lo
 find / -perm /1000                                                          # locate files that have Sticky bit
 
 stat <FILENAME>                                                             # returns stats on a file eg: size, device, access and mod times
+
+man hier								    # info on the layout of filesystems
 ```
 
 
