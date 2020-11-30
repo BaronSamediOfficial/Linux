@@ -518,24 +518,24 @@ scope
 ```
 Lots of useful Commands 
 ```sh
-systemctl list-unit-files #list of name, state etc of unit files.  
-systemctl list-unit- #list all the units in order or starting 
-systemctl start # used to start a unit file 
-systemctl status # give you current information about a unit
-systemctl restart <servicename>.service # effectively a stop and then a start
-systemctl stop # 
-systemctl enable # starts up after a unit start
-systemctl disable # wont start automatically anymore. 
-systemctl list-units # list all units available in the current environment
-systemctl set default # manageing the default target
-systemctl get default # get info about the default target
-systemctl cat <servicename>.service # shows the configuration as it has been defined for a specific unit.
-systemctl show # see all the params that can be used in the system configuration for a particular unit.
-systemctl edit # command to allow you to edit current configuration.
-systemctl daemon-reload # after you have done an edit you need ot run this to get a radload.
-systemctl isolate # use to switch between targets 
-systemctl list-dependencies # show you everything that will be loaded when you start a specific Target. 
-systemctl list-units | grep target # get all the targets
+systemctl list-unit-files                      # list of name, state etc of unit files.  
+systemctl list-unit-                           # list all the units in order or starting 
+systemctl start                                # used to start a unit file 
+systemctl status                               # give you current information about a unit
+systemctl restart <servicename>.service        # effectively a stop and then a start
+systemctl stop                                 # 
+systemctl enable                               # starts up after a unit start
+systemctl disable                              # wont start automatically anymore. 
+systemctl list-units                           # list all units available in the current environment
+systemctl set default                          # manageing the default target
+systemctl get default                          # get info about the default target
+systemctl cat <servicename>.service            # shows the configuration as it has been defined for a specific unit.
+systemctl show                                 # see all the params that can be used in the system configuration for a particular unit.
+systemctl edit                                 # command to allow you to edit current configuration.
+systemctl daemon-reload                        # after you have done an edit you need ot run this to get a radload.
+systemctl isolate                              # use to switch between targets 
+systemctl list-dependencies                    # show you everything that will be loaded when you start a specific Target. 
+systemctl list-units | grep target             # get all the targets
 ```
 
 # Scheduling Task
