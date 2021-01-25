@@ -445,7 +445,7 @@ if [ -n "$s" ] # -n -> string is not null.
 
 !       # "not" -- reverses the sense of the tests above (returns true if condition absent).
 
-```
+
 # Git on the terminal
 
 ### Clone Directory
@@ -558,3 +558,4 @@ git diff origin..master > my.patch  # pipes a diff into my.patch
 
 # get diffstat of uncommitted work
 git diff --stat HEAD
+```
