@@ -44,6 +44,7 @@ bash -x <SCRIPT_NAME>                                                       # ru
 !<CMD_HISTORY_NUMBER>                                                       # this will run a specific command from your history eg: !234
 !foo                                                                        # Will run the last command that started with foo
 ctl+a                                                                       # brings your cursor to the beginning of the command line
+ctl+r <search_string> ctl+r						    # search through your bash history for commands that match a search string. Step through results by repeating ctl+ r	 
 ctl+l                                                                       # clears the terminal 
 uname -a                                                                    # will list all the key info about the system you are on
 dd if=/dev/zero of=<FILE_TO_CREATE> bs=<BLOCK_SIZE> count=<MEGABYTE_SIZE>   # This will create a file of zeros. Useful for testing data transfers and compressions
