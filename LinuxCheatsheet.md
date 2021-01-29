@@ -40,6 +40,8 @@ Ctl-d               # exit
 # Useful misc Commands  
 ```sh
 bash -x <SCRIPT_NAME>                                                       # runs a script in debug mode
+set -x                                                                      # puts the shell in debug mode
+set +x                                                                      # takes the shell it off debug mode
 <COMAND> 2>/dev/null                                                        # 2 relates to the stderr output and will redirect it to the null device 
 !<CMD_HISTORY_NUMBER>                                                       # this will run a specific command from your history eg: !234
 !foo                                                                        # Will run the last command that started with foo
