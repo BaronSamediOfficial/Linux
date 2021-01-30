@@ -329,7 +329,8 @@ nmap -PA                                # tcp AK scan ( 2nd half handshake )
 
 ## Kubernetes
 ```sh
-kubectl exec --stdin --tty <POD_NAME> -- /bin/bash   # get a shell on a machine
+kubectl exec --stdin --tty <POD_NAME> -- /bin/bash   				 # get a shell on a machine
+kubectl config set-context --current --namespace=<insert-namespace-name-here>    # Set your default namespacce to something else
 kubectl -n <NAMESPACE> get pvc | grep -v NAME | awk '{print $1}' | xargs -I arg kubectl delete pvc -n <NAMESPACE> --ignore-not-found=true arg # Delete pvc from a namspace
 ```
 
