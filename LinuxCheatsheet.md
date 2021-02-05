@@ -199,6 +199,13 @@ To set line numbers in vi, type
 
 ```vimtutor``` in the terminal will open the vimtutor, a very fast and useful resource to learn how to use vi. 
 
+# extra VI commands
+```
+Insert Mode:
+^ 			# to move the cursor to the start of the current line. 
+$ 			# to move the cursor to the end of the current line.
+```
+
 ### More or Less
 ```more``` was the original file pager so ```less``` was developed (a play on less is more).More was a developed a bit more but you can still do more with ```less```.
 
