@@ -8,7 +8,7 @@ This is a cheat sheet of lots of useful linux commands. The way I use is to pull
 sort \< /etc/services  # gets the output of /etc/services and sorts it 
 
 # Standard output (1) : \>
-ls \> ~/myfile        # sends Standard output (1) new  file
+ls \> ~/myfile        # sends Standard output (1) new file and overwrites what was there before 
 whoami \>\> ~/myfile  # appends Standard output (1) to the existing file
 
 # Standard Error (2)
@@ -269,6 +269,7 @@ history         # prints a list of all the commands from your history to the ter
 history -w      # appends the latest commands to the .bash_history file
 history -c      # clears your history but not the .bash_history file. That will need deleting separately
 !164            # repeats command 164 from your history
+!!              # repeats the last command that was executed during our terminal session
 ```
 
 
