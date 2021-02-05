@@ -3,8 +3,10 @@ Useful Installs on Linux
 
 - bash-completion     // extras for tab completion 
 
-Useful Aliases
+Useful BASH scripting script and course
+https://linuxcommand.org/lc3_adv_new_script.php
 
+Useful Aliases
 ```sh
 
 # ------ function to find the current git branch - used in the PS1 ------
@@ -15,6 +17,7 @@ export PS1="\[\e[32m\]\w \[\e[91m\]\$(parse_git_branch)\[\e[00m\]$ "
 # ------------------------------------------------------------------------
 
 # Aliases 
+alias hgg='history | grep'
 alias gc='groovyConsole'
 alias portscan="nmap -n -T5 -v -p- "    # quiet nmap scan on all ports 
 alias ping='ping -c 4' # limit pings to just 4 counts 
