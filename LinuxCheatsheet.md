@@ -36,7 +36,7 @@ Ctl-e               # move to the end of a line
 Ctl-c               # interup the current process (break)
 Ctl-d               # exit
 ```
-# process insepction (/proc dir)
+# Process Inspection (/proc dir)
 ```
 cd /proc/<PROCESS_NUMBER>
 cat /proc/<PROCESS_NUMBER/status			# status file shows the running process , its status, the user & group ID for the person running bash, a full list of the groups the user is a member of & the process ID & parent process ID.
