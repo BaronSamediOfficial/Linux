@@ -36,6 +36,14 @@ Ctl-e               # move to the end of a line
 Ctl-c               # interup the current process (break)
 Ctl-d               # exit
 ```
+# process insepction (/proc dir)
+```
+cd /proc/<PROCESS_NUMBER>
+cat /proc/<PROCESS_NUMBER/status			# status file shows the running process , its status, the user & group ID for the person running bash, a full list of the groups the user is a member of & the process ID & parent process ID.
+cat /proc/<PROCESS_NUMBER/cmdline			# The cmdline file shows the command line used to start the process.
+cat /proc/<PROCESS_NUMBER/environ			# The environ file shows the environment variables that are in effect.
+cat /proc/<PROCESS_NUMBER/limits 			# The limits file contains information about the limits imposed on the process.
+```
 
 # Useful misc Commands  
 ```sh
