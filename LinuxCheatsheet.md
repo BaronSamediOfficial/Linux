@@ -334,6 +334,16 @@ nmap -O <Ip_Address>                    # scans for the operating system
 nmap -PA                                # tcp AK scan ( 2nd half handshake )
 
 ```
+## File transfer with `netcat` (nc) - CAUTION: this will open a port until you close it
+reciever: 
+```
+nc -l -p 1234 > File.txt
+```
+
+Sender: 
+```
+nc -w 3 <ip_address> 1234 < File.txt
+```
 
 ## Kubernetes
 ```sh
