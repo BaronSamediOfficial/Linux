@@ -43,7 +43,15 @@ cat /proc/<PROCESS_NUMBER/status			# status file shows the running process , its
 cat /proc/<PROCESS_NUMBER/cmdline			# The cmdline file shows the command line used to start the process.
 cat /proc/<PROCESS_NUMBER/environ			# The environ file shows the environment variables that are in effect.
 cat /proc/<PROCESS_NUMBER/limits 			# The limits file contains information about the limits imposed on the process.
+
 ```
+### manageing process
+```sh
+ps -ef | less  						# this will give us similar information includeing parent process info with the PPID. 
+ps -fax | less 						# will give the forrest display of processes. Shows the relations between processes.
+ps aux --sort pmem | less 				# sort the view by the pmemory amount. 
+```
+
 
 # Useful misc Commands  
 ```sh
@@ -313,15 +321,6 @@ loginctl show-session <session-id>          # will show whats been going on with
 loginctl show-user <username>
 loginctl terminate-session <session-id>
 ```
-
-### manageing process
-
-```sh
-ps -ef | less  # this will give us similar information includeing parent process info with the PPID. 
-ps -fax | less # will give the forrest display of processes. Shows the relations between processes.
-ps aux --sort pmem | less # sort the view by the pmemory amount. 
-```
-
 ## tcpdump 
 
 ```sh
