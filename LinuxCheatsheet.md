@@ -36,6 +36,14 @@ Ctl-e               # move to the end of a line
 Ctl-c               # interup the current process (break)
 Ctl-d               # exit
 ```
+# Process Inspection (/proc dir)
+```
+cd /proc/<PROCESS_NUMBER>
+cat /proc/<PROCESS_NUMBER/status			# status file shows the running process , its status, the user & group ID for the person running bash, a full list of the groups the user is a member of & the process ID & parent process ID.
+cat /proc/<PROCESS_NUMBER/cmdline			# The cmdline file shows the command line used to start the process.
+cat /proc/<PROCESS_NUMBER/environ			# The environ file shows the environment variables that are in effect.
+cat /proc/<PROCESS_NUMBER/limits 			# The limits file contains information about the limits imposed on the process.
+```
 
 # Useful misc Commands  
 ```sh
@@ -108,6 +116,7 @@ ctl+l will clear the screen
 su -                            # su stands for switch user and will switch your user. If you don't supply an a user name and just the dash, it will switch you to the root account and open a login shell.
 man -k <SEARCH_TERM>            # will return search results for the term from all man pages 
 man -k <SEARCH_TERM> | grep 8   # this will look for root user commands (because of the 8)
+apropos <SEARCH_TERM>           # search for the term in all the man pages
 ```
 # ls (listing files)
 ```sh
@@ -198,6 +207,13 @@ To set line numbers in vi, type
 - :%s/foo/bar/g - globally substitute all foo and replace them with bar
 
 ```vimtutor``` in the terminal will open the vimtutor, a very fast and useful resource to learn how to use vi. 
+
+# extra VI commands
+```
+Insert Mode:
+^ 			# to move the cursor to the start of the current line. 
+$ 			# to move the cursor to the end of the current line.
+```
 
 ### More or Less
 ```more``` was the original file pager so ```less``` was developed (a play on less is more).More was a developed a bit more but you can still do more with ```less```.
@@ -327,12 +343,24 @@ nmap -O <Ip_Address>                    # scans for the operating system
 nmap -PA                                # tcp AK scan ( 2nd half handshake )
 
 ```
+## File transfer with `netcat` (nc) - CAUTION: this will open a port until you close it
+reciever: 
+```
+nc -l -p 1234 > File.txt
+```
+
+Sender: 
+```
+nc -w 3 <ip_address> 1234 < File.txt
+```
 
 ## Kubernetes
 ```sh
 kubectl exec --stdin --tty <POD_NAME> -- /bin/bash   				 # get a shell on a machine
 kubectl config set-context --current --namespace=<insert-namespace-name-here>    # Set your default namespacce to something else
 kubectl -n <NAMESPACE> get pvc | grep -v NAME | awk '{print $1}' | xargs -I arg kubectl delete pvc -n <NAMESPACE> --ignore-not-found=true arg # Delete pvc from a namspace
+kubectl config get-contexts							 # get all the contexts from your kube Config file
+kubectl config delete-context							 # Delte a context from your kube config and the kube config file.
 ```
 
 ## Docker 
@@ -344,6 +372,23 @@ docker exec -it <CONTAINER_NAME> /bin/bash           # get a shell on a machine
 ```sh
 df -aTh   #  display free (df) disk space on all(-a) mount points (-T) and make it human readable (-h)
 ```
+## Bash special environment variables
+```sh
+echo $$             # The process ID of the current script or shell
+echo $USER          # The username of the user running the script
+echo $HOSTNAME      # The hostname of the machine
+echo $RANDOM        # A random number
+echo $LINENO        # The current line number in the script
+```
+## Bash special scripting variables ( that can also be echoed )
+```sh
+echo $0             # The name of the Bash script
+echo $1 - $9        # The first 9 arguments to the Bash script
+echo $#             # Number of arguments passed to the Bash script
+echo $@             # All arguments passed to the Bash script
+echo $?             # The exit status of the most recently run process
+```
+
 # Bash Test Operators
 ## Integer Comparison
 ```sh
