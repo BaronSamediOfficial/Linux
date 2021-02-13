@@ -3,6 +3,7 @@
 This is a cheat sheet of lots of useful linux commands. The way I use is to pull it up in my browser and run command F to search for what I am interested in. Enjoy!
 
 ## Shell Commands
+
 ```sh
 # Standard input (0) : \<
 sort \< /etc/services  # gets the output of /etc/services and sorts it 
@@ -17,15 +18,16 @@ grep -R root /etc &> ~/myfile         # this sends Standard Error (2) and all to
 alias foo='echo hello'              # Set an alias command foo that will echo hello to the terminal , or whatever you want. Set by default in the /etc/profile
  <COMMAND_1> ; <COMMAND_2> ; <COMMAND_3> ; # run sequential commands split with a semi-colon
 ```
-## List all avalible commands: compgen (Programmable Completion Builtins)
 
+## List all avalible commands: compgen (Programmable Completion Builtins)
+```sh
 compgen -c              # will list all the commands you could run.
 compgen -a              # will list all the aliases you could run.
 compgen -b              # will list all the built-ins you could run.
 compgen -k              # will list all the keywords you could run.
 compgen -A              # function will list all the functions you could run.
 compgen -A              # function -abck will list all the above in one go.
-
+```
 
 ## Shell short keys
 ```sh
