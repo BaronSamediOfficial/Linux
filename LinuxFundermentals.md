@@ -36,6 +36,12 @@ Man pages have sections
 cd /usr/share/doc also list info about all the packages.
 Any docs that have SAG are administrator group help files.
 
+## [Apropos](http://www.linfo.org/apropos.html)
+With the `apropos` command, we can search the list of man page descriptions for a possible match based on a keyword.
+```
+apropos <SEARCH_TERM>       # search for the term in all the man pages
+```
+
 # Linux file system 
 
 From the root ```/``` you may have certain directories.
@@ -175,6 +181,8 @@ Redirection in the shell is used ot manipulate  input and output of commands
     + grep -R root /proc 2>/dev/null         # this sends the errors to the null device ( nowhere)
     + grep -R root /etc &> ~/myfile         # this sends errors and all
 
+
+
 ## Piping
 A pipe ```|``` is used to send the output of one command to be used as input for the next command.
 - ps aux " grep http
@@ -187,6 +195,7 @@ installing the ```bash-completion``` package is really useful. Pressing Tab-Tab 
 
 ## Variables in Linux
 A variable is a label to which a dynamic value can be assigned.  In Linux they are convenient for scriptin because you can define the variable once and then use it in a flexible way in different environments. 
+
 - System variables contain default settings used by linux
 - Environment variables can be set for application use
     + Use ```varname=value``` to define.
@@ -195,6 +204,13 @@ A variable is a label to which a dynamic value can be assigned.  In Linux they a
 - By Default, variables are only known to the current shell
     + Use export to export it to all subshells 
     + for added permanence eadd it to the ```.bash_rc``` file so it persists on every terminal you open.
+### PATH
+One of the most commonly-referenced environment variables is `PATH`, which is a colon-separated list of directory paths that Bash will search through whenever a command is run without a full path.
+
+
+
+
+
 
 ## Bash start up files 
 The important start up files for bash are 
@@ -518,24 +534,24 @@ scope
 ```
 Lots of useful Commands 
 ```sh
-systemctl list-unit-files                      # list of name, state etc of unit files.  
-systemctl list-unit-                           # list all the units in order or starting 
-systemctl start                                # used to start a unit file 
-systemctl status                               # give you current information about a unit
-systemctl restart <servicename>.service        # effectively a stop and then a start
-systemctl stop                                 # 
-systemctl enable                               # starts up after a unit start
-systemctl disable                              # wont start automatically anymore. 
-systemctl list-units                           # list all units available in the current environment
-systemctl set default                          # manageing the default target
-systemctl get default                          # get info about the default target
-systemctl cat <servicename>.service            # shows the configuration as it has been defined for a specific unit.
-systemctl show                                 # see all the params that can be used in the system configuration for a particular unit.
-systemctl edit                                 # command to allow you to edit current configuration.
-systemctl daemon-reload                        # after you have done an edit you need ot run this to get a radload.
-systemctl isolate                              # use to switch between targets 
-systemctl list-dependencies                    # show you everything that will be loaded when you start a specific Target. 
-systemctl list-units | grep target             # get all the targets
+systemctl list-unit-files #list of name, state etc of unit files.  
+systemctl list-unit- #list all the units in order or starting 
+systemctl start # used to start a unit file 
+systemctl status # give you current information about a unit
+systemctl restart <servicename>.service # effectively a stop and then a start
+systemctl stop # 
+systemctl enable # starts up after a unit start
+systemctl disable # wont start automatically anymore. 
+systemctl list-units # list all units available in the current environment
+systemctl set default # manageing the default target
+systemctl get default # get info about the default target
+systemctl cat <servicename>.service # shows the configuration as it has been defined for a specific unit.
+systemctl show # see all the params that can be used in the system configuration for a particular unit.
+systemctl edit # command to allow you to edit current configuration.
+systemctl daemon-reload # after you have done an edit you need ot run this to get a radload.
+systemctl isolate # use to switch between targets 
+systemctl list-dependencies # show you everything that will be loaded when you start a specific Target. 
+systemctl list-units | grep target # get all the targets
 ```
 
 # Scheduling Task

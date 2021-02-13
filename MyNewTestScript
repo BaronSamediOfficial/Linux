@@ -1,0 +1,132 @@
+#!/usr/bin/env bash
+# ---------------------------------------------------------------------------
+# MyNewTestScript - to test the new_scipt
+
+# Copyright 2020,  <geoffreyowden@Geoffreys-MBP>
+  
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License at <http://www.gnu.org/licenses/> for
+# more details.
+
+# Usage: MyNewTestScript [-h|--help]
+#        MyNewTestScript [-a|--option_a] [-b|--opotion_b b_argument]
+
+# Revision history:
+# 2020-11-27 Created by new_script ver. 3.5.2
+# ---------------------------------------------------------------------------
+
+PROGNAME=${0##*/}
+VERSION="0.1"
+LIBS=     # Insert pathnames of any required external shell libraries here
+
+clean_up() { # Perform pre-exit housekeeping
+  return
+}
+
+error_exit() {
+
+  local error_message="$1"
+
+  printf "%s: %s\n" "${PROGNAME}" "${error_message:-"Unknown Error"}" >&2
+  clean_up
+  exit 1
+}
+
+graceful_exit() {
+  clean_up
+  exit
+}
+
+signal_exit() { # Handle trapped signals
+
+  local signal="$1"
+
+  case "$signal" in
+    INT)
+      error_exit "Program interrupted by user" ;;
+    TERM)
+      error_exit "Program terminated" ;;
+    *)
+      error_exit "Terminating on unknown signal" ;;
+  esac
+}
+
+load_libraries() { # Load external shell libraries
+
+  local i
+
+  for i in $LIBS; do
+    if [[ -r "$i" ]]; then
+      source "$i" || error_exit "Library '$i' contains errors."
+    else
+      error_exit "Required library '$i' not found."
+    fi
+  done
+}
+
+usage() {
+  printf "%s\n" "Usage: ${PROGNAME} [-h|--help]"
+  printf "%s\n" "       ${PROGNAME} [-a|--option_a] [-b|--opotion_b b_argument]"
+}
+
+help_message() {
+  cat <<- _EOF_
+$PROGNAME ver. $VERSION
+to test the new_scipt
+
+$(usage)
+
+  Options:
+  -h, --help                  Display this help message and exit.
+  -a, --option_a              the first option 'a'
+  -b, --opotion_b b_argument  the second option named 'b'
+    Where 'b_argument' is the argument for option 'b'.
+
+_EOF_
+  return
+}
+
+# Trap signals
+trap "signal_exit TERM" TERM HUP
+trap "signal_exit INT"  INT
+
+
+load_libraries
+
+# Parse command-line
+while [[ -n "$1" ]]; do
+  case "$1" in
+    -h | --help)
+      help_message
+      graceful_exit
+      ;;
+    -a | --option_a)
+      echo "the first option 'a'"
+      ;;
+    -b | --opotion_b)
+      echo "the second option named 'b'"
+      shift; b_argument="$1"
+      echo "b_argument == $b_argument"
+      ;;
+    -* | --*)
+      usage >&2
+      error_exit "Unknown option $1"
+      ;;
+    *)
+      printf "Processing argument %s...\n" "$1"
+      ;;
+  esac
+  shift
+done
+
+# Main logic
+
+graceful_exit
+
