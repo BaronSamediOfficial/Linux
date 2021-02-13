@@ -116,6 +116,7 @@ ctl+l will clear the screen
 su -                            # su stands for switch user and will switch your user. If you don't supply an a user name and just the dash, it will switch you to the root account and open a login shell.
 man -k <SEARCH_TERM>            # will return search results for the term from all man pages 
 man -k <SEARCH_TERM> | grep 8   # this will look for root user commands (because of the 8)
+apropos <SEARCH_TERM>           # search for the term in all the man pages
 ```
 # ls (listing files)
 ```sh
@@ -371,6 +372,23 @@ docker exec -it <CONTAINER_NAME> /bin/bash           # get a shell on a machine
 ```sh
 df -aTh   #  display free (df) disk space on all(-a) mount points (-T) and make it human readable (-h)
 ```
+## Bash special environment variables
+```sh
+echo $$             # The process ID of the current script or shell
+echo $USER          # The username of the user running the script
+echo $HOSTNAME      # The hostname of the machine
+echo $RANDOM        # A random number
+echo $LINENO        # The current line number in the script
+```
+## Bash special scripting variables ( that can also be echoed )
+```sh
+echo $0             # The name of the Bash script
+echo $1 - $9        # The first 9 arguments to the Bash script
+echo $#             # Number of arguments passed to the Bash script
+echo $@             # All arguments passed to the Bash script
+echo $?             # The exit status of the most recently run process
+```
+
 # Bash Test Operators
 ## Integer Comparison
 ```sh
