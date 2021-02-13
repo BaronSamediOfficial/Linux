@@ -82,6 +82,8 @@ find / -perm /1000                                                          # lo
 stat <FILENAME>                                                             # returns stats on a file eg: size, device, access and mod times
 
 man hier								    # info on the layout of filesystems
+
+sudo purge                                                                  # Purge inactive memory ( mac only??)
 ```
 
 
@@ -92,6 +94,7 @@ strace <BASH_COMMAND>                   # will run a system call trace on and co
 strace -c <BASH_COMMAND>                # This shows the counter view of the strace so you can enumerate the time, calls, errors, syscalls. Great for compareing commands.
 man (7) signal                          # will show you the man page for all the different Linux signals
 netstat -tulpen                         # list open ports
+netstat -vanp tcp                       # check what ports are running what
 sudo lsof -i tcp -nP                    # for mac list all open tcp ports
 ```
 # automation commands 
@@ -285,7 +288,6 @@ egrep 'ab+c' <FILE>                         # look for expressions that have b O
 egrep 'ab*c' <FILE>                         # look for expressions that have b ZERO or more times
 
 ```
-
 
 ## Piping
 A pipe ```|``` is used to send the output of one command to be used as unput for the next command.
@@ -669,3 +671,16 @@ At each point, you will be asked whether you want to "stage this hunk". Here are
 - Split the hunk into smaller hunks. This only works if there’s unchanged lines between the changes in the displayed hunk, so this wouldn’t have any effect in the example above
 - git reset -p works in a similar way
 - git commit -p it combines git add -p and git commit in one command.
+
+
+
+## homebrew
+
+```sh
+brew doctor                     # checks you system for potential problems
+brew cleanup --prune-prefix     # Only prune the symlinks and directories from the prefix and remove no other
+brew cleanup --force -s &>/dev/null
+brew cask cleanup &>/dev/null
+rm -rfv /Library/Caches/Homebrew/* &>/dev/null
+brew tap --repair &>/dev/null
+```
