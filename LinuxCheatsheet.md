@@ -19,7 +19,7 @@ alias foo='echo hello'              # Set an alias command foo that will echo he
  <COMMAND_1> ; <COMMAND_2> ; <COMMAND_3> ; # run sequential commands split with a semi-colon
 ```
 
-## List all avalible commands: compgen (Programmable Completion Builtins)
+## List all available commands: compgen (Programmable Completion Builtins)
 ```sh
 compgen -c              # will list all the commands you could run.
 compgen -a              # will list all the aliases you could run.
@@ -35,7 +35,7 @@ Ctl-l               # soft clear of the screen
 Ctl-u               # wipe cirrent command line
 Ctl-a               # move to the beginning of a line 
 Ctl-e               # move to the end of a line 
-Ctl-c               # interup the current process (break)
+Ctl-c               # interrupt the current process (break)
 Ctl-d               # exit
 ```
 # Process Inspection (/proc dir)
@@ -111,7 +111,7 @@ systemctl show <service_name>           # will list the details of a service suc
 
 # Groups and Users
 ```sh
-groupadd sales                          # addes the group called sales
+groupadd sales                          # adds the group called sales
 useradd -G sales Lisa                   # adds a user called Lisa to the group called sales
 chgrp sales /data/account               # sets the ownership of the /data/sales dir to the sales group
 setfacl -m  d:g:sales:rx /data/sales    # set file acl -m (modify)  d:g:sales:rx is default setting on all files on the group called sales 
@@ -335,13 +335,14 @@ tcpdump -w ssh.pcap -i eth0 dst 192.168.4.10 and port 22   # filter on particula
 
 ```
 
-## NMAP 
+## nmap (network mapping tool) 
 ```sh
 nmap -sn <Network_IP+SubnetMask>        # scans the entire network
 nmap -v -A <Network_IP+SubnetMask>      # agressive verbose network scan
 nmap -PN <Ip_Address>                   # pierces through the fire wall apparently ???
 nmap -O <Ip_Address>                    # scans for the operating system
 nmap -PA                                # tcp AK scan ( 2nd half handshake )
+nmap -n -T4 -vvv -p-                    # fast(-T) scan on all tcp ports(-p-) with very, very verbose (vvv) output
 
 ```
 ## File transfer with `netcat` (nc) - CAUTION: this will open a port until you close it
@@ -650,7 +651,7 @@ At each point, you will be asked whether you want to "stage this hunk". Here are
 - a - stage this and all the remaining hunks in the file
 - d - do not stage this hunk nor any of the remaining hunks in the file
 
-####more advanced commands
+#### more advanced commands
 - g - select a hunk to go to
 - / - search for a hunk matching the given regex
 - j - leave this hunk undecided, see next undecided hunk
