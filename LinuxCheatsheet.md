@@ -372,6 +372,7 @@ k get --v=9 -o wide -w pod <POD_NAME>						 # get the pod with debug level 0 (0-
 ## Docker 
 ```sh
 docker exec -it <CONTAINER_NAME> /bin/bash           # get a shell on a machine
+docker container logs -f <CONTAINER_NAME>	     # follow the logs on a running container		
 ```
 
 ## File system cmds
