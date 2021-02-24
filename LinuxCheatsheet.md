@@ -84,6 +84,10 @@ stat <FILENAME>                                                             # re
 man hier								    # info on the layout of filesystems
 
 sudo purge                                                                  # Purge inactive memory ( mac only??)
+sudo !! 								    # redo last command but as root
+<SPACE> <SOME_COMMAND>							    # Command will NOT appear in the history
+fc 									    # this will open the last command in an editor for when your command sqrewed up and you dont want to trail through it on the terminal
+ssh -L<LOCAL_PORT>:<MACHINE_IP>:<PORT> USER@<MACHINE_IP> -N		    # port forward from a cloud service to access it without exposeing it publicly
 ```
 
 
