@@ -691,3 +691,8 @@ brew cask cleanup &>/dev/null
 rm -rfv /Library/Caches/Homebrew/* &>/dev/null
 brew tap --repair &>/dev/null
 ```
+## node
+```sh
+npm outdated 				# find the packages with updates
+
+```
