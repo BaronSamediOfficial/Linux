@@ -1,4 +1,4 @@
-# Cheat sheet
+# Cheat sheet of Snippets
 
 This is a cheat sheet of lots of useful linux commands. The way I use is to pull it up in my browser and run command F to search for what I am interested in. Enjoy!
 
