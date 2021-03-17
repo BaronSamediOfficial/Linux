@@ -69,7 +69,8 @@ ctl+l                                                                       # cl
 uname -a                                                                    # will list all the key info about the system you are on
 dd if=/dev/zero of=<FILE_TO_CREATE> bs=<BLOCK_SIZE> count=<MEGABYTE_SIZE>   # This will create a file of zeros. Useful for testing data transfers and compressions
  
-dd if=/dev/urandom of=/root/<RNADOM_DUMMY_KEY_NAME> bs=4096 count=1                          # This will create a random key of stuff with this
+dd if=/dev/urandom of=/root/<RNADOM_DUMMY_KEY_NAME> bs=4096 count=1         # This will create a random key of stuff with this
+dd if=/dev/zero of=/dev/null						    # copy nothing to nowhere, to juts get a process running
 su                                                                          # The switch user command , without any arguments will ask for the root and then switch you to the root user. 
 su -                                                                        # Same as above but wil open a new shell with the root environment variables
 w                                                                           # Not a typo, type w to see who is logged in on the system AND what they are going 
