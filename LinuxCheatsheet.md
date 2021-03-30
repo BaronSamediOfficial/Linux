@@ -697,3 +697,9 @@ brew tap --repair &>/dev/null
 npm outdated 				# find the packages with updates
 
 ```
+
+## tcpdump (on mac needs to be run as root)
+```sh
+
+
+```
