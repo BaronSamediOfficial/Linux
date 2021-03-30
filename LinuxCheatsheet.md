@@ -701,5 +701,6 @@ npm outdated 				# find the packages with updates
 ## tcpdump (on mac needs to be run as root)
 ```sh
 
+see https://danielmiessler.com/study/tcpdump/
 
 ```
