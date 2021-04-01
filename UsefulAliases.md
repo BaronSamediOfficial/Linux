@@ -55,7 +55,7 @@ alias kcf="kubectl create -f"
 alias kdashinit="kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0/aio/deploy/recommended.yaml"
 alias pyServe="python -m http.server 9999"          # creates a SimpleHTTPServer(2) on port 9999. This is the py3 version
 alias myip="dig TXT +short o-o.myaddr.l.google.com @ns1.google.com" # gets your local ip by bounceing off google
-
+alias pub="cat .ssh/id_rsa.pub"
 
 export HISTIGNORE="&:ls:[bf]g:exit:history:pwd:id"          # Ignores basic commands for the bash history file
 export CLICOLOR=1
