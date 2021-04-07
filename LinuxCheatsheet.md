@@ -377,7 +377,11 @@ k get --v=9 -o wide -w pod <POD_NAME>						 # get the pod with debug level 0 (0-
 ## Docker 
 ```sh
 docker exec -it <CONTAINER_NAME> /bin/bash           # get a shell on a machine
-docker container logs -f <CONTAINER_NAME>	     # follow the logs on a running container		
+docker container logs -f <CONTAINER_NAME>	     # follow the logs on a running container
+
+GET AN IMAGE ON AN OVA
+docker login -u "<WORK_EMAIL>" -p <ARTIFAC_API_KEY> apic-dev-docker-local.artifactory.swg-devops.com
+docker pull <IMAGE_LOCATION_AND_NAME> 
 ```
 
 ## File system cmds
