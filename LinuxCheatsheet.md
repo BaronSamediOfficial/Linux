@@ -1,4 +1,4 @@
-# Cheat sheet
+# Cheat sheet of Snippets
 
 This is a cheat sheet of lots of useful linux commands. The way I use is to pull it up in my browser and run command F to search for what I am interested in. Enjoy!
 
@@ -69,7 +69,8 @@ ctl+l                                                                       # cl
 uname -a                                                                    # will list all the key info about the system you are on
 dd if=/dev/zero of=<FILE_TO_CREATE> bs=<BLOCK_SIZE> count=<MEGABYTE_SIZE>   # This will create a file of zeros. Useful for testing data transfers and compressions
  
-dd if=/dev/urandom of=/root/<RNADOM_DUMMY_KEY_NAME> bs=4096 count=1                          # This will create a random key of stuff with this
+dd if=/dev/urandom of=/root/<RNADOM_DUMMY_KEY_NAME> bs=4096 count=1         # This will create a random key of stuff with this
+dd if=/dev/zero of=/dev/null						    # copy nothing to nowhere, to juts get a process running
 su                                                                          # The switch user command , without any arguments will ask for the root and then switch you to the root user. 
 su -                                                                        # Same as above but wil open a new shell with the root environment variables
 w                                                                           # Not a typo, type w to see who is logged in on the system AND what they are going 
@@ -84,6 +85,10 @@ stat <FILENAME>                                                             # re
 man hier								    # info on the layout of filesystems
 
 sudo purge                                                                  # Purge inactive memory ( mac only??)
+sudo !! 								    # redo last command but as root
+<SPACE> <SOME_COMMAND>							    # Command will NOT appear in the history
+fc 									    # this will open the last command in an editor for when your command sqrewed up and you dont want to trail through it on the terminal
+ssh -L<LOCAL_PORT>:<MACHINE_IP>:<PORT> USER@<MACHINE_IP> -N		    # port forward from a cloud service to access it without exposeing it publicly
 ```
 
 
@@ -172,12 +177,12 @@ find / -name "hosts"                                                    # find <
 mkdir /root/amy; find / -user amy -exec cp {} /root/amy \;              # make a dir and copy all these files into it
 find / -size +100M                                                      # look for files greater than 100 megabytes
 
-find / type -f -size 100M                                               # find files only that are greater than 100 megabytes
+find / -type f -size 100M                                               # find files only that are greater than 100 megabytes
 find /etc -exec grep -l Bob {} \; -exec cp {} root/Bob/ \; 2>/dev/null  # find files from the etc dir that contain Bob and return the file names and then copy them to a dir /root/Bob. Any errors are sent to the null device
 find /etc -name '*' -type f | xargs grep "foo"                          # look for files only, with any name and within those search for the string "foo". 
 find <LOCATION> -type f \( -iname "*.json" \) -exec grep -il <TERM> {} \; > filesOfInterest.txt 2>&1 # find in location files that have .json in them and execute grep on them to search for the term; and then send there name to a file , and errors elsewhere
-
 find / -type d -name "foo"                                              # find a directory with the name foo
+find / -type f -print | xargs grep "foo" 2>/dev/null			# find files and print the lines where foo occurs, send errors to dev/null
 ```
 # tar (tape archiver) 
 
@@ -379,11 +384,18 @@ kubectl config set-context --current --namespace=<insert-namespace-name-here>   
 kubectl -n <NAMESPACE> get pvc | grep -v NAME | awk '{print $1}' | xargs -I arg kubectl delete pvc -n <NAMESPACE> --ignore-not-found=true arg # Delete pvc from a namspace
 kubectl config get-contexts							 # get all the contexts from your kube Config file
 kubectl config delete-context							 # Delte a context from your kube config and the kube config file.
+k get --v=5 -o wide -w pod <POD_NAME>						 # get the pod with debug level 5 (0-9) Trace level verbosity 
+k get --v=9 -o wide -w pod <POD_NAME>						 # get the pod with debug level 0 (0-9) Network Trace level verbosity 
 ```
 
 ## Docker 
 ```sh
 docker exec -it <CONTAINER_NAME> /bin/bash           # get a shell on a machine
+docker container logs -f <CONTAINER_NAME>	     # follow the logs on a running container
+
+GET AN IMAGE ON AN OVA
+docker login -u "<WORK_EMAIL>" -p <ARTIFAC_API_KEY> apic-dev-docker-local.artifactory.swg-devops.com
+docker pull <IMAGE_LOCATION_AND_NAME> 
 ```
 
 ## File system cmds
@@ -697,4 +709,16 @@ brew cleanup --force -s &>/dev/null
 brew cask cleanup &>/dev/null
 rm -rfv /Library/Caches/Homebrew/* &>/dev/null
 brew tap --repair &>/dev/null
+```
+## node
+```sh
+npm outdated 				# find the packages with updates
+
+```
+
+## tcpdump (on mac needs to be run as root)
+```sh
+
+see https://danielmiessler.com/study/tcpdump/
+
 ```
