@@ -1,6 +1,7 @@
-# Linux storage
-Appplications make system calls which go to the VFS ( Virtual fiel syste). The VFS is an abstraction )
 
+
+# Linux storage
+Appplications make system calls which go to the VFS ( Virtual file system). The VFS is an abstraction )
 
 
 System calls go to the VFS ( Virtual File System) which alllows generic communication.
