@@ -326,14 +326,28 @@ loginctl show-user <username>
 loginctl terminate-session <session-id>
 ```
 ## tcpdump 
+Maintained here https://www.tcpdump.org/
+Great `man` page.
 
 ```sh
 ip link show                                               # this will show all your network cards so you know which hones to scan
+tcpdump -D                                                 # Lists the available interfaces for packet capture
 tcpdump -i eth0 -w $(date +%d-%m-%Y).pcap                  # This will write the output of the tcpdump to a pcap file with the date in the title of the file.
 tcpdump -n -i eth0                                         # will not show the host names but instead ip addresses
 tcpdump -tttt -i eth0                                      # 4 x t will give you the time stamp in your captures 
 tcpdump -n -i eth0 port 22                                 # this will filter to just see things leaveing on port 22
 tcpdump -w ssh.pcap -i eth0 dst 192.168.4.10 and port 22   # filter on particular ips and ports , and write t oa certain file
+
+tcpdump tcp                                                # only show tcp traffic
+
+tcpdump host 192.168.2.5                                   # filter the packet capture to only gather packets going to or coming from the host 192.168.2.5.
+tcpdump src host 192.168.2.5                               # filter the packet capture to only gather packets coming from 192.168.2.5.
+tcpdump dst host 192.168.2.5                               # filter the packet capture to only gather packets going to 192.168.2.5.
+
+tcpdump portrange 21-23                                    # filter across a port range
+tcpdump port 443                                           # filter the packet capture to only gather packets with a source or destination of port 443.
+tcpdump src port 1055                                      # capture traffic being sourced from port 1055.
+tcpdump dst port 443                                       # capture traffic destined for port 443.
 
 ```
 
