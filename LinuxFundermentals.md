@@ -16,11 +16,15 @@ Defined by the `Filesystem Hierarchy Standard` FHS 3.
 ```sh
 /bin            # Binaries or executables are essential to the entire operating system, eg curl
 
-/sbin           # System binaries and executables that should only be executed by the root user 
+/boot           # contains the linux kernel and some boot configuration, also the grub folder. 
+
+/dev            # Dev stands for device files. You can interface with hardware or drivers as if they were regular files; Create disk partitions here too.
+
+/sbin           # System binaries and executables that should only be executed by the root user or sys admins
 
 /lib            # Libraries are stored in here that could be used by things including binaries
 
-/usr            # Among other things can contain non-essential binary files stored in its own /bin or /sbin directories
+/usr            # Like a mini Linux file system. Among other things can contain non-essential binary files stored in its own /bin or /sbin directories
 /usr/local/bin  # Contains binaries that the user may have compiled manually 
 
 # All binaries above get map together with the $PATH environment variable. Hence why you can execute them from any directory in the terminal. 
@@ -29,18 +33,17 @@ Defined by the `Filesystem Hierarchy Standard` FHS 3.
 
 /home           # Contains a directory named after each use on the system. These contain the files, configuration and software for each user.
                 # To modify these you need to be logged in as that user or the root user
+/mnt            # Place to mount various file systems. This is where you would mount a new hardrive , simpler in windows.
 
-/boot           # Contains the files needed to book the system such as the Linux Kernel its self
-
-/dev            # Dev stands for device files. You can interface with hardware or drivers as if they were regular files; Create disk partitions here too.
-
-/opt            # Contains optional add-on software but you really interact with this 
+/opt            # Contains optional add-on software that you really interact with this 
 
 /var            # Contains variable files that will change as the operating system is being used such as logs and cache files
 
 /tmp            # For temporary files that will not be persisted between reboots 
 
-/proc           # Illusionary file system to keep track of running processes. It is stored in memory and created on the fly by the Linux kernel
+/proc           # Illusionary file system to keep track of running processes. It is stored in memory and created on the fly by the Linux kernel. A folder for every process on the system.
+
+/root           # This is the home directory for the root user. Not to be confused with the root directory "/".
 ```
 
 # Essential Command line tools 
