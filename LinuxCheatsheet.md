@@ -722,3 +722,6 @@ npm outdated 				# find the packages with updates
 see https://danielmiessler.com/study/tcpdump/
 
 ```
+### Cli tools
+
+[grex - Regex checker](https://github.com/pemistahl/grex)  - simplify creating regular expressionssimplify the often complicated and tedious task of creating regular expressions
