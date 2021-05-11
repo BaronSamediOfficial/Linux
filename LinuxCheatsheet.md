@@ -2,6 +2,14 @@
 
 This is a cheat sheet of lots of useful linux commands. The way I use is to pull it up in my browser and run command F to search for what I am interested in. Enjoy!
 
+### Useful BASH installs
+```sh
+
+MAC
+brew install gnu-sed		                  # gnu version of sed or MAC
+
+
+
 ## Shell Commands
 
 ```sh
@@ -266,6 +274,7 @@ cut -d : -f 1 /etc/passwd | tr [:lower:] [:upper:]  # as before but will transla
 sed -n 5p /etc/passwd                               # prints line 5 of /etc/passwd
 sed -i s/foo/bar/g <FILE>                           # Immediately(-i) globally(g) substitute(s) bar for foo in the file 
 sed -i -e '2d' <FILE>                               # Immediately(-i) edit(-e) the file by deleting the 2nd line ('2d') 
+gsed -i '/foo/ a bar' <FILE>                        # where you read foo, append bar to a new line underneath
 awk -F : '{print \$4 }' /etc/passwd                 # print the 4th column from a /etc/passwd
 awk -F : '{print \$4 }' /etc/passwd | sort -n       # as above including a numerical sort
 awk -F : ' /foo/ {print \$4 }' <FILE>               # print the value at 4th column from a the line that contains foo 
