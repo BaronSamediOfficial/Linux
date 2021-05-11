@@ -8,7 +8,7 @@ This is a cheat sheet of lots of useful linux commands. The way I use is to pull
 MAC
 brew install gnu-sed		                  # gnu version of sed or MAC
 
-
+```
 
 ## Shell Commands
 
