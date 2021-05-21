@@ -112,8 +112,8 @@ sudo lsof -i tcp -nP                    # for mac list all open tcp ports
 ```
 # automation commands 
 ```sh
-while true; do echo -n "This is a test of while loop";date ; sleep 5; done
-while read line; do echo "$line" | grep <TERM> ; done < <INPUT_FLE>
+while true; do echo -n "This is a test of while loop";date ; sleep 5; done	# as long as true do something and then sleep for 5 seconds
+while read line; do echo "$line" | grep <TERM> ; done < <INPUT_FILE>		# while there is data to read from the INPUT_FILE, echo it and grep for the term
 ```
 
 #  systemctl - Control the systemd system and service manager
