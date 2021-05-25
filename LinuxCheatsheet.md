@@ -406,6 +406,10 @@ docker container logs -f <CONTAINER_NAME>	     # follow the logs on a running co
 GET AN IMAGE ON AN OVA
 docker login -u "<WORK_EMAIL>" -p <ARTIFAC_API_KEY> apic-dev-docker-local.artifactory.swg-devops.com
 docker pull <IMAGE_LOCATION_AND_NAME> 
+
+Remove
+docker rm $(docker ps -a -f status=exited -q)	     # remove all excited containers
+docker rmi $(docker images -a -q)		     # remove all images
 ```
 
 ## File system cmds
