@@ -394,8 +394,9 @@ kubectl config set-context --current --namespace=<insert-namespace-name-here>   
 kubectl -n <NAMESPACE> get pvc | grep -v NAME | awk '{print $1}' | xargs -I arg kubectl delete pvc -n <NAMESPACE> --ignore-not-found=true arg # Delete pvc from a namspace
 kubectl config get-contexts							 # get all the contexts from your kube Config file
 kubectl config delete-context							 # Delte a context from your kube config and the kube config file.
-k get --v=5 -o wide -w pod <POD_NAME>						 # get the pod with debug level 5 (0-9) Trace level verbosity 
-k get --v=9 -o wide -w pod <POD_NAME>						 # get the pod with debug level 0 (0-9) Network Trace level verbosity 
+kubectl get --v=5 -o wide -w pod <POD_NAME>					 # get the pod with debug level 5 (0-9) Trace level verbosity 
+kubectl get --v=9 -o wide -w pod <POD_NAME>					 # get the pod with debug level 0 (0-9) Network Trace level verbosity 
+kubectl -n <NAMESPACE> get events --sort-by='{.lastTimestamp}'			 # good way to look for erros in your Kubernetes stack
 ```
 
 ## Docker 
