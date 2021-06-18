@@ -98,7 +98,15 @@ sudo !! 								    # redo last command but as root
 fc 									    # this will open the last command in an editor for when your command sqrewed up and you dont want to trail through it on the terminal
 ssh -L<LOCAL_PORT>:<MACHINE_IP>:<PORT> USER@<MACHINE_IP> -N		    # port forward from a cloud service to access it without exposeing it publicly
 ```
+# Useful misc functions
 
+```sh
+# makes a dir and then cds into it
+mcd () {
+    mkdir -p "$1"
+    cd "$1"
+}
+```
 
 ```sh
 lsmod                                   # list all drivers that are currently loaded
