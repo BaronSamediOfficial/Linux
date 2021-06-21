@@ -394,7 +394,13 @@ Sender:
 ```
 nc -w 3 <ip_address> 1234 < File.txt
 ```
+## node
 
+```sh
+npm list -g						# list pakages installed globally
+npm view <package-name> version				# list the version for a specific package
+
+```
 ## Kubernetes
 ```sh
 kubectl exec --stdin --tty <POD_NAME> -- /bin/bash   				 # get a shell on a machine
