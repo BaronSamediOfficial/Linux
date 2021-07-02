@@ -46,6 +46,7 @@ Ctl-e               # move to the end of a line
 Ctl-c               # interrupt the current process (break)
 Ctl-d               # exit
 ```
+
 # Process Inspection (/proc dir)
 ```
 cd /proc/<PROCESS_NUMBER>
@@ -124,7 +125,10 @@ sudo lsof -i tcp -nP                    # for mac list all open tcp ports
 while true; do echo -n "This is a test of while loop";date ; sleep 5; done	# as long as true do something and then sleep for 5 seconds
 while read line; do echo "$line" | grep <TERM> ; done < <INPUT_FILE>		# while there is data to read from the INPUT_FILE, echo it and grep for the term
 ```
-
+# curl 
+```sh
+curl -I https://test.com				# just displays the headers, not the source code of the webpage
+```
 #  systemctl - Control the systemd system and service manager
 
 ```sh
