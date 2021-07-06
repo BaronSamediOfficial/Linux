@@ -342,7 +342,11 @@ history -c      # clears your history but not the .bash_history file. That will 
 !!              # repeats the last command that was executed during our terminal session
 ```
 
+### Packages Maangers
+```sh
+rpm -qa					# list all packages with Red Hat Package manager
 
+```
 
 ### Session management 
 `Loginctl`allows for current session management.
