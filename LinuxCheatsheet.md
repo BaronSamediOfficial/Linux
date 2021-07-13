@@ -27,6 +27,15 @@ alias foo='echo hello'              # Set an alias command foo that will echo he
  <COMMAND_1> ; <COMMAND_2> ; <COMMAND_3> ; # run sequential commands split with a semi-colon
 ```
 
+### Commands run together 
+
+```sh
+A; B    			# Run A and then B, regardless of success of A
+A && B  			# Run B if and only if A succeeded
+A || B  			# Run B if and only if A failed
+A &     			# Run A in background.
+```
+
 ## List all available commands: compgen (Programmable Completion Builtins)
 ```sh
 compgen -c              # will list all the commands you could run.
