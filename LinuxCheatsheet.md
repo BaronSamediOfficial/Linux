@@ -120,6 +120,13 @@ netstat -tulpen                         # list open ports
 netstat -vanp tcp                       # check what ports are running what
 sudo lsof -i tcp -nP                    # for mac list all open tcp ports
 ```
+
+### without netstat 
+```sh
+
+cat /proc/net/tcp | grep -v "rem_address" /proc/net/tcp  | awk  '{x=strtonum("0x"substr($3,index($3,":")-2,2)); for (i=5; i>0; i-=2) x = x"."strtonum("0x"substr($3,i,2))}{print x":"strtonum("0x"substr($3,index($3,":")+1,4))}'
+
+```
 # automation commands 
 ```sh
 while true; do echo -n "This is a test of while loop";date ; sleep 5; done	# as long as true do something and then sleep for 5 seconds
