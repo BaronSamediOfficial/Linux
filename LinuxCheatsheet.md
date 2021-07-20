@@ -335,7 +335,7 @@ egrep 'ab*c' <FILE>                         # look for expressions that have b Z
 
 ## Piping
 A pipe ```|``` is used to send the output of one command to be used as unput for the next command.
-- ps aux " grep http
+- ps aux | grep http
 
 The tee command combines redirection and piping; It allows you to write output to somewhere, and at the same time, use it as input for another command.
 - ps aux | tee \<FILE_NAME\> | grep ssh 
