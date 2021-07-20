@@ -447,6 +447,9 @@ GET AN IMAGE ON AN OVA
 docker login -u "<WORK_EMAIL>" -p <ARTIFAC_API_KEY> apic-dev-docker-local.artifactory.swg-devops.com
 docker pull <IMAGE_LOCATION_AND_NAME> 
 
+STOP
+docker stop $(docker ps -a -q)
+
 Remove
 docker rm $(docker ps -a -f status=exited -q)	     # remove all excited containers
 docker rmi $(docker images -a -q)		     # remove all images
