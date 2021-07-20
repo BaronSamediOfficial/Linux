@@ -453,7 +453,12 @@ docker stop $(docker ps -a -q)
 Remove
 docker rm $(docker ps -a -f status=exited -q)	     # remove all excited containers
 docker rmi $(docker images -a -q)		     # remove all images
+
+Restart
+containers=$(sudo docker ps | awk '{if(NR>1) print $NF}') ; for container in $containers; do docker restart $container; done		# restarts all the containers
+
 ```
+
 
 Juice shop
 ```
