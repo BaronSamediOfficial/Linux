@@ -452,6 +452,12 @@ docker rm $(docker ps -a -f status=exited -q)	     # remove all excited containe
 docker rmi $(docker images -a -q)		     # remove all images
 ```
 
+Juice shop
+```
+docker pull bkimminich/juice-shop			# Pull the Juice Shop
+docker run --rm -p 3000:3000 bkimminich/juice-shop	# Start the Juice shop
+```
+
 ## File system cmds
 ```sh
 df -aTh   #  display free (df) disk space on all(-a) mount points (-T) and make it human readable (-h)
