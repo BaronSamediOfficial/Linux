@@ -796,7 +796,9 @@ see https://danielmiessler.com/study/tcpdump/
 
 ## Firefox Short keys
 
+```sh
 Ctl + t			# Create new tab
 Ctl + w			# delete current tab
 Ctl + k			# take cursor to the search bar
 Ctl + l			# copy the URL in searchbar 
+```
