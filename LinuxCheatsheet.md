@@ -793,3 +793,10 @@ see https://danielmiessler.com/study/tcpdump/
 ### Cli tools
 
 [grex - Regex checker](https://github.com/pemistahl/grex)  - simplify creating regular expressionssimplify the often complicated and tedious task of creating regular expressions
+
+## Firefox Short keys
+
+Ctl + t			# Create new tab
+Ctl + w			# delete current tab
+Ctl + k			# take cursor to the search bar
+Ctl + l			# copy the URL in searchbar 
