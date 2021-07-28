@@ -460,6 +460,10 @@ docker rmi $(docker images -a -q)		     # remove all images
 Restart
 containers=$(sudo docker ps | awk '{if(NR>1) print $NF}') ; for container in $containers; do docker restart $container; done		# restarts all the containers
 
+COPY FILES BACK AND FORTH
+docker cp <CONTAINER>:<FILE_AND_LOCATION> <HOST_DESTINATION>		# from Container to Host
+docker cp <HOST_DESTINATION> <CONTAINER>:<FILE_AND_LOCATION>		# from Host to Container
+
 ```
 
 
