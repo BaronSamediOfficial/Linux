@@ -8,6 +8,7 @@ This is a cheat sheet of lots of useful linux commands. The way I use is to pull
 MAC
 brew install gnu-sed		                  # gnu version of sed or MAC
 brew install sslscan				  # https://github.com/rbsec/sslscan
+brew install procyon-decompiler			  # Modern decompiler for Java 5 and beyond
 
 ```
 
