@@ -6,9 +6,10 @@ This is a cheat sheet of lots of useful linux commands. The way I use is to pull
 ```sh
 
 MAC
-brew install gnu-sed		                  # gnu version of sed or MAC
-brew install sslscan				  # https://github.com/rbsec/sslscan
-brew install cfr-decompiler			  # Modern decompiler for Java 5 and beyond
+brew install gnu-sed		                # gnu version of sed or MAC
+brew install sslscan				# https://github.com/rbsec/sslscan
+brew install cfr-decompiler			# Modern decompiler for Java 5 and beyond
+brew install lynx				# Text-based web browser					
 
 ```
 
