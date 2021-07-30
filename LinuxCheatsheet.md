@@ -391,7 +391,8 @@ tcpdump -n -i eth0 port 22                                 # this will filter to
 tcpdump -w ssh.pcap -i eth0 dst 192.168.4.10 and port 22   # filter on particular ips and ports , and write t oa certain file
 
 tcpdump tcp                                                # only show tcp traffic
-
+tcpdump -v						   # verbose output
+tcpdump -vv						   # very verbose output
 tcpdump host 192.168.2.5                                   # filter the packet capture to only gather packets going to or coming from the host 192.168.2.5.
 tcpdump src host 192.168.2.5                               # filter the packet capture to only gather packets coming from 192.168.2.5.
 tcpdump dst host 192.168.2.5                               # filter the packet capture to only gather packets going to 192.168.2.5.
