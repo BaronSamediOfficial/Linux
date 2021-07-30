@@ -9,7 +9,10 @@ MAC
 brew install gnu-sed		                # gnu version of sed or MAC
 brew install sslscan				# https://github.com/rbsec/sslscan
 brew install cfr-decompiler			# Modern decompiler for Java 5 and beyond
-brew install lynx				# Text-based web browser					
+brew install lynx				# Text-based web browser	
+
+brew tap caffix/amass
+brew install amass
 
 ```
 
