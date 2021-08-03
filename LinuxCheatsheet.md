@@ -14,6 +14,8 @@ brew install lynx				# Text-based web browser
 brew tap caffix/amass
 brew install amass
 
+brew install ngrok				# creates an internet viewable webserver, like python http.server but more.
+
 ```
 
 ## Shell Commands
