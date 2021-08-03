@@ -206,7 +206,8 @@ ls a[lm]        # return files that have an l or m on the second position
 ```sh
 cp <FILE> <DESTINATION>
 cp /etc/hosts .
-cp -R /tmp /my 
+cp -R /
+/my 
 ``` 
 # Directory cmds
 ```sh
@@ -215,6 +216,7 @@ mkdir -p files/morefiles    # -p for parents. This will make the files directory
 cp <FILE_NAME>  ..          # .. means one level up , so this will copy the file to the above directory 
 cp ../../<FILE_NAME>        # will copy it two directories up
 cp ../<FILE_NAME> .         # this will go up one level, look for the file and copy it to the current directory
+tmp_dir=$(mktemp -d -t ci-XXXXXXXXXX)  # make a temp directory. running mcd ( alias) before this will mv into the dir.
 ```
 # find -- find things ( Really good Man page)
 ```sh
