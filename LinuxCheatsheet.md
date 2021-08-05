@@ -18,6 +18,16 @@ brew install ngrok				# creates an internet viewable webserver, like python http
 
 ```
 
+### Installs Docker on Kali
+```sh
+sudo  apt update
+sudo apt install -y docker.io				# Installs docker 
+sudo systemctl enable docker --now			# Boots docker automatically after reboot.
+sudo usermod -aG docker $USER				# adds non root user to the docker group
+newgrp docker						# persist user reboot to new group applies
+
+```
+
 ## Shell Commands
 
 ```sh
@@ -476,10 +486,15 @@ docker cp <HOST_DESTINATION> <CONTAINER>:<FILE_AND_LOCATION>		# from Host to Con
 ```
 
 
-Juice shop
+### Juice shop on docker
 ```
 docker pull bkimminich/juice-shop			# Pull the Juice Shop
 docker run --rm -p 3000:3000 bkimminich/juice-shop	# Start the Juice shop
+```
+DVWA on docker
+
+```sh
+docker run --rm -it -p 80:80 vulnerables/web-dvwa
 ```
 
 ## File system cmds
