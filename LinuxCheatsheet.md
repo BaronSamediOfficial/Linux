@@ -833,4 +833,5 @@ Ctl + w			# delete current tab
 Ctl + k			# take cursor to the search bar
 Ctl + l			# copy the URL in searchbar 
 Ctl + u			# Look at the HTML or XML source for the page you're viewing
+Cmd + shift + b			# Toggle the bookmarks toolbar on and off
 ```
