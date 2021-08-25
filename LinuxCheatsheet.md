@@ -10,6 +10,7 @@ brew install gnu-sed		                # gnu version of sed or MAC
 brew install sslscan				# https://github.com/rbsec/sslscan
 brew install cfr-decompiler			# Modern decompiler for Java 5 and beyond
 brew install lynx				# Text-based web browser	
+brew install pyenv 				# from https://opensource.com/article/19/5/python-3-default-mac
 
 brew tap caffix/amass
 brew install amass
