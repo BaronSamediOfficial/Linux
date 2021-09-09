@@ -259,11 +259,16 @@ tar -tzvf <NAME_OF_CONTENTS> <NAME_TO_BACKUP_TO>    # This will compress the arc
 ```
 
 ## Shell escapeing 
+Also see `https://gtfobins.github.io/`
 ```
 sudo -u victim find /etc -name passwd -exec bash \;		# use find to look for an obvious result and then execute bash
 
 sudo -u victim vim 						# 1st - Open vim as the the privledged user
 :!/bin/bash							# 2nd - In the vim terminal type the command to get a shell open as the user
+```
+## PrivEsc
+```
+find / -perm -u=s -type f 2>/dev/null				# look for fileswhere the SUID is set 
 ```
 
 
