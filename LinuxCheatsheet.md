@@ -128,6 +128,7 @@ fc 									    # this will open the last command in an editor for when your com
 ssh -L<LOCAL_PORT>:<MACHINE_IP>:<PORT> USER@<MACHINE_IP> -N		    # port forward from a cloud service to access it without exposeing it publicly
 watch -c -n 1 kubectl top nodes						    # run a command and watch it every 1 second (-n) and get a colourful UI (-c). eg Can also take float time values
 
+sudo -l									    # after prompting got the current user password, you can see all of the sudo commandsyou may run as another user
 ```
 # Useful misc functions
 
