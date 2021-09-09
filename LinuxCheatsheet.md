@@ -453,6 +453,13 @@ mysql> select * from <TABLE_NAME>;
 mysql> select load_file('/var/lib/mysql-files/foo.txt');		# Read a file from mysql. Nice if you have privledge, yes ??
 ```
 
+## postgresql
+
+```
+CREATE TABLE demo(t text);						# create atable out of some text
+COPY demo from '[FILENAME]';						# copy the text for the table from a file 
+SELECT * FROM demo;							# get all from the new table
+```
 ## node
 
 ```sh
