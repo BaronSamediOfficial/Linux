@@ -442,6 +442,17 @@ Sender:
 ```
 nc -w 3 <ip_address> 1234 < File.txt
 ```
+
+## mysql 
+```
+mysql -u alice -p 							# login as the user Alice and prompt me for a password
+mysql> show databases;
+mysql> show tables;
+mysql> use <DATABASE_NAME>;
+mysql> select * from <TABLE_NAME>;
+mysql> select load_file('/var/lib/mysql-files/foo.txt');		# Read a file from mysql. Nice if you have privledge, yes ??
+```
+
 ## node
 
 ```sh
