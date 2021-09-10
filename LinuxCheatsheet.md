@@ -11,7 +11,6 @@ brew install sslscan				# https://github.com/rbsec/sslscan
 brew install cfr-decompiler			# Modern decompiler for Java 5 and beyond
 brew install lynx				# Text-based web browser	
 brew install pyenv 				# from https://opensource.com/article/19/5/python-3-default-mac
-brew reinstall pstree				# Proccess tree visualise in the terminal
 
 brew tap caffix/amass
 brew install amass
@@ -260,16 +259,14 @@ tar -tzvf <NAME_OF_CONTENTS> <NAME_TO_BACKUP_TO>    # This will compress the arc
 ```
 
 ## Shell escapeing 
-Also see `https://gtfobins.github.io/`
 ```
 sudo -u victim find /etc -name passwd -exec bash \;		# use find to look for an obvious result and then execute bash
 
 sudo -u victim vim 						# 1st - Open vim as the the privledged user
 :!/bin/bash							# 2nd - In the vim terminal type the command to get a shell open as the user
-```
-## PrivEsc
-```
-find / -perm -u=s -type f 2>/dev/null				# look for fileswhere the SUID is set 
+
+sudo -u victim less /etc/passwd					# 1st - open an arbitry file with less
+At the less search icontype:  !/bin/bash			# 2nd - This will open a shell !!
 ```
 
 
