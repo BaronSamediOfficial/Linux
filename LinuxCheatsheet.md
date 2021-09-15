@@ -59,6 +59,11 @@ A; B    			# Run A and then B, regardless of success of A
 A && B  			# Run B if and only if A succeeded
 A || B  			# Run B if and only if A failed
 A &     			# Run A in background.
+
+command1 && command2 		# that will run command2 if command1 succeeds.
+command1 || command2 		# that will run command2 if command1 fails.
+command1 ; command2 		# that will run command1 then command2.
+command1 | command2 		# that will run command1 and send the output of command1 to command2.
 ```
 
 ## List all available commands: compgen (Programmable Completion Builtins)
