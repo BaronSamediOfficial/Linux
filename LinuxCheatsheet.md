@@ -159,7 +159,15 @@ strace -c <BASH_COMMAND>                # This shows the counter view of the str
 man (7) signal                          # will show you the man page for all the different Linux signals
 netstat -tulpen                         # list open ports
 netstat -vanp tcp                       # check what ports are running what
+netstat -anv | grep -i listen		# on macwill show listening ports ( see the PID column below) 		
+												PID
+tcp4       0      0  127.0.0.1.631          *.*                    LISTEN      131072 131072  93781      0 0x0080 0x00000006
+tcp6       0      0  ::1.631                *.*                    LISTEN      131072 131072  93781      0 0x0080 0x00000006
+tcp6       0      0  ::1.54151              *.*                    LISTEN      131072 131072    475      0 0x0180 0x00000002
+
+
 sudo lsof -i tcp -nP                    # for mac list all open tcp ports
+
 ```
 
 ### without netstat 
