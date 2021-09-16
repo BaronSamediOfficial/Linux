@@ -414,6 +414,26 @@ ssh-copy-id <SERVER_IP_ADDRESS>                 # This is a simple way to copy v
 scp <FILE> <SERVER_IP_ADDRESS>:/<FOLDERNAME>    # copy a LOCAL file to the address and file name on the REMOTE server
 scp <SERVER_IP_ADDRESS>:/<FOLDERNAME> <FILE>    # copy a REMOTE file to the address and file name on the LOCAL server
 ```
+### ssh tunnel on Mac 
+[see this](https://www.hostdime.com/kb/hd/security/browsing-the-internet-through-an-ssh-tunnel-on-macos)
+
+Until you configure your mac and browser , your connection will not be secure.
+```
+ssh -f -N -M -S /tmp/sshtunnel -D 1080 USER@server.domain.com -p22
+
+where:
+-f 	# Run in the background
+-N 	# This tells the SSH process to not execute any commands on the remote server (we are only forwarding traffic through the remote server).
+-M: 	# Put the SSH client into master mode, so we can easily enter a command later to gracefully end the SSH tunnel without having to kill the connection.
+-S:	# Used in conjunction with the -M command. This sets up a special kind of file (called a socket) that will allow us to enter a command later to gracefully end the SSH tunnel without having to kill the connection. /tmp/sshtunnel is the full path to the socket file this command is creating.
+-D: 	# This sets up a dynamic application level forwarding service and 1080 is the port it will listen on. This command creates the SOCKS proxy we'll use later.
+-p: 	# Specify the port on which the remote server is listening for SSH connections.
+
+
+TO CLOSE THE connection Gracefully
+
+ssh -S /tmp/sshtunnel -O exit server.domain.com -p22
+```
 
 ## history ( Command history util) 
 ```sh
