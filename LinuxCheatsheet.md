@@ -487,6 +487,13 @@ tcpdump dst port 443                                       # capture traffic des
 
 ```
 
+## Change your MAC address
+```
+ifconfig <interface_name> down                          # disable an interface
+ifconfig <interface_name> hw ether <new_MAC_address>    # must be 12 chars split by colon
+ifconfig <interface_name> down                          # re-enable an interface
+```
+
 ## nmap (network mapping tool) 
 ```sh
 nmap -sn <Network_IP+SubnetMask>        # scans the entire network
