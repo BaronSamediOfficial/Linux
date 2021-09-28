@@ -445,7 +445,12 @@ history -c      # clears your history but not the .bash_history file. That will 
 !!              # repeats the last command that was executed during our terminal session
 ```
 
-### Packages Maangers
+### Run Docker images
+```
+docker run -it --name test registry.access.redhat.com/ubi8/ubi:8.1 bash		# RHEL 8
+```
+
+### Packages Mangers
 ```sh
 rpm -qa					# list all packages with Red Hat Package manager
 
