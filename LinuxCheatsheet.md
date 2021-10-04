@@ -140,7 +140,7 @@ ssh -L<LOCAL_PORT>:<MACHINE_IP>:<PORT> USER@<MACHINE_IP> -N		    # port forward 
 watch -c -n 1 kubectl top nodes						    # run a command and watch it every 1 second (-n) and get a colourful UI (-c). eg Can also take float time values
 
 sudo -l									    # after prompting got the current user password, you can see all of the sudo commandsyou may run as another user
-ps -aux | grep <USER> | cut -d " " -f 6 | tr '\n' ' '			    # Get a line of all the proccess numbers , so you can send them to kill.
+ps -aux | grep <USER> | cut -d " " -f 6 | tr '\n' ' '			    # Get a line of all the proccess numbers , so you can send them to kill .
 ```
 # Useful misc functions
 
