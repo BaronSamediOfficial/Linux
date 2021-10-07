@@ -185,6 +185,7 @@ while read line; do echo "$line" | grep <TERM> ; done < <INPUT_FILE>		# while th
 # curl 
 ```sh
 curl -I https://test.com				# just displays the headers, not the source code of the webpage
+curl --path-as-is					# prevents canonicalisation (normalisation) of the url.
 ```
 #  systemctl - Control the systemd system and service manager
 
