@@ -187,6 +187,7 @@ while read line; do echo "$line" | grep <TERM> ; done < <INPUT_FILE>		# while th
 curl -I https://test.com					   # just displays the headers, not the source code of the webpage
 curl --path-as-is						   # prevent canonicalisation (normalisation) of the url.
 curl 'http://WEBSITE.COM' --request-target '/some/odd/exstension/' # alternative to prevent canonicalisation (normalisation) of the url.
+curl google.com --trace-ascii -					   # will trace the request in a readble way.
 ```
 #  systemctl - Control the systemd system and service manager
 
