@@ -556,6 +556,15 @@ python3 sqlmap.py -u "http://127.0.0.1/vulnerabilities/sqli/?id=555&Submit=Submi
 --tables 			# Enumerate the DB tables
 --password			# Enumerate DBMS users password hashes
 ```
+
+### Dealing with hashes
+```
+hash-identifier # Liniux tool to identify hashes
+hashcat '<SUSPECT_HASH>' <FILE_PATH_OF_DICTIONARY> 
+```
+
+
+
 ## node
 
 ```sh
