@@ -595,7 +595,7 @@ docker run --rm -p 3000:3000 bkimminich/juice-shop	# Start the Juice shop
 DVWA on docker
 
 ```sh
-docker run --rm -it -p 80:80 vulnerables/web-dvwa
+docker run --rm -it -p 8808:8808 vulnerables/web-dvwa  # U: admin PW: password
 ```
 
 ## File system cmds
