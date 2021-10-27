@@ -542,6 +542,20 @@ CREATE TABLE demo(t text);						# create atable out of some text
 COPY demo from '[FILENAME]';						# copy the text for the table from a file 
 SELECT * FROM demo;							# get all from the new table
 ```
+
+
+## SQLmap
+`https://github.com/sqlmapproject/sqlmap`
+```
+git clone --depth 1 https://github.com/sqlmapproject/sqlmap.git sqlmap-dev		# clone sqlmap latest dev
+
+python3 sqlmap.py -u "http://127.0.0.1/vulnerabilities/sqli/?id=555&Submit=Submit#" --cookie="<COOKIE/SESSION_ID_1>; <COOKIE/SESSION_ID_N" --tables --batch
+
+--batch 			# this will choose the default options when running a scan 
+--schema 			# enumerate the DB schema
+--tables 			# enumerate the DB tables
+
+```
 ## node
 
 ```sh
