@@ -568,6 +568,10 @@ python3 sqlmap.py -u "<TARGET_URL>" --cookie="<COOKIE/SESSION_ID_1>; <COOKIE/SES
 
 -T				# DBMS database table(s) to enumerate
 --dump 				# Dump DBMS database table entries
+
+python3 sqlmap.py -r BASIC.txt -p id –"proxy=http://localhost:8081"
+
+Runs SQL map with a request copied into a text file, a selected parameter and via my proxy (zap)
 ```
 
 ### Dealing with hashes
