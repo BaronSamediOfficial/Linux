@@ -632,11 +632,18 @@ docker cp <HOST_DESTINATION> <CONTAINER>:<FILE_AND_LOCATION>		# from Host to Con
 docker pull bkimminich/juice-shop			# Pull the Juice Shop
 docker run --rm -p 3000:3000 bkimminich/juice-shop	# Start the Juice shop
 ```
-DVWA on docker
+### DVWA on docker
 
 ```sh
 docker run --rm -it -p 8808:8808 vulnerables/web-dvwa  # U: admin PW: password
 ```
+
+### Kali on docker
+
+```sh
+docker run -t -i kalilinux/kali-rolling
+```
+
 
 ## File system cmds
 ```sh
