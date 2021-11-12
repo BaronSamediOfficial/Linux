@@ -642,6 +642,9 @@ docker run --rm -it -p 8808:8808 vulnerables/web-dvwa  # U: admin PW: password
 
 ```sh
 docker run -t -i kalilinux/kali-rolling
+then on the box...
+
+apt update && apt -y install kali-linux-headless
 ```
 
 
