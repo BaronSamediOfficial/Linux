@@ -645,6 +645,9 @@ docker run -t -i kalilinux/kali-rolling
 then on the box...
 
 apt update && apt -y install kali-linux-headless
+
+apt-get install python3-pip
+
 ```
 ### xsser tool
 
