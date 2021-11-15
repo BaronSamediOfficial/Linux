@@ -671,6 +671,7 @@ apt-get install python3-pip
 ```sh
 python3 xsser --all='<URL_address>' --cookie='Some_Session_cookie=<Auth_cookie_data>' 	# will scan all urls in the domain, taking in the auth token (whatever that is set as)
 
+python3 xsser --auto -u '<URL_address>=XSS' --cookie='Some_Session_cookie=<Auth_cookie_data>' # will run a predefined list of xss on the var. 1291 request accross 5 threads
 ```
 
 ## File system cmds
