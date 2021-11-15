@@ -153,6 +153,23 @@ mcd () {
 ```
 
 ```sh
+#!/bin/bash
+
+# reads a file and if it has a = , if will copy the line to a new file for use in xsser
+
+input="clean_urls.csv"
+SUB='='
+while IFS= read -r line
+do
+  if [[ "$line" =~ .*"$SUB".* ]]; then
+  echo "$line" >> varUrls.txt
+  else
+  echo no
+  fi  
+done < "$input"
+```
+
+```sh
 lsmod                                   # list all drivers that are currently loaded
 modinfo <NAME_OF_KERNEL_DRIVER>         # Get more info on a driver
 strace <BASH_COMMAND>                   # will run a system call trace on and command. This can come in handy when you want to see exactly what happened and exactly what might have gone wrong with a linux command. 
