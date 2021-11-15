@@ -646,7 +646,12 @@ then on the box...
 
 apt update && apt -y install kali-linux-headless
 ```
+### xsser tool
 
+```sh
+python3 xsser --all='<URL_address>' --cookie='Some_Session_cookie=<Auth_cookie_data>' 	# will scan all urls in the domain, taking in the auth token (whatever that is set as)
+
+```
 
 ## File system cmds
 ```sh
