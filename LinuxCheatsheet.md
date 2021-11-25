@@ -541,7 +541,11 @@ Sender:
 ```
 nc -w 3 <ip_address> 1234 < File.txt
 ```
+## Webservers
 
+```sh
+ruby -run -e httpd . -p 80		# RUBY server on port 80
+```
 ## mysql 
 ```
 mysql -u alice -p 							# login as the user Alice and prompt me for a password
