@@ -542,10 +542,22 @@ Sender:
 nc -w 3 <ip_address> 1234 < File.txt
 ```
 ## Webservers
-
+### Ruby
 ```sh
-ruby -run -e httpd . -p 80		# RUBY server on port 80
+ruby -run -e httpd . -p 80
 ```
+### Python
+```
+# openssl req -nodes -x509 -keyout server.key -out server.cert 			# make the certs first.
+
+from http.server import HTTPServer, BaseHTTPRequestHandler, SimpleHTTPRequestHandler
+import ssl
+httpd = HTTPServer(('0.0.0.0', 4443), SimpleHTTPRequestHandler)
+httpd.socket = ssl.wrap_socket (httpd.socket, keyfile="/home/bg/https/server.key",
+certfile='/home/bg/https/server.cert', server_side=True)
+httpd.serve_forever()
+```
+
 ## mysql 
 ```
 mysql -u alice -p 							# login as the user Alice and prompt me for a password
