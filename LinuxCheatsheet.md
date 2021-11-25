@@ -95,13 +95,20 @@ cat /proc/<PROCESS_NUMBER/environ			# The environ file shows the environment var
 cat /proc/<PROCESS_NUMBER/limits 			# The limits file contains information about the limits imposed on the process.
 
 ```
-### manageing process
+## Manageing process
 ```sh
 ps -ef | less  						# this will give us similar information includeing parent process info with the PPID. 
 ps -fax | less 						# will give the forrest display of processes. Shows the relations between processes.
 ps aux --sort pmem | less 				# sort the view by the pmemory amount. 
 ```
+## Directing data
+```
+# sign is used for redirecting the output of a program to something other than stdout (standard output, which is the terminal by default).
+> 
 
+>>	#  appends to a file or creates the file if it doesn't exist.
+> 	#  overwrites the file if it exists or creates it if it doesn't exist.
+```
 
 # Useful misc Commands  
 ```sh
