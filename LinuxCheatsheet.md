@@ -602,6 +602,14 @@ SELECT * FROM demo;							# get all from the new table
 ```
 git clone --depth 1 https://github.com/sqlmapproject/sqlmap.git sqlmap-dev		# clone sqlmap latest dev
 
+python3 sqlmap.py -r <REQUEST_FILE> --level=2 --time-sec=8 --dbms "postgresql" -p category –"proxy=http://localhost:8081" --batch
+
+-r 				# a file of a fresh http request
+--level				# the level of intensity 1-5. Default is 1
+--time-sec			# time to wait for the response
+-- dbms				# the type of dbms you are targeting (if you know)
+-p 				# target parameter
+
 python3 sqlmap.py -u "<TARGET_URL>" --cookie="<COOKIE/SESSION_ID_1>; <COOKIE/SESSION_ID_N" --tables --batch
 
 --batch 			# !!! this will choose the default options when running a scan . Best not to use as it may start trying to crack password
