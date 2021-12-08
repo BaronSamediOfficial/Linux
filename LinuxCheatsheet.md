@@ -587,6 +587,7 @@ mysql> select * from <TABLE_NAME>;
 mysql> select load_file('/var/lib/mysql-files/foo.txt');		# Read a file from mysql. Nice if you have privledge, yes ??
 ```
 
+
 ## postgresql
 
 ```
@@ -640,6 +641,12 @@ hash-identifier # Liniux tool to identify hashes
 hashcat '<SUSPECT_HASH>' <FILE_PATH_OF_DICTIONARY> 
 ```
 
+## Semgrep ( Semantic Grep)
+Getting started
+```
+semgrep -l <LANG> --config=<LOCATION_OF_RULES_DIR-or-FILE> -q -o <REPORT_FILE_NAME> <SOURCE_CODE_DIR>
+- q 				# quiet mode
+```
 
 
 ## node
