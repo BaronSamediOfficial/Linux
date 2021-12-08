@@ -368,7 +368,7 @@ To set line numbers in vi, type
 
 # extra VI commands
 ```
-Insert Mode:
+Escape Mode:
 ^ 			# to move the cursor to the start of the current line. 
 $ 			# to move the cursor to the end of the current line.
 %s />\r/g		# Globally (g) substitute (%s) all greater than signs (>) with carrige returns (r) 
