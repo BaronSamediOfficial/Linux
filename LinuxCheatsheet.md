@@ -643,9 +643,11 @@ hashcat '<SUSPECT_HASH>' <FILE_PATH_OF_DICTIONARY>
 
 ## Semgrep ( Semantic Grep)
 Getting started
+DL rules locally
 ```
 semgrep -l <LANG> --config=<LOCATION_OF_RULES_DIR-or-FILE> -q -o <REPORT_FILE_NAME> <SOURCE_CODE_DIR>
 - q 				# quiet mode
+--config=<RULES>		# the set of rules. Can be set to "auto" too.
 ```
 
 
