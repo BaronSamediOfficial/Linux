@@ -649,6 +649,10 @@ semgrep -l <LANG> --config=<LOCATION_OF_RULES_DIR-or-FILE> -q -o <REPORT_FILE_NA
 - q 				# quiet mode
 --config=<RULES>		# the set of rules. Can be set to "auto" too.
 ```
+Try...
+```sh
+semgrep -l java --config /Users/geoffreyowden/mystuff/SemGrepTool/semgrep-rules/java/lang/security/audit -q -o FullSecAudit.log CODE/
+```
 
 
 ## node
