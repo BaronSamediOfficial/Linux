@@ -2,11 +2,35 @@
 
 This is a cheat sheet of lots of useful linux commands. The way I use is to pull it up in my browser and run command F to search for what I am interested in. Enjoy!
 
+
+### mactroubleshooting 
+```
+sudo dscacheutil -flushcache && sudo killall -HUP mDNSResponder && sudo ipconfig set en0 DHCP
+```
+
 ### Useful BASH installs
 ```sh
 
 MAC
-brew install gnu-sed		                  # gnu version of sed or MAC
+brew install gnu-sed		                # gnu version of sed or MAC
+brew install sslscan				# https://github.com/rbsec/sslscan
+brew install cfr-decompiler			# Modern decompiler for Java 5 and beyond
+brew install lynx				# Text-based web browser	
+brew install pyenv 				# from https://opensource.com/article/19/5/python-3-default-mac
+brew install semgrep				# Code scanning tool to find vulns
+brew tap caffix/amass
+brew install amass
+brew install ngrok				# creates an internet viewable webserver, like python http.server but more.
+
+```
+
+### Installs Docker on Kali
+```sh
+sudo  apt update
+sudo apt install -y docker.io				# Installs docker 
+sudo systemctl enable docker --now			# Boots docker automatically after reboot.
+sudo usermod -aG docker $USER				# adds non root user to the docker group
+newgrp docker						# persist user reboot to new group applies
 
 ```
 
@@ -25,6 +49,20 @@ grep -R root /proc 2>/dev/null         # this sends the Standard Error (2) to th
 grep -R root /etc &> ~/myfile         # this sends Standard Error (2) and all to myfile
 alias foo='echo hello'              # Set an alias command foo that will echo hello to the terminal , or whatever you want. Set by default in the /etc/profile
  <COMMAND_1> ; <COMMAND_2> ; <COMMAND_3> ; # run sequential commands split with a semi-colon
+```
+
+### Commands run together 
+
+```sh
+A; B    			# Run A and then B, regardless of success of A
+A && B  			# Run B if and only if A succeeded
+A || B  			# Run B if and only if A failed
+A &     			# Run A in background.
+
+command1 && command2 		# that will run command2 if command1 succeeds.
+command1 || command2 		# that will run command2 if command1 fails.
+command1 ; command2 		# that will run command1 then command2.
+command1 | command2 		# that will run command1 and send the output of command1 to command2.
 ```
 
 ## List all available commands: compgen (Programmable Completion Builtins)
@@ -46,6 +84,7 @@ Ctl-e               # move to the end of a line
 Ctl-c               # interrupt the current process (break)
 Ctl-d               # exit
 ```
+
 # Process Inspection (/proc dir)
 ```
 cd /proc/<PROCESS_NUMBER>
@@ -55,13 +94,20 @@ cat /proc/<PROCESS_NUMBER/environ			# The environ file shows the environment var
 cat /proc/<PROCESS_NUMBER/limits 			# The limits file contains information about the limits imposed on the process.
 
 ```
-### manageing process
+## Manageing process
 ```sh
 ps -ef | less  						# this will give us similar information includeing parent process info with the PPID. 
 ps -fax | less 						# will give the forrest display of processes. Shows the relations between processes.
 ps aux --sort pmem | less 				# sort the view by the pmemory amount. 
 ```
+## Directing data
+```
+# sign is used for redirecting the output of a program to something other than stdout (standard output, which is the terminal by default).
+> 
 
+>>	#  appends to a file or creates the file if it doesn't exist.
+> 	#  overwrites the file if it exists or creates it if it doesn't exist.
+```
 
 # Useful misc Commands  
 ```sh
@@ -97,8 +143,37 @@ sudo !! 								    # redo last command but as root
 <SPACE> <SOME_COMMAND>							    # Command will NOT appear in the history
 fc 									    # this will open the last command in an editor for when your command sqrewed up and you dont want to trail through it on the terminal
 ssh -L<LOCAL_PORT>:<MACHINE_IP>:<PORT> USER@<MACHINE_IP> -N		    # port forward from a cloud service to access it without exposeing it publicly
+watch -c -n 1 kubectl top nodes						    # run a command and watch it every 1 second (-n) and get a colourful UI (-c). eg Can also take float time values
+
+sudo -l									    # after prompting got the current user password, you can see all of the sudo commandsyou may run as another user
+ps -aux | grep <USER> | cut -d " " -f 6 | tr '\n' ' '			    # Get a line of all the proccess numbers , so you can send them to kill .
+```
+# Useful misc functions
+
+```sh
+# makes a dir and then cds into it
+mcd () {
+    mkdir -p "$1"
+    cd "$1"
+}
 ```
 
+```sh
+#!/bin/bash
+
+# reads a file and if it has a = , if will copy the line to a new file for use in xsser
+
+input="clean_urls.csv"
+SUB='='
+while IFS= read -r line
+do
+  if [[ "$line" =~ .*"$SUB".* ]]; then
+  echo "$line" >> varUrls.txt
+  else
+  echo no
+  fi  
+done < "$input"
+```
 
 ```sh
 lsmod                                   # list all drivers that are currently loaded
@@ -108,14 +183,35 @@ strace -c <BASH_COMMAND>                # This shows the counter view of the str
 man (7) signal                          # will show you the man page for all the different Linux signals
 netstat -tulpen                         # list open ports
 netstat -vanp tcp                       # check what ports are running what
+netstat -anv | grep -i listen		# on macwill show listening ports ( see the PID column below) 		
+												PID
+tcp4       0      0  127.0.0.1.631          *.*                    LISTEN      131072 131072  93781      0 0x0080 0x00000006
+tcp6       0      0  ::1.631                *.*                    LISTEN      131072 131072  93781      0 0x0080 0x00000006
+tcp6       0      0  ::1.54151              *.*                    LISTEN      131072 131072    475      0 0x0180 0x00000002
+
+
 sudo lsof -i tcp -nP                    # for mac list all open tcp ports
+
+```
+
+### without netstat 
+```sh
+
+cat /proc/net/tcp | grep -v "rem_address" /proc/net/tcp  | awk  '{x=strtonum("0x"substr($3,index($3,":")-2,2)); for (i=5; i>0; i-=2) x = x"."strtonum("0x"substr($3,i,2))}{print x":"strtonum("0x"substr($3,index($3,":")+1,4))}'
+
 ```
 # automation commands 
 ```sh
 while true; do echo -n "This is a test of while loop";date ; sleep 5; done	# as long as true do something and then sleep for 5 seconds
 while read line; do echo "$line" | grep <TERM> ; done < <INPUT_FILE>		# while there is data to read from the INPUT_FILE, echo it and grep for the term
 ```
-
+# curl 
+```sh
+curl -I https://test.com					   # just displays the headers, not the source code of the webpage
+curl --path-as-is						   # prevent canonicalisation (normalisation) of the url.
+curl 'http://WEBSITE.COM' --request-target '/some/odd/exstension/' # alternative to prevent canonicalisation (normalisation) of the url.
+curl google.com --trace-ascii -					   # will trace the request in a readble way.
+```
 #  systemctl - Control the systemd system and service manager
 
 ```sh
@@ -170,7 +266,8 @@ ls a[lm]        # return files that have an l or m on the second position
 ```sh
 cp <FILE> <DESTINATION>
 cp /etc/hosts .
-cp -R /tmp /my 
+cp -R /
+/my 
 ``` 
 # Directory cmds
 ```sh
@@ -179,6 +276,7 @@ mkdir -p files/morefiles    # -p for parents. This will make the files directory
 cp <FILE_NAME>  ..          # .. means one level up , so this will copy the file to the above directory 
 cp ../../<FILE_NAME>        # will copy it two directories up
 cp ../<FILE_NAME> .         # this will go up one level, look for the file and copy it to the current directory
+tmp_dir=$(mktemp -d -t ci-XXXXXXXXXX)  # make a temp directory. running mcd ( alias) before this will mv into the dir.
 ```
 # find -- find things ( Really good Man page)
 ```sh
@@ -205,6 +303,30 @@ tar -xvf <NAME_OF_CONTENTS>                         # (extract , verbose , file 
 tar -tvf <NAME_OF_CONTENTS> <NAME_TO_BACKUP_TO>     # (inspect contents only, verbose , file)
 tar -tzvf <NAME_OF_CONTENTS> <NAME_TO_BACKUP_TO>    # This will compress the archive down with gzip. FYI - There is marginal saving between the two compression types.
 ```
+
+## Shell escapeing 
+```
+sudo -u victim find /etc -name passwd -exec bash \;		# use find to look for an obvious result and then execute bash
+
+sudo -u victim vim 						# 1st - Open vim as the the privledged user
+:!/bin/bash							# 2nd - In the vim terminal type the command to get a shell open as the user
+
+sudo -u victim less /etc/passwd					# 1st - open an arbitry file with less
+At the less search icontype:  !/bin/bash			# 2nd - This will open a shell !!
+```
+## Running Languages
+```
+/usr/bin/ruby -e 'require "irb" ; IRB.start(__FILE__)'		# ruby - run commands by putting them in backticks eg; `uname -a`
+
+perl -e 'print `cat /home/victim/key.txt`'			# notice to use single (hard) quotes around the back ticks for yuor cmd so they aget run at the right times.
+
+```
+### Running python from the url/address bar
+
+`http://ptl-665534be-b624e42e.libcurl.st/hello/hacker%22%2bstr(%20__import__('os').popen('uname%20-a').read())%2b%22`
+Notice the `__import__('os').popen('uname%20-a').read()` . We have added either sied an URL encoded '+' sigh as `%2b`.
+
+
 # Text editing on Linux
 
 ## VI(m) - 
@@ -227,6 +349,15 @@ To set line numbers in vi, type
 - p - paste the text in the block
 - y - (yank) is to copy the text in your block 
 
+- 0	move to beginning of the current line
+- $	move to end of line
+- H	move to the top of the current window (high)
+- M	move to the middle of the current window (middle)
+- L	move to the bottom line of the current window (low)
+- 1G	move to the first line of the file
+- 20G	move to the 20th line of the file
+- G	move to the last line of the file
+
 ### search and replace
 - / - will bring up the searcher in the bottom left
 - gg - bring you to the top
@@ -237,9 +368,10 @@ To set line numbers in vi, type
 
 # extra VI commands
 ```
-Insert Mode:
+Escape Mode:
 ^ 			# to move the cursor to the start of the current line. 
 $ 			# to move the cursor to the end of the current line.
+%s />\r/g		# Globally (g) substitute (%s) all greater than signs (>) with carrige returns (r) 
 ```
 
 ### More or Less
@@ -306,7 +438,7 @@ egrep 'ab*c' <FILE>                         # look for expressions that have b Z
 
 ## Piping
 A pipe ```|``` is used to send the output of one command to be used as unput for the next command.
-- ps aux " grep http
+- ps aux | grep http
 
 The tee command combines redirection and piping; It allows you to write output to somewhere, and at the same time, use it as input for another command.
 - ps aux | tee \<FILE_NAME\> | grep ssh 
@@ -316,8 +448,33 @@ The tee command combines redirection and piping; It allows you to write output t
 ```sh
 ssh-keygen                                      # running this will start the process of creating a pair of RSA keys. You can set a passphrase on these keys which is more secure and recommended
 ssh-copy-id <SERVER_IP_ADDRESS>                 # This is a simple way to copy ver your public key. You will be asked to authenticate to the Server just once.
+```
+
+### scp (OpenSSH secure file copy)
+```
 scp <FILE> <SERVER_IP_ADDRESS>:/<FOLDERNAME>    # copy a LOCAL file to the address and file name on the REMOTE server
 scp <SERVER_IP_ADDRESS>:/<FOLDERNAME> <FILE>    # copy a REMOTE file to the address and file name on the LOCAL server
+```
+### ssh tunnel on Mac 
+[see this](https://www.hostdime.com/kb/hd/security/browsing-the-internet-through-an-ssh-tunnel-on-macos)
+
+Until you configure your mac and browser , your connection will not be secure.
+```
+ssh -f -N -M -S /tmp/sshtunnel -D 1080 USER@server.domain.com -p22 -vvv
+
+where:
+-f 	# Run in the background
+-N 	# This tells the SSH process to not execute any commands on the remote server (we are only forwarding traffic through the remote server).
+-M: 	# Put the SSH client into master mode, so we can easily enter a command later to gracefully end the SSH tunnel without having to kill the connection.
+-S:	# Used in conjunction with the -M command. This sets up a special kind of file (called a socket) that will allow us to enter a command later to gracefully end the SSH tunnel without having to kill the connection. /tmp/sshtunnel is the full path to the socket file this command is creating.
+-D: 	# This sets up a dynamic application level forwarding service and 1080 is the port it will listen on. This command creates the SOCKS proxy we'll use later.
+-p: 	# Specify the port on which the remote server is listening for SSH connections.
+-vvv:   # Maximum Verbosity of debug statements
+
+
+TO CLOSE THE connection Gracefully
+
+ssh -S /tmp/sshtunnel -O exit server.domain.com -p22
 ```
 
 ## history ( Command history util) 
@@ -329,7 +486,16 @@ history -c      # clears your history but not the .bash_history file. That will 
 !!              # repeats the last command that was executed during our terminal session
 ```
 
+### Run Docker images
+```
+docker run -it --name test registry.access.redhat.com/ubi8/ubi:8.1 bash		# RHEL 8
+```
 
+### Packages Mangers
+```sh
+rpm -qa					# list all packages with Red Hat Package manager
+
+```
 
 ### Session management 
 `Loginctl`allows for current session management.
@@ -354,7 +520,8 @@ tcpdump -n -i eth0 port 22                                 # this will filter to
 tcpdump -w ssh.pcap -i eth0 dst 192.168.4.10 and port 22   # filter on particular ips and ports , and write t oa certain file
 
 tcpdump tcp                                                # only show tcp traffic
-
+tcpdump -v						   # verbose output
+tcpdump -vv						   # very verbose output
 tcpdump host 192.168.2.5                                   # filter the packet capture to only gather packets going to or coming from the host 192.168.2.5.
 tcpdump src host 192.168.2.5                               # filter the packet capture to only gather packets coming from 192.168.2.5.
 tcpdump dst host 192.168.2.5                               # filter the packet capture to only gather packets going to 192.168.2.5.
@@ -364,6 +531,13 @@ tcpdump port 443                                           # filter the packet c
 tcpdump src port 1055                                      # capture traffic being sourced from port 1055.
 tcpdump dst port 443                                       # capture traffic destined for port 443.
 
+```
+
+## Change your MAC address
+```
+ifconfig <interface_name> down                          # disable an interface
+ifconfig <interface_name> hw ether <new_MAC_address>    # must be 12 chars split by colon
+ifconfig <interface_name> down                          # re-enable an interface
 ```
 
 ## nmap (network mapping tool) 
@@ -386,7 +560,108 @@ Sender:
 ```
 nc -w 3 <ip_address> 1234 < File.txt
 ```
+## Webservers
+### Ruby
+```sh
+ruby -run -e httpd . -p 80
+```
+### Python
+```
+# openssl req -nodes -x509 -keyout server.key -out server.cert 			# make the certs first.
 
+from http.server import HTTPServer, BaseHTTPRequestHandler, SimpleHTTPRequestHandler
+import ssl
+httpd = HTTPServer(('0.0.0.0', 4443), SimpleHTTPRequestHandler)
+httpd.socket = ssl.wrap_socket (httpd.socket, keyfile="/home/bg/https/server.key",
+certfile='/home/bg/https/server.cert', server_side=True)
+httpd.serve_forever()
+```
+
+## mysql 
+```
+mysql -u alice -p 							# login as the user Alice and prompt me for a password
+mysql> show databases;
+mysql> show tables;
+mysql> use <DATABASE_NAME>;
+mysql> select * from <TABLE_NAME>;
+mysql> select load_file('/var/lib/mysql-files/foo.txt');		# Read a file from mysql. Nice if you have privledge, yes ??
+```
+
+
+## postgresql
+
+```
+CREATE TABLE demo(t text);						# create atable out of some text
+COPY demo from '[FILENAME]';						# copy the text for the table from a file 
+SELECT * FROM demo;							# get all from the new table
+```
+
+
+## SQLmap
+`https://github.com/sqlmapproject/sqlmap`
+```
+git clone --depth 1 https://github.com/sqlmapproject/sqlmap.git sqlmap-dev		# clone sqlmap latest dev
+
+python3 sqlmap.py -r <REQUEST_FILE> --level=2 --time-sec=8 --dbms "postgresql" -p category –"proxy=http://localhost:8081" --batch
+
+-r 				# a file of a fresh http request
+--level				# the level of intensity 1-5. Default is 1
+--time-sec			# time to wait for the response
+-- dbms				# the type of dbms you are targeting (if you know)
+-p 				# target parameter
+
+python3 sqlmap.py -u "<TARGET_URL>" --cookie="<COOKIE/SESSION_ID_1>; <COOKIE/SESSION_ID_N" --tables --batch
+
+--batch 			# !!! this will choose the default options when running a scan . Best not to use as it may start trying to crack password
+--schema 			# Enumerate the DB schema
+--tables 			# Enumerate the DB tables
+--password			# Enumerate DBMS users password hashes
+
+python3 sqlmap.py -u "<TARGET_URL>" --cookie="<COOKIE/SESSION_ID_1>; <COOKIE/SESSION_ID_N" --data="<REQUEST_DATA>" -p <PARAM> --dbs
+
+---dbs 				# Enumerate the DBMS data bases
+
+python3 sqlmap.py -u "<TARGET_URL>" --cookie="<COOKIE/SESSION_ID_1>; <COOKIE/SESSION_ID_N" --data="<REQUEST_DATA>" -p <PARAM> --dbs -D <SPECIFIC_KNOWN_DB> --tables --batch --threads <NUMBER_OF_THREADS>
+
+--threads			# concurrent threads to run to increase speed
+
+python3 sqlmap.py -u "<TARGET_URL>" --cookie="<COOKIE/SESSION_ID_1>; <COOKIE/SESSION_ID_N" --data="<REQUEST_DATA>" -p <PARAM> -T <TARGET_VALUE> --tables --batch --threads 5 --dump
+
+-T				# DBMS database table(s) to enumerate
+--dump 				# Dump DBMS database table entries
+
+python3 sqlmap.py -r BASIC.txt -p id –"proxy=http://localhost:8081"
+
+Runs SQL map with a request copied into a text file, a selected parameter and via my proxy (zap)
+```
+
+### Dealing with hashes
+```
+hash-identifier # Liniux tool to identify hashes
+hashcat '<SUSPECT_HASH>' <FILE_PATH_OF_DICTIONARY> 
+```
+
+## Semgrep ( Semantic Grep)
+Getting started
+DL rules locally
+```
+semgrep -l <LANG> --config=<LOCATION_OF_RULES_DIR-or-FILE> -q -o <REPORT_FILE_NAME> <SOURCE_CODE_DIR>
+- q 				# quiet mode
+--config=<RULES>		# the set of rules. Can be set to "auto" too.
+```
+Try...
+```sh
+semgrep -l java --config /Users/geoffreyowden/mystuff/SemGrepTool/semgrep-rules/java/lang/security/audit -q -o FullSecAudit.log CODE/
+```
+
+
+## node
+
+```sh
+npm list -g						# list pakages installed globally
+npm view <package-name> version				# list the version for a specific package
+
+```
 ## Kubernetes
 ```sh
 kubectl exec --stdin --tty <POD_NAME> -- /bin/bash   				 # get a shell on a machine
@@ -394,8 +669,9 @@ kubectl config set-context --current --namespace=<insert-namespace-name-here>   
 kubectl -n <NAMESPACE> get pvc | grep -v NAME | awk '{print $1}' | xargs -I arg kubectl delete pvc -n <NAMESPACE> --ignore-not-found=true arg # Delete pvc from a namspace
 kubectl config get-contexts							 # get all the contexts from your kube Config file
 kubectl config delete-context							 # Delte a context from your kube config and the kube config file.
-k get --v=5 -o wide -w pod <POD_NAME>						 # get the pod with debug level 5 (0-9) Trace level verbosity 
-k get --v=9 -o wide -w pod <POD_NAME>						 # get the pod with debug level 0 (0-9) Network Trace level verbosity 
+kubectl get --v=5 -o wide -w pod <POD_NAME>					 # get the pod with debug level 5 (0-9) Trace level verbosity 
+kubectl get --v=9 -o wide -w pod <POD_NAME>					 # get the pod with debug level 0 (0-9) Network Trace level verbosity 
+kubectl -n <NAMESPACE> get events --sort-by='{.lastTimestamp}'			 # good way to look for erros in your Kubernetes stack
 ```
 
 ## Docker 
@@ -407,9 +683,51 @@ GET AN IMAGE ON AN OVA
 docker login -u "<WORK_EMAIL>" -p <ARTIFAC_API_KEY> apic-dev-docker-local.artifactory.swg-devops.com
 docker pull <IMAGE_LOCATION_AND_NAME> 
 
+STOP
+docker stop $(docker ps -a -q)
+
 Remove
 docker rm $(docker ps -a -f status=exited -q)	     # remove all excited containers
 docker rmi $(docker images -a -q)		     # remove all images
+
+Restart
+containers=$(sudo docker ps | awk '{if(NR>1) print $NF}') ; for container in $containers; do docker restart $container; done		# restarts all the containers
+
+COPY FILES BACK AND FORTH
+docker cp <CONTAINER>:<FILE_AND_LOCATION> <HOST_DESTINATION>		# from Container to Host
+docker cp <HOST_DESTINATION> <CONTAINER>:<FILE_AND_LOCATION>		# from Host to Container
+
+```
+
+
+### Juice shop on docker
+```
+docker pull bkimminich/juice-shop			# Pull the Juice Shop
+docker run --rm -p 3000:3000 bkimminich/juice-shop	# Start the Juice shop
+```
+### DVWA on docker
+
+```sh
+docker run --rm -it -p 8808:8808 vulnerables/web-dvwa  # U: admin PW: password
+```
+
+### Kali on docker
+
+```sh
+docker run -t -i kalilinux/kali-rolling
+then on the box...
+
+apt update && apt -y install kali-linux-headless
+
+apt-get install python3-pip
+
+```
+### xsser tool
+
+```sh
+python3 xsser --all='<URL_address>' --cookie='Some_Session_cookie=<Auth_cookie_data>' 	# will scan all urls in the domain, taking in the auth token (whatever that is set as)
+
+python3 xsser --auto -u '<URL_address>=XSS' --cookie='Some_Session_cookie=<Auth_cookie_data>' # will run a predefined list of xss on the var. 1291 request accross 5 threads
 ```
 
 ## File system cmds
@@ -739,3 +1057,14 @@ see https://danielmiessler.com/study/tcpdump/
 ### Cli tools
 
 [grex - Regex checker](https://github.com/pemistahl/grex)  - simplify creating regular expressionssimplify the often complicated and tedious task of creating regular expressions
+
+## Firefox Short keys
+
+```sh
+Ctl + t				# Create new tab
+Ctl + w				# delete current tab
+Ctl + k				# take cursor to the search bar
+Ctl + l				# copy the URL in searchbar 
+Ctl + u				# Look at the HTML or XML source for the page you're viewing
+Cmd + shift + b			# Toggle the bookmarks toolbar on and off
+```

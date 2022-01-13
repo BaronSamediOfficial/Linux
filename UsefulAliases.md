@@ -17,7 +17,7 @@ export PS1="\[\e[32m\]\w \[\e[91m\]\$(parse_git_branch)\[\e[00m\]$ "
 # ------------------------------------------------------------------------
 
 # Aliases 
-alias myip="dig TXT +short o-o.myaddr.l.google.com @ns1.google.com"
+alias myip="curl http://ipecho.net/plain; echo""
 alias pyServer="python -m http.server 9999"  
 alias localscan='nmap -A -p- 127.0.0.1'
 alias portscan="nmap -n -T4 -vvv -p-"    # nmap scan on all tcp ports 
