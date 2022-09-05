@@ -653,8 +653,11 @@ Try...
 ```sh
 semgrep -l java --config /Users/geoffreyowden/mystuff/SemGrepTool/semgrep-rules/java/lang/security/audit -q -o FullSecAudit.log CODE/
 ```
-
-
+## Mend work
+```
+cat MendFIndingsRAW.txt | jq '.[] | {resource:.resource, message:.message}' > CleanedMendJSONoutput.json # Get the file names adn the messages into a file 
+cat CleanedMendJSONoutput-working.json | grep 'CVE' | cut -d" " -f 5 | uniq | wc -l 	# how many uniq CVE are there
+```
 ## node
 
 ```sh
