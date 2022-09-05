@@ -657,6 +657,8 @@ semgrep -l java --config /Users/geoffreyowden/mystuff/SemGrepTool/semgrep-rules/
 ```
 cat MendFIndingsRAW.txt | jq '.[] | {resource:.resource, message:.message}' > CleanedMendJSONoutput.json # Get the file names adn the messages into a file 
 cat CleanedMendJSONoutput-working.json | grep 'CVE' | cut -d" " -f 5 | uniq | wc -l 	# how many uniq CVE are there
+
+cat CleanedMendJSONoutput-working.json | grep 'Component:' | cut -d" " -f 11 | awk '!a[$0]++' # Get all the uniq package values
 ```
 ## node
 
