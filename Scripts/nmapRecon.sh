@@ -1,7 +1,10 @@
 #!/bin/bash
 
 # script to run though common nmap scans for initial recon from an networked jump box.
-
+# -sC = Scripts ,-sV = Versions , -sU = UDP , -sX = Xmas Tree
+#
+#
+#
 targetSite=$1
 
 sudo nmap -T4 -A -p- -oN nmap_-A_-p-_-T4.txt $targetSite
