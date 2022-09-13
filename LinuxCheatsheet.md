@@ -21,7 +21,7 @@ brew install semgrep				# Code scanning tool to find vulns
 brew tap caffix/amass
 brew install amass
 brew install ngrok				# creates an internet viewable webserver, like python http.server but more.
-
+brew install mitmproxy
 ```
 
 ### Installs Docker on Kali
