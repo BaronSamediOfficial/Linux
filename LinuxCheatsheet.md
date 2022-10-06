@@ -147,6 +147,9 @@ watch -c -n 1 kubectl top nodes						    # run a command and watch it every 1 se
 
 sudo -l									    # after prompting got the current user password, you can see all of the sudo commandsyou may run as another user
 ps -aux | grep <USER> | cut -d " " -f 6 | tr '\n' ' '			    # Get a line of all the proccess numbers , so you can send them to kill .
+
+sslscan --verbose --show-sigs <FQDN>				sslscan preferred
+
 ```
 # Useful misc functions
 
