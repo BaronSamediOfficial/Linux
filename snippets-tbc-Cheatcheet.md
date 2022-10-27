@@ -9,3 +9,4 @@ hostnamectl
 # Find Linux kernel version
 uname -r 
 ```
+`usermod -aG sudo <USERNAME>  # add <USERNAME> to the sudoers group` 
