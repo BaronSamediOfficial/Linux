@@ -10,3 +10,7 @@ hostnamectl
 uname -r 
 ```
 `usermod -aG sudo <USERNAME>  # add <USERNAME> to the sudoers group` 
+
+
+Create a webserver with node
+`npx http-server -p 9999`
