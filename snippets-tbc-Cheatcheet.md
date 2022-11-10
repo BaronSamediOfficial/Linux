@@ -14,3 +14,7 @@ uname -r
 
 Create a webserver with node
 `npx http-server -p 9999`
+
+
+Disable the CSS by pasting the following into the dev tools console
+`var el = document.querySelectorAll('style,link'); for (var i=0; i<el.length; i++) {el[i].parentNode.removeChild(el[i]);};`
