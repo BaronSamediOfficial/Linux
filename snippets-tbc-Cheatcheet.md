@@ -22,3 +22,6 @@ Disable the CSS by pasting the following into the dev tools console
 
 `brew install mitmproxy`
 `pip3 install mitmproxy2swagger # Plugin to scrape an api of all its endpoints`
+
+
+CMD: `zip -r <FILETOEXTRACT> $(find /opt/ibm/isim/ -name "*.jar")`
