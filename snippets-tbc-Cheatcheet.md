@@ -25,3 +25,6 @@ Disable the CSS by pasting the following into the dev tools console
 
 
 CMD: `zip -r <FILETOEXTRACT> $(find /opt/ibm/isim/ -name "*.jar")`
+
+
+`grep MemTotal /proc/meminfo` - Get the total ram/Memory of the system
