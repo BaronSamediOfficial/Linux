@@ -28,3 +28,6 @@ CMD: `zip -r <FILETOEXTRACT> $(find /opt/ibm/isim/ -name "*.jar")`
 
 
 `grep MemTotal /proc/meminfo` - Get the total ram/Memory of the system
+
+
+`for i in $(compgen -a); do alias $i ; done` # List all the aliases and the see what commmands they actually do
