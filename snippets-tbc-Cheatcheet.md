@@ -31,3 +31,7 @@ CMD: `zip -r <FILETOEXTRACT> $(find /opt/ibm/isim/ -name "*.jar")`
 
 
 `for i in $(compgen -a); do alias $i ; done` # List all the aliases and the see what commmands they actually do
+
+
+
+`find / -type f -a \( -perm -u+s -o -perm -g+s \) -exec ls -l {} \; 2> /dev/null` # List of all SUID and SGID Executables - from : https://atom.hackstreetboys.ph/linux-privilege-escalation-suid-sgid-executables/
