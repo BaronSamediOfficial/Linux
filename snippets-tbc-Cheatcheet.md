@@ -35,3 +35,7 @@ CMD: `zip -r <FILETOEXTRACT> $(find /opt/ibm/isim/ -name "*.jar")`
 
 
 `find / -type f -a \( -perm -u+s -o -perm -g+s \) -exec ls -l {} \; 2> /dev/null` # List of all SUID and SGID Executables - from : https://atom.hackstreetboys.ph/linux-privilege-escalation-suid-sgid-executables/
+
+
+
+`watch -n 60 "date && free -h"` # Run two commands in watch at the same time every 60 seconds
