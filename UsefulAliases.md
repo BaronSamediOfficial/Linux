@@ -108,7 +108,6 @@ alias pub="cat .ssh/id_rsa.pub"
 export HISTIGNORE="&:ls:[bf]g:exit:history:pwd:id"          # Ignores basic commands for the bash history file
 export CLICOLOR=1
 export LSCOLORS=GxFxCxDxBxegedabagaced
-```
 dfc () {
    echo "Stopping all docker containers ... "
    docker stop $(docker ps -a -q)
@@ -117,3 +116,6 @@ dfc () {
    echo "Removeing all images ..."
    docker rmi $(docker images -a -q)		     # remove all images
 }
+
+```
+
