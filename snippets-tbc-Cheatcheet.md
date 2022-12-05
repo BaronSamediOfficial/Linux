@@ -39,3 +39,9 @@ CMD: `zip -r <FILETOEXTRACT> $(find /opt/ibm/isim/ -name "*.jar")`
 
 
 `watch -n 60 "date && free -h"` # Run two commands in watch at the same time every 60 seconds
+
+
+### Regexes for vs code
+
+`password(.*)"(.*)"`# find the term "password" followed by anything and then a pair of quotations marks with text within them
+`auth(.*)"(.*)"`# find the term "auth" followed by anything and then a pair of quotations marks with text within them
