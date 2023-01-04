@@ -45,3 +45,9 @@ CMD: `zip -r <FILETOEXTRACT> $(find /opt/ibm/isim/ -name "*.jar")`
 
 `password(.*)"(.*)"`# find the term "password" followed by anything and then a pair of quotations marks with text within them
 `auth(.*)"(.*)"`# find the term "auth" followed by anything and then a pair of quotations marks with text within them
+
+
+`detect-secrets -C . scan > .secrets.basline` # Run detect secrts and make a basline file for the repo
+`detect-secrets audit .secrets.baseline`
+
+`trufflehog --regex <FULLPATHTOCODE>`
