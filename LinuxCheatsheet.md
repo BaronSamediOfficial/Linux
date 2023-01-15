@@ -22,6 +22,7 @@ brew tap caffix/amass
 brew install amass
 brew install ngrok				# creates an internet viewable webserver, like python http.server but more.
 brew install mitmproxy
+brew install proxychains
 ```
 
 ### Installs Docker on Kali
