@@ -53,3 +53,7 @@ CMD: `zip -r <FILETOEXTRACT> $(find /opt/ibm/isim/ -name "*.jar")`
 `trufflehog --regex <FULLPATHTOCODE>`
 
 
+
+### Cheatsheet
+
+`alias chee='callCheatSh(){ curl cheat.sh/"$@" ;}; callCheatSh'`
