@@ -1,5 +1,8 @@
 
 ### Linux Version
+
+
+`awk '!/^$/' FILENAME > NEWFILE.out.  # remove wmpty lines` 
 ```
 # The following commands can all find os name and version in Linux:
 cat /etc/os-release
