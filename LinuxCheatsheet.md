@@ -307,6 +307,10 @@ tar -xvf <NAME_OF_CONTENTS>                         # (extract , verbose , file 
 tar -tvf <NAME_OF_CONTENTS> <NAME_TO_BACKUP_TO>     # (inspect contents only, verbose , file)
 tar -tzvf <NAME_OF_CONTENTS> <NAME_TO_BACKUP_TO>    # This will compress the archive down with gzip. FYI - There is marginal saving between the two compression types.
 ```
+## zip
+```sh
+zip -er FILENAME.zip FILE_TO_BE_ZIPPED
+```
 
 ## Shell escapeing 
 ```
