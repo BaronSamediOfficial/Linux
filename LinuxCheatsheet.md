@@ -294,6 +294,7 @@ find /etc -name '*' -type f | xargs grep "foo"                          # look f
 find <LOCATION> -type f \( -iname "*.json" \) -exec grep -il <TERM> {} \; > filesOfInterest.txt 2>&1 # find in location files that have .json in them and execute grep on them to search for the term; and then send there name to a file , and errors elsewhere
 find / -type d -name "foo"                                              # find a directory with the name foo
 find / -type f -print | xargs grep "foo" 2>/dev/null			# find files and print the lines where foo occurs, send errors to dev/null
+find /Location/of/Files -mtime +100 -type f -delete			# Delete files over 100 days old
 ```
 # tar (tape archiver) 
 
