@@ -152,6 +152,8 @@ ps -aux | grep <USER> | cut -d " " -f 6 | tr '\n' ' '			    # Get a line of all 
 
 sslscan --verbose --show-sigs <FQDN>				sslscan preferred
 
+ffmpeg -i inputfile.mov -q:v 0 outputFile.mp4				    # Useful cli util for converting video
+
 ```
 # Useful misc functions
 
