@@ -23,6 +23,7 @@ brew install amass
 brew install ngrok				# creates an internet viewable webserver, like python http.server but more.
 brew install mitmproxy
 brew install proxychains
+brew install ffmpeg
 ```
 
 ### Installs Docker on Kali
