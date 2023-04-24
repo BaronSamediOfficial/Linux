@@ -154,7 +154,6 @@ ps -aux | grep <USER> | cut -d " " -f 6 | tr '\n' ' '			    # Get a line of all 
 sslscan --verbose --show-sigs <FQDN>				sslscan preferred
 
 ffmpeg -i inputfile.mov -q:v 0 outputFile.mp4				    # Useful cli util for converting video
-op item create --title='CLI TEST PASSWORD 1' --category=password --generate-password=20,letters,digits 		# 1password cli cmd to make a password and add it to your vault 
 ```
 # Useful misc functions
 
@@ -207,7 +206,13 @@ sudo lsof -i tcp -nP                    # for mac list all open tcp ports
 - `⌘K0` - collapse all fucntions to lowest level
 - `⌘KJ` - Expand all fucntions to lowest level
 
-
+## 1password cli
+```
+brew install --cask 1password-cli
+op --version
+op signin
+op item create --title='CLI TEST PASSWORD 1' --category=password --generate-password=20,letters,digits 		# 1password cli cmd to make a password and add it to your vault 
+```
 
 ### without netstat 
 ```sh
