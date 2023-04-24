@@ -6,7 +6,7 @@
 #
 #
 targetSite=$1
-
+sudo nmap --script "vuln and safe" -oN nmap_Vuln+Safe.txt $targetSite
 sudo nmap -T4 -A -p- -oN nmap_-A_-p-_-T4.txt $targetSite
 sudo nmap -T5 -sS -p- -oN nmap_SYN_Stealth_-p-.txt $targetSite
 sudo nmap -T4 -sC -sV -p- -oN nmap_Scripts+Versions_-p-_-T4.txt $targetSite
