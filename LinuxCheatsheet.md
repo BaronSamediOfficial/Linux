@@ -211,7 +211,7 @@ sudo lsof -i tcp -nP                    # for mac list all open tcp ports
 brew install --cask 1password-cli
 op --version
 op signin
-op item create --title='CLI TEST PASSWORD 1' --category=password --generate-password=20,letters,digits 		# 1password cli cmd to make a password and add it to your vault 
+op item create --title='CLI TEST PASSWORD 2' --category=password --generate-password=20,letters,digits,symbols 		# 1password cli cmd to make a password and add it to your vault 
 ```
 
 ### without netstat 
