@@ -201,6 +201,13 @@ sudo lsof -i tcp -nP                    # for mac list all open tcp ports
 
 ```
 
+## Vscode short keys
+
+- `⌘K0` - collapse all fucntions to lowest level
+- `⌘KJ` - Expand all fucntions to lowest level
+
+
+
 ### without netstat 
 ```sh
 
