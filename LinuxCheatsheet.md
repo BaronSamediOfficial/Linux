@@ -24,6 +24,7 @@ brew install ngrok				# creates an internet viewable webserver, like python http
 brew install mitmproxy
 brew install proxychains
 brew install ffmpeg
+brew install --cask 1password-cli		# 1pasword cli tool
 ```
 
 ### Installs Docker on Kali
