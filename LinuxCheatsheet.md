@@ -214,6 +214,8 @@ op signin
 op item create --title='NAME_OF_ITEM' --category=password --generate-password=20,letters,digits,symbols 		# 1password cli cmd to make a password and add it to your vault 
 op item edit NAME_OF_ITEM md5hash=SOME_TEXT_YOU_APPLY									# append a value to an item
 ```
+Create apassword but dont add it to your vault, grep it , cut it and clean the white spaces:
+- `op item create --title='IS_THIS_ALIVE' --category=password --generate-password=20,letters,digits,symbols --dry-run | grep password | cut -d":" -f2 | awk '{ gsub(/ /,""); print }'`
 
 ### without netstat 
 ```sh
