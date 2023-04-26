@@ -25,6 +25,8 @@ brew install mitmproxy
 brew install proxychains
 brew install ffmpeg
 brew install --cask 1password-cli		# 1pasword cli tool
+brew install jython				# java python ?? for Burp suite
+brew install doctl				# digital ocean cli tool fo spinning up things via the terminal
 ```
 
 ### Installs Docker on Kali
