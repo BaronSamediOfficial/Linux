@@ -83,12 +83,19 @@ compgen -A              # function -abck will list all the above in one go.
 
 ## Shell short keys
 ```sh
-Ctl-l               # soft clear of the screen
-Ctl-u               # wipe cirrent command line
-Ctl-a               # move to the beginning of a line 
-Ctl-e               # move to the end of a line 
-Ctl-c               # interrupt the current process (break)
-Ctl-d               # exit
+!foo                                     # Will run the last command that started with foo
+ctl+a                                    # brings your cursor to the beginning of the command line
+ctl+e                                    # brings your cursor to the end of the command line
+ctl+r <search_string> ctl+r		 # search through your bash history for commands that match a search string. Step through results by repeating ctl+ r	 
+ctrl+K 					 # removes all text from the cursor to the end of the line.
+Ctrl+R 					 # starts a reverse search, through the bash history, simply type characters that should be unique to the command you want to find in the history.
+Ctrl+S 					 # launches a forward search, through the bash history.
+Ctrl+G 					 # quits reverse or forward search, through the bash history.
+Ctrl+X and then Backspace		 # removes all the text from the cursor to the beginning of the line.
+Ctl-l               			 # soft clear of the screen
+Ctl-u               			 # wipe cirrent command line 
+Ctl-c               			 # interrupt the current process (break)
+Ctl-d               			 # exit
 ```
 
 # Process Inspection (/proc dir)
@@ -114,21 +121,6 @@ ps aux --sort pmem | less 				# sort the view by the pmemory amount.
 >>	#  appends to a file or creates the file if it doesn't exist.
 > 	#  overwrites the file if it exists or creates it if it doesn't exist.
 ```
-## shell command line kung-fu
-
-```
-!foo                                     # Will run the last command that started with foo
-ctl+a                                    # brings your cursor to the beginning of the command line
-ctl+e                                    # brings your cursor to the end of the command line
-ctl+r <search_string> ctl+r		 # search through your bash history for commands that match a search string. Step through results by repeating ctl+ r	 
-ctl+l                                    # clears the terminal 
-ctrl+K 					 # removes all text from the cursor to the end of the line.
-Ctrl+R 					 # starts a reverse search, through the bash history, simply type characters that should be unique to the command you want to find in the history.
-Ctrl+S 					 # launches a forward search, through the bash history.
-Ctrl+G 					 # quits reverse or forward search, through the bash history.
-Ctrl+X and then Backspace		 # removes all the text from the cursor to the beginning of the line.
-```
-
 
 # Useful misc Commands  
 ```sh
