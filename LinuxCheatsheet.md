@@ -117,16 +117,16 @@ ps aux --sort pmem | less 				# sort the view by the pmemory amount.
 ## shell command line kung-fu
 
 ```
-!foo                                                                        # Will run the last command that started with foo
-ctl+a                                                                       # brings your cursor to the beginning of the command line
-ctl+e                                                                       # brings your cursor to the end of the command line
-ctl+r <search_string> ctl+r						    # search through your bash history for commands that match a search string. Step through results by repeating ctl+ r	 
-ctl+l                                                                       # clears the terminal 
-ctrl+K 									    # removes all text from the cursor to the end of the line.
-Ctrl+R 									    # starts a reverse search, through the bash history, simply type characters that should be unique to the command you want to find in the history.
-Ctrl+S 									    # launches a forward search, through the bash history.
-Ctrl+G 									    # quits reverse or forward search, through the bash history.
-Ctrl+X and then Backspace						    # removes all the text from the cursor to the beginning of the line.
+!foo                                     # Will run the last command that started with foo
+ctl+a                                    # brings your cursor to the beginning of the command line
+ctl+e                                    # brings your cursor to the end of the command line
+ctl+r <search_string> ctl+r		 # search through your bash history for commands that match a search string. Step through results by repeating ctl+ r	 
+ctl+l                                    # clears the terminal 
+ctrl+K 					 # removes all text from the cursor to the end of the line.
+Ctrl+R 					 # starts a reverse search, through the bash history, simply type characters that should be unique to the command you want to find in the history.
+Ctrl+S 					 # launches a forward search, through the bash history.
+Ctrl+G 					 # quits reverse or forward search, through the bash history.
+Ctrl+X and then Backspace		 # removes all the text from the cursor to the beginning of the line.
 ```
 
 
