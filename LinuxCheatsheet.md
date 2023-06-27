@@ -224,6 +224,10 @@ op item edit NAME_OF_ITEM md5hash=SOME_TEXT_YOU_APPLY									# append a value t
 Create apassword but dont add it to your vault, grep it , cut it and clean the white spaces:
 - `op item create --title='IS_THIS_ALIVE' --category=password --generate-password=20,letters,digits,symbols --dry-run | grep password | cut -d":" -f2 | awk '{ gsub(/ /,""); print }'`
 
+## Digital OCena cli tool
+```
+ doctl compute droplet create --image ubuntu-22-04-x64 --size s-1vcpu-1gb --region nyc1 --ssh-keys 38069069 <NAME_OF_THE_DROPLET>
+```
 ### without netstat 
 ```sh
 
