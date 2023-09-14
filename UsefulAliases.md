@@ -105,6 +105,9 @@ alias pyServe="python -m http.server 9999"          # creates a SimpleHTTPServer
 alias myip="dig TXT +short o-o.myaddr.l.google.com @ns1.google.com" # gets your local ip by bounceing off google
 alias pub="cat .ssh/id_rsa.pub"
 
+# Force deletes digital ocean pods running 
+alias deldigocean="doctl compute droplet list --format "Name" | tail -n +2 | xargs -I {} doctl compute droplet delete {} -f"
+
 export HISTIGNORE="&:ls:[bf]g:exit:history:pwd:id"          # Ignores basic commands for the bash history file
 export CLICOLOR=1
 export LSCOLORS=GxFxCxDxBxegedabagaced
