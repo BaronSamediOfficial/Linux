@@ -28,6 +28,7 @@ brew install --cask 1password-cli		# 1pasword cli tool
 brew install jython				# java python ?? for Burp suite
 brew install doctl				# digital ocean cli tool fo spinning up things via the terminal
 brew install ripgrep				# rust faster than grep
+brew install html2text
 ```
 
 ### Installs Docker on Kali
