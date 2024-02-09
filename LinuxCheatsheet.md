@@ -211,8 +211,13 @@ sudo lsof -i tcp -nP                    # for mac list all open tcp ports
 
 ## Vscode short keys
 
-- `⌘K0` - collapse all fucntions to lowest level
-- `⌘KJ` - Expand all fucntions to lowest level
+- `⌘+K+0` - collapse all fucntions to lowest level
+- `⌘+K+J` - Expand all fucntions to lowest level
+
+For VSCode on a Mac, to collapse or expand just one function:
+- To collapse the current function: Place your cursor within the function you wish to collapse, then press `Command+Option+[`.
+- To expand the collapsed function: With your cursor in the function (or on its collapsed header), press `Command+Option+]`.
+
 
 ## 1password cli
 ```
