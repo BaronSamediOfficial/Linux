@@ -60,17 +60,37 @@ last # shows you who has been logged on in your system
 ```--help``` is a common command on many linux commands to get help on usage. 
 
 On Ubuntu instead of typeing ```su -``` to open a shell as root, you type ```sudo -i```.
+`su` == substitue user
+`sudo`
+
+
 
 # Man (manual) pages
 
 Man pages have sections 
-- 1 is for end-user commands
-- 8 is for administrator (root) command
-- 5 is for configuration files
+- 1   Executable programs or shell commands
+- 2   System calls (functions provided by the kernel)
+- 3   Library calls (functions within program libraries)
+- 4   Special files (usually found in /dev)
+- 5   File formats and conventions, e.g. /etc/passwd
+- 6   Games
+- 7   Miscellaneous (including macro packages and conventions), e.g. man(7), gro(7), - man-pages(7)
+- 8   System administration commands (usually only for root       
+- 9   Kernel routines [Non standard]
 
-```man -k user``` will search all the man pages for mention of the term user. this is handy if you want to search for a file.
+- `Synopsis` 
+  - bold text : type exactly as shown
+  - italic : agrumants which are replacable
+  - `...` means the command can be repeated
 
-cd /usr/share/doc also list info about all the packages.
+```man -k user``` will search all the man pages for mention of the term `user`. this is handy if you want to search for a file.
+- `man ....`
+  - `-t     # format for printing`
+  - `-f     # Just showq comnd description`
+  - `-D     # Show debugging information`
+  - `-h     # show help options`
+
+`cd /usr/share/doc` also list info about all the packages.
 Any docs that have SAG are administrator group help files.
 
 ## [Apropos](http://www.linfo.org/apropos.html)
@@ -78,28 +98,54 @@ With the `apropos` command, we can search the list of man page descriptions for 
 ```
 apropos <SEARCH_TERM>       # search for the term in all the man pages
 ```
+### Other info commmadns
+`whatis` 
+`info`
+`-h`
+`--help`
+
+Also the site: https://tldp.org
+
 
 # Linux file system 
 
-From the root ```/``` you may have certain directories.
+A **file system** is a data structure used by an operating system to store, retrieve, organize, and manage files and directories on storage devices.
 
-/bin - for binaries; eg compiled files
-/home - for user home directories
-/var - log files and more
-/usr - program files , sbin (system binaries)
-/boot - for booting up the system so often on a separate partition. IT will contain the linux kernel
-/dev - this will contain the device files; which contain access to hardware.
-/etc - This is where configuration files live.
-/ media and /mmt 
-/opt - For applications like a data base that are quite involved and complex
-/proc - This is quite interesting as it is an interface to the Linux kernel, where it will list dirs related to current processes. Useful files to ```cat``` are are ```cpuinfo``` and ```meminfo```.
-/sys - This is for hardware information and one of the advanced directories
-/var - contains files that can be dynamically created by the OS. the most important dir in here will be the ```log``` dir that contains all the logs. Especially ```/var/log/messages``` to
+On Linux from the root ```/``` you may have certain directories.
+
+`/bin` - for binaries; eg compiled files
+`/home` - for user home directories
+`/var` - log files and more
+`/usr` - program files , sbin (system binaries)
+`/boot` - for booting up the system so often on a separate partition. IT will contain the linux kernel
+`/dev` - this will contain the device files; which contain access to hardware.
+`/etc` - This is where configuration files live.
+`/media` and `/mmt` 
+`/opt` - For applications like a data base that are quite involved and complex
+`/proc` - This is quite interesting as it is an interface to the Linux kernel, where it will list dirs related to current processes. Useful files to ```cat``` are are ```cpuinfo``` and ```meminfo```.
+`/sys` - This is for hardware information and one of the advanced directories
+`/var` - Contains files that can be dynamically created by the OS. the most important dir in here will be the ```log``` dir that contains all the logs. Especially ```/var/log/messages``` to
 
 Mount means you can connect a storage device to a specific directory. For example; you may want to mount the home directory to a separate disk so there is dedicated space available. 
 
-# Links 
+Linux support other file systems includeing 
+- `FAT`
+- `ext2`
+- `ext3` Faster  
+- `ext4` Support large volumes and files up to 16tb
+- `XFS` HP fast recvery and large files, 
+- `BTRFS` - most advanced for vulomes and repair
 
+
+Some file systems act as network protocols as well eg `smb`
+- `CIFS` is an implentation as smbv1 but smbv2/3 worked out so this is not reall used 
+- `NFS` ( Network File system) is not compatible with smb . It has better features than smb . This is ok if you are only doing linux only , **but if you are doing windows and Linux in your system you will need to use smb**
+
+- `Index node` - stores meta data about a file or dir non a file system.
+- `VFS` (Virtual file system) will be betwee nthe kernel and file system
+
+
+# Links 
 IN linux file systems there are ```hard``` links and ```symbolic``` links. Every file has a single ```inode``` where you find all the administration of a file. When you type ls -l you are getting this administrative info. From the inode you go to the ```blocks``` where the data is stored. 
 
 A symbolic link will point to a name but if the hard link they point to are removed, the symbolic links become dead. They are useful to make sure files are available where you need them.
@@ -192,6 +238,129 @@ For use with specific tools only ( grep, vim, awk, sed). See the ```man 7 regex`
 - awk : search for specific patterns 
 - sed : powerful stream editor to batch-modify text files.
 
+# USers and Groups
+
+3 types of account
+- root
+  -  more powerful than a windpows Administrator
+  -  Do not login as this user, 
+- standard
+- services
+  -  Run and the background and do a single function
+  
+USers are added ot the `/etc/sudoers` file
+use the `sudoersedit` cmd you must make a 
+oly use the `visudoers` comand so it can verifiers the syntax
+`-c` check fpor errors
+`-f` check a file in one other than the default 
+`-s` check in strict mode
+`-x` output the file in json 
+
+
+Polkit (Policykit) Controls the provleges that allow non provelged user with `pkexec` -0 Not as good secutity as `sudo`
+
+#### Add new users 
+```
+# useradd [options] [username]
+# options in the /etc/login.defs fiel
+# home dir of a new user is populated with the files set at /etc/skel ( skeleton directory)
+
+useradd testadmin   # add a new user
+-c # Common field
+-e # expiery date
+-s # sets the default shell
+-D # View defaukt settings 
+passwd testadmin    # set there passwd by following the prompts 
+
+```
+
+```
+└─# sudo useradd -D
+GROUP=100
+HOME=/home
+INACTIVE=-1 # no inactivity limit after the passwd has expierd
+EXPIRE=
+SHELL=/bin/sh
+SKEL=/etc/skel   # copy all the files from here to the new user home dir
+CREATE_MAIL_SPOOL=no  # indcates if a mail spool which will be created
+LOG_INIT=yes
+```
+
+Example of a user add
+
+```
+sudo useradd -e 12025/12/31 -c "rishard Stanley" rstanly
+
+# then change the expirey date (Change Age )
+sudo chage -E 2022/12/31 rstanly 
+
+# change a users name
+sudo usermod -l restanlynew rstanly
+
+
+# lock a use acount (apparently)
+└─# sudo passwd -l restanlynew
+passwd: password changed.
+
+
+# unlock a use acount (apparently)
+└─# sudo passwd -u restanlynew
+passwd: password changed.
+
+└─# sudo chage -l manderson 
+Last password change                                    : Apr 23, 2024
+Password expires                                        : never
+Password inactive                                       : never
+Account expires                                         : never
+Minimum number of days between password change          : 0
+Maximum number of days between password change          : 99999
+Number of days of warning before password expires       : 7
+
+```
+
+#### delete a user 
+
+```
+sudo userdel USERNAME       # This WONT delete the directory in Home
+sudo userdel -r USERNAME    # This WILL DELTE THE HOME DIRECTORY
+```
+
+
+#### /etc/passwd
+
+This file used to be called `/etc/password` but it was todangerous. Now, each feild is seprated by 7 colons `:` 
+These values are:
+- `Username`
+- `Password` Represented only by an X else itws insecure
+- `UserID`
+- `GroupID`
+- `Comments`
+- `HomeDir`
+- `LoginShell`
+Proper editing of this file is best done through: `useradd` `usermod` or `userdel` commands
+
+`/etc/shadow` is te file where the password hashes, includeing hte expiery and other info. Only availible to the root user. The 7 feilds of this file are
+- `USername`
+- `Password hash`
+- `Days since password was changed`
+- `Days before change is required`
+- `Days until user is warned to change`
+- `Days after password expiry when the account gets disablked`
+- `Days account has been disabled`
+- `Unused felid for future use`
+
+#### Add users to the sudoers
+```
+
+useradd testadmin   # add a new user
+passwd testadmin    # set there passwd by following the prompts 
+
+visudo   # opens a nano prompt top edit the sudoers file `/etc/
+
+# scroll to the bottom of the file and add something like 
+testadmin ALL=(ALL) NOPASSWD:ALL   # but this is quite relaxed and should not be used NOPASSWD!!!
+
+```
 ### Root why is it so powerful?
 
 If we draw a line between ```user land``` and ```kernel land```; to get from user land as user Alice, you would need to traverse the Syscalls and permissions that are set for Alice and the objects and subjects she would like ot access within user land. The root user lives in the kernel land so they don't need to worry about traversing the syscalls and permissions; even files that don't have any permissions : root can access them all. 
@@ -206,9 +375,12 @@ instead of
 
 Can you see the difference? thats right. the dollar sign $ for regular users and hash sign # for the out, This convention also carries within documentation so look out for it. 
 
-## The Shell
 
-Redirection in the shell is used ot manipulate  input and output of commands
+
+## The Shell
+The shell can be thought of as a interpreter between humans and the operating system. 
+
+Redirection in the shell is used to manipulate  input and output of commands
 - Standard input (0) : \<
     + sort \< /etc/services 
 - Standard output (1) : \>
@@ -218,67 +390,9 @@ Redirection in the shell is used ot manipulate  input and output of commands
     + grep -R root /proc 2>/dev/null         # this sends the errors to the null device ( nowhere)
     + grep -R root /etc &> ~/myfile         # this sends errors and all
 
-## chmod 
-CHMOD is used to change permissions of a file.
-```sh
-        PERMISSION      COMMAND   
-
-         U   G   W
-
-        rwx rwx rwx     # chmod 777 filename      
-
-        rwx rwx r-x     # chmod 775 filename
-
-        rwx r-x r-x     # chmod 755 filename
-
-
-        rw- rw- r--     # chmod 664 filename
-
-        rw- r-- r--     # chmod 644 filename
-
-
-        U = User 
-
-        G = Group 
-
-        W = World
-
-
-        r = Readable
-
-        w = writable
-
-        x = executable 
-
-        - = no permission
-
-```
-
-Here is another way of looking at it: 
-
-Permissions:
-```sh
-400    # read by owner
-
-040    # read by group
-
-004    # read by anybody (other)
-
-200    # write by owner
-
-020    # write by group
-
-002    # write by anybody
-
-100    # execute by owner
-
-010    # execute by group
-
-001    # execute by anybody
-```
-
-To get a combination, just add them up. For example, to get read, write, execute by owner, read, execute, by group, and execute by anybody, you would add 400+200+100+040+010+001 to give 751.
-
+### restart types
+- `shutdown -h now      # halt ( hard )` 
+- `shutdown -r now      # restart`
 
 
 ## Piping
@@ -312,14 +426,18 @@ One of the most commonly-referenced environment variables is `PATH`, which is a 
 
 ## Bash start up files 
 The important start up files for bash are 
-- ```/etc/environment``` contains a list of variables and is the first file that is processed while starting bash (empty by default on Red Hat.
-- ```/etc/profile``` is executed while users login
-    + ```/etc/profile.d``` is used as a snapin directory that contains additional configuration.
-    + ```/.bash_profile``` can be used as a user-specific version
+- ```/etc/environment``` contains a list of variables and is the first file that is processed while starting bash (empty by default on Red Hat).
+- ```/etc/profile``` is executed while users login. Offers system wide env vars. This file is read very early in the boot.
+    + ```/etc/profile.d``` is used as a snapin directory that contains additional configuration and system wide variables
+
     + ```/.bash_logout``` is processed when a user logs out
-- ```/etc/bashrc``` is a processed every time a subshell is started 
-    + A user-specific ```~/.bashrc``` file may ne used.
-    
+
+
+### Profile files
++ A system wide ```/etc/bashrc``` is a processed every time a subshell is started . it enables customization fo a users environment . Alias are a popular use here. 
+    + A user-specific ```~/.bashrc``` file may ne used. 
+    + ```/.bash_profile``` can be used as a user-specific version. Shell configuration for ALL shells. Think of this as part of the `skel` settings.
+
 ## Working with Users and groups
 groupadd (create groups)
 
@@ -341,12 +459,71 @@ chage <USER>                # will load up the process to set password lifetime 
 ```
 
 There are four files for configuring centralised group and user information
-/etc/shadow
-/etc/group
-/etc/gshadow
-/etc/passwd
+- `/etc/shadow`
+- `/etc/group`
+- `/etc/gshadow`
+- `/etc/passwd`
 
 `/etc/passwd` - this is historically the file tha Unix has used to store user information. As this file is normally set to read for all users, the passwords are no longer stored in here. Instead they are encrypted and stored in hte `/etc/shadow`. Groups are stored in `/etc/group` . `/etc/gshadow` is not used anymore but it is a legacy file to set passwords for groups. You can modify the users and groups the safest way is to use `vipw` which will open a temporary file of `/etc/passwd` in VI. This will prevent cases where other users aer in `useradd`. OT do the same for `/etc/shadow`, use `vipw -s`. `vigr` will let you edit groups.
+
+
+## Working with Groups
+Create groups
+- `groupadd [options] {group name}`
+```
+sudo groupadd FinanceDept
+sudo groupmod -n GraphicsDept Graphics
+
+```
+Modify groups
+
+- `groupmod`
+Ad a user `eht` to the group `GraphicDept`
+```
+sudo usermod -aG GraphicsDept eht
+
+```
+- `groupdel`
+
+**Delete group** - Deleting a group will not delete the members of a group
+```
+sudo groupdel GraphicsDept
+```
+### Query users and groups
+`whoami` - displays the current username
+
+root user will have `#` , all other users will have `$`
+
+```
+└─# who                       
+eht      tty7         Apr 21 17:34 (:0)
+
+└─# w     
+ 14:07:14 up  5:07,  1 user,  load average: 0.01, 0.02, 0.00
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+eht               -                Sun17   44:32m  0.00s  0.04s lightdm --session-child 13 24
+```
+
+`last` command display the history of the login and logout actions
+
+```
+└─# last    
+eht      tty7         :0               Sun Apr 21 17:34    gone - no logout
+reboot   system boot  6.5.0-kali3-arm6 Sun Apr 21 17:34   still running
+eht      tty7         :0               Sun Apr 21 16:03 - 16:33  (00:30)
+reboot   system boot  6.5.0-kali3-arm6 Sun Apr 21 17:02 - 16:34  (-00:28)
+eht      tty7         :0               Fri Mar 15 15:25 - 17:48 (33+01:23)
+reboot   system boot  6.5.0-kali3-arm6 Fri Mar 15 15:25 - 17:48 (33+01:23)
+eht      tty7         :0               Wed Feb 21 09:30 - 10:01  (00:31)
+...
+...
+```
+
+
+### Working with Profiles
+
+
+
 
 ### Session management 
 `Loginctl`allows for current session management.
@@ -360,21 +537,68 @@ loginctl terminate-session <session-id>
 
 ## Basic Permissions
 
+File permissions can be views with the `ls -l` command. The view is structured as followed
+There are 7 columns, 3 of which refer to Permissions
+
+```sh
+<PERMISSION_STRING> <Number of Links> <OWNER> <GROUPS>  <SIZE_Bytes> <LAST_MODIFIED> <FILE_NAME>
+-rw-r--r--    1                 root    root       5551         Feb 21 09:10    .bashrc
+...
+...
+-rw-r--r--  1 root root  5551 Feb 21 09:10 .bashrc
+-rw-r--r--  1 root root   571 Feb 21 09:10 .bashrc.original
+```
+
+
+```sh
+└─# ls -la
+total 76
+drwx------  6 root root  4096 Apr 23 14:10 .
+drwxr-xr-x 19 root root  4096 Feb 21 09:10 ..
+-rw-r--r--  1 root root  5551 Feb 21 09:10 .bashrc
+-rw-r--r--  1 root root   571 Feb 21 09:10 .bashrc.original
+drwx------  3 root root  4096 Feb 21 09:32 .cache
+drwx------  2 root root  4096 Feb 21 09:05 .ssh
+-rw-------  1 root root  2111 Apr 22 19:57 .viminfo
+-rw-------  1 root root   679 Apr 23 13:29 .zsh_history
+-rw-r--r--  1 root root 10868 Feb 21 09:10 .zshrc
+```
+
+### Permission String
+
+A permission string might look like `drwxr-xr-x` of 11 chars
+Char 1 == Directory `d` or file `-` 
+Char 2-4 == Owner Permissions
+Char 5-7 == Group Permissions
+Char 8-10 == Other Permissions
+Char 11 == Access Method SElinux `.` or Alternative Acces `+`
+
+Some examples and explanations ...
+
 |  Number      |      Permission Type          |    Symbol |   |   |
 |:------------:|:-----------------------------:|:---------:|---|---|
-|   0          |     No Permission             |     —     |   |   |
-|   1          |     Execute                   |     –x    |   |   |
+|   0          |     No Permission             |     —--     |   |   |
+|   1          |     Execute                   |     –x-    |   |   |
 |   2          |     Write                     |     -w-   |   |   |
 |   3          |     Execute + Write           |     -wx   |   |   |
-|   4          |     Read                      |      r–   |   |   |
-|   5          |     Read + Execute            |      r-x  |   |   |
+|   4          |     Read                      |     r–-   |   |   |
+|   5          |     Read + Execute            |     r-x  |   |   |
 |   6          |     Read + Write              |     rw-   |   |   |
 |   7          |     Read + Write + Execute    |     rwx   |   |   |
 
-To work with permissions is about ownership. Permissions are assigned UGO (Users,Groups, others). `chown` is used for hte user owner. `chgrp` is used for changing the group owner. If you don't change ownership then the user who created the file will be the user owner and the primary user of that group will become group owner. 
+To work with permissions is about ownership. Permissions are assigned UGO (Users,Groups, others). `chown` is used for the user owner. `chgrp` is used for changing the group owner. If you don't change ownership then the user who created the file will be the user owner and the primary user of that group will become group owner. 
 
-The permission mode is where you define which permission will me applied to yor files.
-`chmod` is used for change the mode of a file. `chmod` can used in an absolute way and a relative way such as `chmod 761`. Lets break that command down
+The permission mode is where you define which permission will me applied to yor files. This is done with an Octal number system where he base is 8 as apposed to our common 10.
+`chmod` is used for change the mode of a file. `chmod` can used in an absolute way and a relative way such as `chmod 761`. Each of these digits will be a derivation of the base 8 numbering to control the file permissions. Eac hpermissions fo `read`, `write` and `execute` has been associated a number; which we add up to give one of the three digits for our permissions.
+
+`4` == read 
+`2` == write 
+`1` == execute
+
+so `4 + 2 + 1 == 7` so we could have a `x7x` or `7xx` which would mean the user has full access or the group has full access respectively.
+Read and write would be `4 + 2 == 6`.
+
+Lets break that command down
 
 | example UGO permissions | user | group | others |   |
 |-------------------------|------|-------|--------|---|
@@ -401,14 +625,35 @@ The permission mode is where you define which permission will me applied to yor 
 | SGID       |    Run as group owner   |   Inherit the directory group owner          |
 | Sticky bit |    `<n/a>`  |      only delete if you are owner       | 
 
-In order to assign special permissions we can use chmod by adding a 4rth digit to the left hand side of the regular permission commands for example
+```sh
+└─# ls -la
+total 76
+drwx------  6 root root  4096 Apr 23 14:10 .
+drwxr-xr-x 19 root root  4096 Feb 21 09:10 ..
+-rw-r--r--  1 root root  5551 Feb 21 09:10 fileA.txt
+-rw-r--r--  1 root root   571 Feb 21 09:10 fileB.txt
+```
+
+In order to assign special permissions we can use chmod by adding a 4th digit to the left hand side of the regular permission commands for example
 
 | example UGO permissions | special | user | group | others|
 |-------------------------|------|-------|--------|---|
 | chmod                   | 4/2/1   | 7    | 6     | 1      |
 |                         |      |       |        |   |
 
+
+### Add SUID to a file
+- **Symbolic Mode** : `chmod u+s fileA.txt`
+- **Absolute Mode** : `chmod 4### fileA.txt`
+
+### Add SGID to a file
+- **Symbolic Mode** : `chmod g+s fileA.txt`
+- **Absolute Mode** : `chmod 2### fileA.txt`
+
 You can set the Set User ID with `chmod u+s <file>`
+Give the group write permissions `chmod g+w DirA`
+Give the other read and write permissions `chmod o+rw file1`
+Give the user execute permissions `chmod u+x file1`
 
 To find files that have the `SUID, SGID or sticky bit` set you can use the following command which will look for permissions that have 4 digits , 3 of which don't matter, just the one on the left which is set to X atm.
       ```
@@ -417,13 +662,23 @@ To find files that have the `SUID, SGID or sticky bit` set you can use the follo
 
 ### Sticky bit
 
-**If sticky is applied , you can only delete a file if you are the user owner of the file or , user owner of the directory that contains the file.** 
+**If sticky is applied, it will add protections to files within a directory. Ensureing only the file owner or the root user can actually delete the file or dir. you can only delete a file if you are the user owner of the file or , user owner of the directory that contains the file.** 
 to set the sticky bit run `chmod +t <file>`.
 
 You will see the sticky bit enabled with a `T`
 ```
 -rw-r--r-T 1 root root 102400 April  1 01:39 MyFile
 ```
+### Add to a file
+- **Symbolic Mode** : `chmod u+s fileA.txt`
+- **Absolute Mode** : `chmod 4### fileA.txt`
+
+### Setting the immutable flag
+`i` will mean its been set 
+
+`chattr` will change the attributes 
+
+`getfacl` comand of various dirs
 
 # Using UMASK
 The umask is a shell setting that defines a mask tha will be **subtracted** from the default permissions.
@@ -437,11 +692,71 @@ To read the current umask type `umask` on the terminal.
 
 To make a umask persist you must set the umask value in `/etc/profile` or `/etc/bashrc`
 
-# Linux Storage landscape
+`umask` is used for any new files , where as `chmod` is for preexisting files.
 
+## Troubleshooting approach
+1. Identify the problem 
+1. Establish theory of probable cause
+1. Test the theory to determine the cause
+1. Establish an action plan
+1. Implement the solution
+1. Verify that we have solved it 
+1. Document findings, actions adn outcomes
+
+---
+
+
+
+
+
+# Linux Storage landscape
 Hardware level: Devices  - Storage must be presented to Linux and this storage can come from different environments. There is could be a traditional disk on a machine. Storage can be on SAN (Storage Area Network) with protocols like `iSCSI` or `fibre channel`. These devices drives will be stored in the `/dev/sda/` dir. SDA standing for `SCSI disk A`. The reason it is SCSI disc is that most storage is addressed wot ha SCSI driver , eve nif it is not a SCSI disk. ON that disk you will something to allocate different areas because you don't want ot give it all away. This is where you create partition. These partition allow you to put different. Within the the partition there is an LVM (Logical Volume Manager), at a high level it is like a partition within a partition to give you more flexibility to your storage level.
 
 Depending on your computer hardware, there are two solutions for partitioning schemes. MBR (older; eg CentOS7) and GPT (Ubuntu) . If you use MBR there will be limitations that are only in the new GPT, such as only being able to hold 4 primary partitions and no more. 
+
+Storage device types
+- Hard 
+- Solid-state
+- USB 
+- Extenral
+
+## Partitions
+
+There are three tyes of Partition
+- **Primary** - Contain 1 file system aka "Volume". Swap file system, Boot partition created here. Swap space is a place to free up actually memeory , 
+- **Extended** - Contain server partitions, which are referred to as logical drives
+- **Logical** - Partitioned and allocated as an independent unit and function as a separate drive
+
+
+### /dev/xxxx
+EG: `/dev/sda1`
+- `/dev/` Device drive
+- `sd` - Type of controler 
+- `a` first whole drive , `a`,`b`,`c` 
+- `1` first partition `1`,`2`,`3`
+
+`/dev/null` - Virtual black hole device
+`/dev/zero` - Returns a null/zero every/anytime. Good for sanitizing a device with zeros
+- `dd if=/dev/zero of=dev/sdal bs=1GB count=1024`
+`/dev/urandom` - Returns a randomised serise of psudorandom numbers for testing
+- `head -c5 /dev/urandom`
+
+### Creating Partitions
+
+Block devices - DIsk etc
+Charachter Devies - Periferals
+
+Logical Volumes
+Managing Logical Volumes
+Mounting File Systems
+File System Mounting
+Managing File Systems
+File System Management
+Linux Directory Structure
+Navigating Directories
+Troubleshooting Storage Issues
+Storage Usage and Quotas
+
 
 
 # MBR Partitions on CentOS7 with fdsk 
@@ -456,6 +771,19 @@ vda                   252:0    0   250G  0 disk
   └─ubuntu--vg-root   253:1    0 235.1G  0 lvm  /
 ```
 ### fdisk
+A utility to create, modify or delete partitions on a storage drive.
+Allows to uspecify the size . 
+`-b` specify the number of secors 
+ `-H` specify the number of drive head
+-`S` specify the number of Sectors per track ,
+`-s` print partition size in blocks
+`-l` list partition tables for devices
+`n` create new partitions 
+`d` remove partitions 
+`p` Lit existing partitions
+`w` Write drive changes and exit utility
+`q` Cancel changes made and exit utility
+
 ```sh
 root@bme:~# fdisk /dev/vda
 
@@ -466,10 +794,34 @@ Be careful before using the write command.
 Command (m for help): m
 ```
 partprobe
-### gdisk - gpt partition utility
+#### parted
+`parted` utility to create , destroy and resize partitions and runs the GNY parted utility.
+- `select` Chose deivce or partition to modify
+- `mkpart` Create partition with file sytem type specified
+- `print` list parrtiotion table
+- `resizepart` Resize or modify a partitions end position
+- `rm` Delete a partition
+- `quit` 
+
+After creation a partition you cannot add that fle system to that partition unless the kernel can read it from the partition table. Best to run partprobel after the `fdisk` comand and will up date the kernel about the partition updates.
+
 ### mkfs - Utility for creating and formatting filesystem
+`mkfs` is used to build a linux file system.
+- `-v` - Verbose output 
+- `-V` - Verbose output , includeing all file syetem commands
+- `-t` - sprcify type of file systme to build
+- `-fs` - file system specific options 
+- `-c` - Chekc the device for bad blocks 
+- `-l` - read the list of bad blocks
 
 There are many `mkfs.xxx` on Linux. `mkfs.vfat` is useful to know because it will make a partition that is useable on Mac, Linux and Windows. `ntfs` is a bit problem matic because ot cannot be fully supported as it was created out of reverse engineering. 
+
+### /etc/cryptab file
+The `/etc/cryptab` stores information about encrypted devices and partitions that must be unlocked and mounted on system boot.
+
+
+
+### gdisk - gpt partition utility
 
 ### mount - connect a filesystem storage to a directory
 After creating a file system amd storage, you need to connect them together. This is process is know nas mounting . it is a simple as. 
